@@ -40,7 +40,7 @@ LDFLAGS		=	$(addprefix -L, $(LIB_DIRS))
 VG_FLAGS	=	--leak-check=full --track-origins=yes --show-leak-kinds=all \
 				--error-limit=no
 
-CC			?=	gcc
+CC			=	gcc
 VG			=	valgrind $(VG_FLAGS)
 
 all:	$(BINARY)
@@ -71,12 +71,15 @@ clean_coverage:	fclean
 
 re:	fclean all
 
-debug_run:	fclean $(DEBUG_BINARY)
-			$(VG) ./$(DEBUG_BINARY) $(ARGS)
+debug:	fclean $(DEBUG_BINARY)
+		$(VG) ./$(DEBUG_BINARY) $(ARGS)
 
 tests_run:
 			@$(MAKE) clean_coverage > /dev/null
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
 
-.PHONY:	all	clean fclean clean_coverage re debug_run tests_run
+check_coding_style:
+			./scripts/coding-style.sh . .
+
+.PHONY:	all	clean fclean clean_coverage re debug tests_run check_coding_style
