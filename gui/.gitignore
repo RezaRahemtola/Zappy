@@ -1,3 +1,7 @@
-Cargo.lock
+## Folder
+.idea
 target
+
+## Files
+Cargo.lock
 zappy_gui
