@@ -6,6 +6,27 @@ env:
   MIRROR_URL: "git@github.com:EpitechPromo2026/B-YEP-400-PAR-4-1-zappy-tom.bariteau-peter.git"
 
 jobs:
+  build:
+    name: Check compilation
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: make
+        timeout-minutes: 1
+
+  server_coding_style:
+    name: Check server coding style
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository checkout
+        uses: actions/checkout@v3
+      - name: Check coding style
+        run: make check_coding_style -C server/
+        timeout-minutes: 1
+
   push_to_mirror:
     name: Push to Epitech repository
     runs-on: ubuntu-latest
@@ -22,3 +43,6 @@ jobs:
             ${{ env.MIRROR_URL }}
           ssh_private_key:
             ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+    needs:
+      - build
+      - server_coding_style
