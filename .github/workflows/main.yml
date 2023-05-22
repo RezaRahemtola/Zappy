@@ -4,7 +4,6 @@ on: [ push ]
 
 env:
   MIRROR_URL: "git@github.com:EpitechPromo2026/B-YEP-400-PAR-4-1-zappy-tom.bariteau-peter.git"
-  EXECUTABLES: "42sh"
 
 jobs:
   push_to_mirror:
