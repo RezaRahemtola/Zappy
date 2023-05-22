@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2023
-## Zappy
+## Zappy Server
 ## File description:
 ## Makefile
 ##
