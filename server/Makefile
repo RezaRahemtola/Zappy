@@ -79,7 +79,7 @@ tests_run:
 			@$(MAKE) $(TEST_BINARY) > /dev/null
 			./$(TEST_BINARY)
 
-check_coding_style:
+check_coding_style:	fclean
 			./scripts/coding-style.sh . .
 
 .PHONY:	all	clean fclean clean_coverage re debug tests_run check_coding_style
