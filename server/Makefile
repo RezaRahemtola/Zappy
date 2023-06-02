@@ -6,7 +6,8 @@
 ##
 
 BASE_DIR	= 	src
-BASE_SRC	=
+BASE_SRC	=	params/params.c \
+				params/setters.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=
