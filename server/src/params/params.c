@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** server
 ** File description:
-** parsing.c
+** params
 */
 
 #include <stdlib.h>
@@ -19,6 +19,7 @@ static params_t *init_params(void)
     params->port = PARAMS_DEFAULT_PORT;
     params->width = PARAMS_DEFAULT_WIDTH;
     params->height = PARAMS_DEFAULT_HEIGHT;
+    params->teams = NULL;
     params->clientsNb = PARAMS_DEFAULT_CLIENTS;
     params->freq = PARAMS_DEFAULT_FREQ;
     return params;
@@ -32,26 +33,41 @@ void destroy_params(params_t *params)
     free(params);
 }
 
+static void parse_nb_opt(int opt, params_t *params, bool *err)
+{
+    switch (opt) {
+        case 'p':
+            set_nb_param(&params->port, err);
+            break;
+        case 'x':
+            set_nb_param(&params->width, err);
+            break;
+        case 'y':
+            set_nb_param(&params->height, err);
+            break;
+        case 'c':
+            set_nb_param(&params->clientsNb, err);
+            break;
+        case 'f':
+            set_nb_param(&params->freq, err);
+            break;
+        default:
+            break;
+    }
+}
+
 static void parse_opt(int opt, char *const *argv, params_t *params, bool *err)
 {
     switch (opt) {
         case 'p':
-            setNbParam(&params->port, err);
-            break;
         case 'x':
-            setNbParam(&params->width, err);
-            break;
         case 'y':
-            setNbParam(&params->height, err);
-            break;
         case 'c':
-            setNbParam(&params->clientsNb, err);
-            break;
         case 'f':
-            setNbParam(&params->freq, err);
+            parse_nb_opt(opt, params, err);
             break;
         case 'n':
-            setTeams(argv, params, err);
+            set_teams(argv, params, err);
             break;
         default:
             *err = true;
@@ -71,6 +87,12 @@ params_t *get_params(int argc, char *const *argv)
             destroy_params(params);
             return NULL;
         }
+    }
+    check_params(params, &error);
+    if (error) {
+        fprintf(stderr, "Parameter checks failed.\n");
+        destroy_params(params);
+        return NULL;
     }
     return params;
 }
