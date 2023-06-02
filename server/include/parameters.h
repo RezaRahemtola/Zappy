@@ -30,5 +30,8 @@ params_t *get_params(int argc, char *const *argv);
 void destroy_params(params_t *params);
 
 // Setters
-void setNbParam(size_t *storage, bool *error);
-void setTeams(char *const *argv, params_t *params, bool *error);
+void set_nb_param(size_t *storage, bool *error);
+void set_teams(char *const *argv, params_t *params, bool *error);
+
+// Checks
+void check_params(params_t *params, bool *error);

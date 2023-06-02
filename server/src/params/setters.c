@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include "parameters.h"
 
-void setNbParam(size_t *storage, bool *error)
+void set_nb_param(size_t *storage, bool *error)
 {
     size_t data = atol(optarg);
 
@@ -20,7 +20,20 @@ void setNbParam(size_t *storage, bool *error)
     *storage = data;
 }
 
-void setTeams(char *const *argv, params_t *params, bool *error)
+void set_teams(char *const *argv, params_t *params, bool *error)
 {
-    // TODO
+    size_t i = 0;
+    char **tmp = NULL;
+
+    optind--;
+    for (; argv[optind + i] != NULL && argv[optind + i][0] != '-'; i++) {
+        tmp = realloc(params->teams, (i + 2) * sizeof(char *));
+        if (tmp == NULL) {
+            *error = true;
+            return;
+        }
+        params->teams = tmp;
+        params->teams[i] = argv[optind + i];
+    }
+    params->teams[optind + i] = NULL;
 }
