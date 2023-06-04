@@ -15,15 +15,7 @@
 
 #include <stdbool.h>
 #include <stddef.h>
-
-typedef struct params_s {
-    size_t port;
-    size_t width;
-    size_t height;
-    char **teams;
-    size_t clientsNb;
-    size_t freq;
-} params_t;
+#include "types.h"
 
 // Utils
 params_t *get_params(int argc, char *const *argv);

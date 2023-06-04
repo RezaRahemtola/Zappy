@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include "server.h"
 #include "network.h"
+#include "client.h"
 
 bool running;
 
@@ -38,6 +39,7 @@ static void destroy_server(server_t *server)
 {
     if (server == NULL)
         return;
+    close_clients(server->clients);
     list_free(server->clients, free);
     free(server);
 }
@@ -53,13 +55,9 @@ void launch_server(params_t *params)
     running = true;
     signal(SIGINT, &sig_handler);
     while (running) {
-        FD_ZERO(&readfds);
-        FD_SET(server->socket->fd, &readfds);
+        reset_fd_sets(&readfds, &writefds, server);
         if (select(FD_SETSIZE, &readfds, &writefds, NULL, NULL) >= 0) {
-            if (FD_ISSET(server->socket->fd, &readfds)) {
-                int w = accept(server->socket->fd, NULL, &server->socket->len);
-                dprintf(w, "WELCOME\n");
-            }
+            handle_connections(server, &readfds);
         }
 
     }
