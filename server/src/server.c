@@ -7,9 +7,11 @@
 
 #include <stdbool.h>
 #include <signal.h>
+#include <stdlib.h>
 #include "server.h"
+#include "network.h"
 
-bool running = true;
+bool running;
 
 static void sig_handler(int sig)
 {
@@ -19,8 +21,14 @@ static void sig_handler(int sig)
 
 void launch_server(params_t *params)
 {
+    socket_t *server = init_socket(params->port);
+
+    if (server == NULL)
+        return;
+    running = true;
     signal(SIGINT, &sig_handler);
     while (running) {
         // TODO
     }
+    free(server);
 }
