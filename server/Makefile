@@ -8,7 +8,8 @@
 BASE_DIR	= 	src
 BASE_SRC	=	params/params.c \
 				params/setters.c \
-				params/checks.c
+				params/checks.c \
+				network/socket.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=
