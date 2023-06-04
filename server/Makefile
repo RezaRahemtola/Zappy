@@ -68,9 +68,11 @@ $(LIBS):
 		$(MAKE) -C $(@:%=lib/%)
 
 clean:
+		$(foreach lib, $(LIB_DIRS), make clean -C $(lib);)
 		$(RM) $(OBJ) $(TEST_OBJ)
 
 fclean:	clean
+		$(foreach lib, $(LIB_DIRS), make fclean -C $(lib);)
 		$(RM) $(BINARY) $(TEST_BINARY) $(DEBUG_BINARY)
 
 clean_coverage:	fclean
