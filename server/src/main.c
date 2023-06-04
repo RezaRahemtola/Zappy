@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "parameters.h"
+#include "server.h"
 
 static void display_usage(void)
 {
@@ -29,6 +29,7 @@ int main(int argc, char *const *argv)
         display_usage();
         return 84;
     }
+    launch_server(params);
     destroy_params(params);
     return 0;
 }

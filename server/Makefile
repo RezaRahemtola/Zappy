@@ -6,7 +6,8 @@
 ##
 
 BASE_DIR	= 	src
-BASE_SRC	=	params/params.c \
+BASE_SRC	=	server.c \
+				params/params.c \
 				params/setters.c \
 				params/checks.c \
 				network/socket.c
