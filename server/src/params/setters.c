@@ -35,5 +35,5 @@ void set_teams(char *const *argv, params_t *params, bool *error)
         params->teams = tmp;
         params->teams[i] = argv[optind + i];
     }
-    params->teams[optind + i] = NULL;
+    params->teams[i] = NULL;
 }
