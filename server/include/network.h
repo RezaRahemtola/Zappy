@@ -19,3 +19,5 @@ typedef struct socket_s {
     sockaddr_in_t address;
     socklen_t len;
 } socket_t;
+
+socket_t *init_socket(size_t port);
