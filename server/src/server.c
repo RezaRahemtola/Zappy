@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "server.h"
 #include "network.h"
 
@@ -44,13 +45,23 @@ static void destroy_server(server_t *server)
 void launch_server(params_t *params)
 {
     server_t *server = create_server(params);
+    fd_set readfds;
+    fd_set writefds;
 
     if (server == NULL)
         return;
     running = true;
     signal(SIGINT, &sig_handler);
     while (running) {
-        // TODO
+        FD_ZERO(&readfds);
+        FD_SET(server->socket->fd, &readfds);
+        if (select(FD_SETSIZE, &readfds, &writefds, NULL, NULL) >= 0) {
+            if (FD_ISSET(server->socket->fd, &readfds)) {
+                int w = accept(server->socket->fd, NULL, &server->socket->len);
+                dprintf(w, "WELCOME\n");
+            }
+        }
+
     }
     destroy_server(server);
 }
