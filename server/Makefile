@@ -26,7 +26,7 @@ TEST		=	$(addprefix $(BASE_DIR)/, $(BASE_SRC)) \
 OBJ			=	$(SRC:.c=.o)
 TEST_OBJ	=	$(TEST:.c=.o)
 
-LIBS			=
+LIBS			=	my
 LIB_DIRS		=	$(addprefix lib/, $(LIBS))
 
 BINARY			=	zappy_server
@@ -50,15 +50,18 @@ VG			=	valgrind $(VG_FLAGS)
 all:	$(BINARY)
 
 $(BINARY):	$(OBJ)
+			$(MAKE) $(LIBS)
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
 $(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs
 $(TEST_BINARY):	$(TEST_OBJ)
+				$(MAKE) $(LIBS)
 				$(CC) -o $(TEST_BINARY) $(TEST_OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(DEBUG_BINARY):	CFLAGS	+=	-g3
 $(DEBUG_BINARY):	$(OBJ)
+					$(MAKE) $(LIBS)
 					$(CC) -o $(DEBUG_BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
 
 $(LIBS):
