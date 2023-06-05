@@ -1,7 +1,6 @@
-## Folder
+.o
+.gcda
+.gcno
+.gcov
 .idea
-target
-
-## Files
-Cargo.lock
 zappy_gui

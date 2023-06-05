@@ -1,0 +1,3 @@
+/home/Tomi-Tom/Desktop/EPITECH/CURSUS/Tek2-Sem2/Zappy/gui/build/CMakeFiles/zappy_gui.dir
+/home/Tomi-Tom/Desktop/EPITECH/CURSUS/Tek2-Sem2/Zappy/gui/build/CMakeFiles/edit_cache.dir
+/home/Tomi-Tom/Desktop/EPITECH/CURSUS/Tek2-Sem2/Zappy/gui/build/CMakeFiles/rebuild_cache.dir

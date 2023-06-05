@@ -8,19 +8,15 @@
 NAME	=	zappy_gui
 
 all:
-	cargo build --release
-	cp target/release/$(NAME) .
-
-run:
-	cargo run --release
-
-clean:
-	cargo clean
-
-fclean: clean
-	rm -f $(NAME)
-	rm -rf target
+	cmake -B build;make -C build;mv build/${NAME} .
 
 re: fclean all
 
-.PHONY: all clean fclean re
+clean:
+	rm -rf build
+	rm -rf cmake-build-debug
+
+fclean: clean
+	rm -rf ${NAME}
+
+.PHONY: all re clean fclean
