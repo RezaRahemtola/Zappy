@@ -1,6 +1,12 @@
+## BINARY ##
+zappy_gui
+
+## directory ##
+build/
+.idea
+
+## Trash ##
 .o
 .gcda
 .gcno
 .gcov
-.idea
-zappy_gui
