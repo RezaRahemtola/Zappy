@@ -29,7 +29,7 @@ void destroy_params(params_t *params)
 {
     if (params == NULL)
         return;
-    free(params->teams);
+    list_free(params->teams, (free_func)destroy_team);
     free(params);
 }
 
@@ -88,6 +88,7 @@ params_t *get_params(int argc, char *const *argv)
             return NULL;
         }
     }
+    set_teams_clients_nb(params);
     check_params(params, &error);
     if (error) {
         fprintf(stderr, "Parameter checks failed.\n");

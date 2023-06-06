@@ -39,7 +39,7 @@ void handle_messages(server_t *server, fd_set *readfds)
     while (clients != NULL) {
         client = clients->data;
         if (FD_ISSET(client->socket->fd, readfds))
-            read_message(client);
+            read_message(client, server);
         clients = clients->next;
     }
 }
