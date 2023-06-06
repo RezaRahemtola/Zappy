@@ -13,12 +13,19 @@
 #include "network/network.h"
 #include "client.h"
 
-bool running;
+static bool running(bool val)
+{
+    static bool running = true;
+
+    if (val == false)
+        running = val;
+    return running;
+}
 
 static void sig_handler(int sig)
 {
     if (sig == SIGINT)
-        running = false;
+        running(false);
 }
 
 static void destroy_server(server_t *server)
@@ -55,9 +62,8 @@ void launch_server(params_t *params)
 
     if (server == NULL)
         return;
-    running = true;
     signal(SIGINT, &sig_handler);
-    while (running) {
+    while (running(true)) {
         reset_fd_sets(&readfds, &writefds, server);
         if (select(FD_SETSIZE, &readfds, &writefds, NULL, NULL) >= 0) {
             handle_connections(server, &readfds);
