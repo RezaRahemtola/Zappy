@@ -23,7 +23,7 @@ typedef struct socket_s {
 
 // Communication
 typedef struct client_s {
-    socket_t socket;
+    socket_t *socket;
 } client_t;
 
 typedef struct server_s {

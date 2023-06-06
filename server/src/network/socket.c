@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "network.h"
+#include "network/network.h"
 
 static socket_t *init_socket_error(const char *message, socket_t *sock)
 {
@@ -17,7 +17,19 @@ static socket_t *init_socket_error(const char *message, socket_t *sock)
     return NULL;
 }
 
-socket_t *init_socket(size_t port)
+socket_t *init_client_socket(int fd, sockaddr_in_t address)
+{
+    socket_t *sock = malloc(sizeof(socket_t));
+
+    if (sock == NULL)
+        return NULL;
+    sock->fd = fd;
+    sock->address = address;
+    sock->len = sizeof(address);
+    return sock;
+}
+
+socket_t *init_server_socket(size_t port)
 {
     socket_t *sock = malloc(sizeof(socket_t));
 

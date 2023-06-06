@@ -5,7 +5,7 @@
 ** socket
 */
 
-#include "server.h"
+#include "network/network.h"
 
 void reset_fd_sets(fd_set *readfds, fd_set *writefds, server_t *server)
 {
@@ -18,9 +18,9 @@ void reset_fd_sets(fd_set *readfds, fd_set *writefds, server_t *server)
     FD_SET(server->socket->fd, writefds);
     while (clients != NULL) {
         client = clients->data;
-        if (client->socket.fd >= 0) {
-            FD_SET(client->socket.fd, readfds);
-            FD_SET(client->socket.fd, writefds);
+        if (client->socket->fd >= 0) {
+            FD_SET(client->socket->fd, readfds);
+            FD_SET(client->socket->fd, writefds);
         }
         clients = clients->next;
     }
