@@ -58,6 +58,7 @@ void launch_server(params_t *params)
         reset_fd_sets(&readfds, &writefds, server);
         if (select(FD_SETSIZE, &readfds, &writefds, NULL, NULL) >= 0) {
             handle_connections(server, &readfds);
+            handle_messages(server, &readfds);
         }
 
     }
