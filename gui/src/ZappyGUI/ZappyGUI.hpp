@@ -16,7 +16,8 @@
 
 class ZappyGUI {
 public:
-    ZappyGUI() : _window(sf::VideoMode(1920, 1080), "Zappy") {
+    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1080), "Zappy"),
+    _machine(machine), _port(port) {
         _displays["Menu"] = std::make_unique<Menu>();
         _displays["Playground"] = std::make_unique<Playground>();
         _currentDisplay = "Menu";

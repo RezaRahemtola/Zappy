@@ -9,7 +9,7 @@
 
 int errorHandling(int argc, char const **argv)
 {
-    int i = 0;
+    int i;
 
     // check number of arguments
     if (argc != 3 && argc != 5) {
@@ -18,10 +18,15 @@ int errorHandling(int argc, char const **argv)
     }
 
     // check if port number is valid
-    for (int i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         if (std::string(argv[i]) == "-p") {
-            if (!argv[i + 1] || std::stoi(argv[i + 1]) < 0 || std::stoi(argv[i + 1]) > 65535) {
-                std::cerr << "Error: Invalid port number" << std::endl;
+            try {
+                if (!argv[i + 1] || std::stoi(argv[i + 1]) < 0 || std::stoi(argv[i + 1]) > 65535) {
+                    std::cerr << "Error: Invalid port number" << std::endl;
+                    return 84;
+                }
+            } catch (std::exception &e) {
+                std::cerr << "Error: Port must be a valid number" << std::endl;
                 return 84;
             }
         }
@@ -30,7 +35,7 @@ int errorHandling(int argc, char const **argv)
     // check if -p is present
     for (i = 0; i < argc; i++) {
         if (std::string(argv[i]) == "-p")
-            continue;
+            break;
     }
     if (i == argc) {
         std::cerr << "Error: Port number is mandatory" << std::endl;
