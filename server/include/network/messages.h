@@ -5,6 +5,8 @@
 ** network
 */
 
+#pragma once
+
 #include "../types.h"
 
-void read_message(client_t *client);
+void read_message(client_t *client, server_t *server);

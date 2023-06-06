@@ -29,5 +29,6 @@ client_t *create_client(int fd, sockaddr_in_t address)
         return NULL;
     }
     client->socket = sock;
+    client->team = NULL;
     return client;
 }

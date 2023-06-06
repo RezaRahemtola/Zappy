@@ -30,6 +30,5 @@ int main(int argc, char *const *argv)
         return 84;
     }
     launch_server(params);
-    destroy_params(params);
     return 0;
 }

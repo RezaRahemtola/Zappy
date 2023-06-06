@@ -21,27 +21,30 @@ static void sig_handler(int sig)
         running = false;
 }
 
-static server_t *create_server(params_t *params)
-{
-    server_t *server = malloc(sizeof(server_t));
-    socket_t *sock = init_server_socket(params->port);
-
-    if (server == NULL || sock == NULL) {
-        free(server);
-        return NULL;
-    }
-    server->socket = sock;
-    server->clients = NULL;
-    return server;
-}
-
 static void destroy_server(server_t *server)
 {
     if (server == NULL)
         return;
     list_free(server->clients, (free_func)destroy_client);
     free(server->socket);
+    destroy_params(server->params);
     free(server);
+}
+
+static server_t *create_server(params_t *params)
+{
+    server_t *server = malloc(sizeof(server_t));
+    socket_t *sock = init_server_socket(params->port);
+
+    if (server == NULL || sock == NULL) {
+        destroy_server(server);
+        free(sock);
+        return NULL;
+    }
+    server->socket = sock;
+    server->clients = NULL;
+    server->params = params;
+    return server;
 }
 
 void launch_server(params_t *params)

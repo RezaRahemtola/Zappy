@@ -13,6 +13,8 @@
 #define PARAMS_DEFAULT_CLIENTS 1
 #define PARAMS_DEFAULT_FREQ 100
 
+#define GUI_TEAM_NAME "GRAPHIC"
+
 #include <stdbool.h>
 #include <stddef.h>
 #include "types.h"
@@ -24,6 +26,10 @@ void destroy_params(params_t *params);
 // Setters
 void set_nb_param(size_t *storage, bool *error);
 void set_teams(char *const *argv, params_t *params, bool *error);
+void set_teams_clients_nb(params_t *params);
 
 // Checks
 void check_params(params_t *params, bool *error);
+
+// Destroy
+void destroy_team(team_t *team);

@@ -21,23 +21,31 @@ typedef struct socket_s {
 } socket_t;
 
 
-// Communication
+// Parameters
+
+typedef struct team_s {
+    char *name;
+    size_t clientsNb;
+} team_t;
+
+typedef struct params_s {
+    size_t port;
+    size_t width;
+    size_t height;
+    list_t *teams;
+    size_t clientsNb;
+    size_t freq;
+} params_t;
+
+
+// Main
 typedef struct client_s {
+    char *team;
     socket_t *socket;
 } client_t;
 
 typedef struct server_s {
     socket_t *socket;
     list_t *clients;
+    params_t *params;
 } server_t;
-
-
-// Parameters
-typedef struct params_s {
-    size_t port;
-    size_t width;
-    size_t height;
-    char **teams;
-    size_t clientsNb;
-    size_t freq;
-} params_t;

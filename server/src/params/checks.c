@@ -8,15 +8,34 @@
 #include <string.h>
 #include "parameters.h"
 
-static void check_teams(char **teams, bool *error)
+static bool duplicated_team(list_t *teams, const char *name)
 {
+    size_t count = 0;
+    team_t *team = NULL;
+
+    while (teams != NULL) {
+        team = teams->data;
+        if (strcmp(name, team->name) == 0)
+            count++;
+        teams = teams->next;
+    }
+    return count != 1;
+}
+
+static void check_teams(list_t *teams, bool *error)
+{
+    team_t *team = NULL;
+
     if (teams == NULL) {
         *error = true;
         return;
     }
-    for (size_t i = 0; teams[i] != NULL; i++) {
-        for (size_t j = 1; teams[i + j] != NULL; j++)
-            *error = (strcmp(teams[i], teams[i + j]) == 0) ? true : *error;
+
+    while (teams != NULL) {
+        team = teams->data;
+        if (duplicated_team(teams, team->name))
+            *error = true;
+        teams = teams->next;
     }
 }
 
