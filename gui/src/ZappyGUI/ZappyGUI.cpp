@@ -2,13 +2,13 @@
 ** EPITECH PROJECT, 2023
 ** Zappy
 ** File description:
-** Simulation.cpp
+** ZappyGUI.cpp
 */
 
 #include <iostream>
-#include "Simulation.hpp"
+#include "ZappyGUI.hpp"
 
-void Simulation::pollEvents() {
+void ZappyGUI::pollEvents() {
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed)
             _window.close();
@@ -17,7 +17,7 @@ void Simulation::pollEvents() {
         _window.close();
 }
 
-void Simulation::run() {
+void ZappyGUI::run() {
     while (_window.isOpen()) {
         pollEvents();
         _window.clear();

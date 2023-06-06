@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** Zappy
 ** File description:
-** Simulation.hpp
+** ZappyGUI.hpp
 */
 #ifndef SIMULATION_HPP_
 	#define SIMULATION_HPP_
@@ -14,18 +14,26 @@
     #include "Menu.hpp"
     #include "Playground.hpp"
 
-class Simulation {
+class ZappyGUI {
 public:
-    Simulation() : _window(sf::VideoMode(1920, 1080), "Zappy") {
+    ZappyGUI() : _window(sf::VideoMode(1920, 1080), "Zappy") {
         _displays["Menu"] = std::make_unique<Menu>();
         _displays["Playground"] = std::make_unique<Playground>();
         _currentDisplay = "Menu";
     }
-    ~Simulation() { };
+    ~ZappyGUI() { };
+
+    void setPort(int port) { _port = port; }
+    void setMachine(std::string machine) { _machine = machine; }
 
     void run();
 
 private:
+    // Network
+    int _port;
+    std::string _machine;
+
+    // Graphical
     sf::RenderWindow _window;
     sf::Event _event;
     std::unordered_map<std::string, std::unique_ptr<IDisplay>> _displays;

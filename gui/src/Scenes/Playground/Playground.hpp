@@ -8,12 +8,15 @@
 	#define PLAYGROUND_HPP_
 
     #include <SFML/Graphics.hpp>
+    #include "SocketCommunication.hpp"
     #include "IDisplay.hpp"
     #include "Button.hpp"
 
 class Playground : public IDisplay {
 public:
     Playground() : _pause(false) {
+
+        // Setup la couleur
         sf::Color color = sf::Color(253, 217, 163);
 
         // Setup les Components UI

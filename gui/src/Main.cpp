@@ -6,12 +6,21 @@
 */
 
 #include <iostream>
-#include "Simulation.hpp"
+#include "ZappyGUI.hpp"
+#include "Utils.hpp"
 
-int main(int argc, char const **argv, char const **env)
+int main(int argc, char const **argv)
 {
+    for (int i = 0; i < argc; i++) {
+        if (std::string(argv[i]) == "-help")
+            return help();
+    }
+    if (errorHandling(argc, argv) == 84)
+        return 84;
+
+    ZappyGUI simulation;
+
     srand(time(NULL));
-    Simulation simulation;
     simulation.run();
     return 0;
 }

@@ -7,17 +7,21 @@ project(zappy_gui)
 
 include_directories(include)
 include_directories(include/Interface)
-include_directories(src/Simulation)
-include_directories(src/Menu)
-include_directories(src/Playground)
+include_directories(src/ZappyGUI)
+include_directories(src/Scenes/Menu)
+include_directories(src/Scenes/Playground)
 include_directories(src/Components/Button)
+include_directories(src/SocketCommunication)
 
 add_executable(zappy_gui
         src/Main.cpp
-        src/Simulation/Simulation.cpp
-        src/Menu/Menu.cpp
-        src/Playground/Playground.cpp
+        src/ZappyGUI/ZappyGUI.cpp
+        src/Scenes/Menu/Menu.cpp
+        src/Scenes/Playground/Playground.cpp
         src/Components/Button/Button.cpp
+        src/SocketCommunication/SocketCommunication.cpp
+        src/Utils/ErrorHandling.cpp
+        src/Utils/Help.cpp
         )
 
 if (WIN32)
