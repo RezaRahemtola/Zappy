@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "server.h"
-#include "network.h"
+#include "network/network.h"
 #include "client.h"
 
 bool running;
@@ -24,7 +24,7 @@ static void sig_handler(int sig)
 static server_t *create_server(params_t *params)
 {
     server_t *server = malloc(sizeof(server_t));
-    socket_t *sock = init_socket(params->port);
+    socket_t *sock = init_server_socket(params->port);
 
     if (server == NULL || sock == NULL) {
         free(server);
@@ -39,8 +39,8 @@ static void destroy_server(server_t *server)
 {
     if (server == NULL)
         return;
-    close_clients(server->clients);
-    list_free(server->clients, free);
+    list_free(server->clients, (free_func)destroy_client);
+    free(server->socket);
     free(server);
 }
 

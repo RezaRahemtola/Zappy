@@ -6,17 +6,28 @@
 */
 
 #include <unistd.h>
-#include "network.h"
+#include <malloc.h>
+#include "network/network.h"
 
-void close_clients(list_t *clients)
+void destroy_client(client_t *client)
 {
-    list_t *tmp = clients;
-    client_t *client = NULL;
+    if (client == NULL)
+        return;
+    close(client->socket->fd);
+    free(client->socket);
+    free(client);
+}
 
-    while (tmp != NULL) {
-        client = tmp->data;
-        if (client->socket.fd > 0)
-            close(client->socket.fd);
-        tmp = tmp->next;
+client_t *create_client(int fd, sockaddr_in_t address)
+{
+    client_t *client = malloc(sizeof(client_t));
+    socket_t *sock = init_client_socket(fd, address);
+
+    if (client == NULL || sock == NULL) {
+        free(client);
+        free(sock);
+        return NULL;
     }
+    client->socket = sock;
+    return client;
 }

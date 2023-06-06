@@ -7,13 +7,14 @@
 
 #pragma once
 
-#include "server.h"
+#include "parameters.h"
 
 #define NETWORK_MAX_CLIENTS 100
 #define NETWORK_MSG_SIZE 4092
 
 // Socket
-socket_t *init_socket(size_t port);
+socket_t *init_server_socket(size_t port);
+socket_t *init_client_socket(int fd, sockaddr_in_t address);
 
 // FD sets
 void reset_fd_sets(fd_set *readfds, fd_set *writefds, server_t *server);
