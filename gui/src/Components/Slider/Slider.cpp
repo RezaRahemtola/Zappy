@@ -2,7 +2,8 @@
 ** EPITECH PROJECT, 2023
 ** Zappy Project
 ** File description:
-** SocketCommunication.cpp
+** Slider.cpp
 */
 
-#include "SocketCommunication.hpp"
+
+#include "Slider.hpp"

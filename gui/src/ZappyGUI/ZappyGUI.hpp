@@ -16,8 +16,8 @@
 
 class ZappyGUI {
 public:
-    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1080), "Zappy"),
-    _machine(machine), _port(port) {
+    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(192, 108), "Zappy"),
+    _machine(machine), _port(port), _client(ClientGUI(_machine, _port)) {
         _displays["Menu"] = std::make_unique<Menu>();
         _displays["Playground"] = std::make_unique<Playground>();
         _currentDisplay = "Menu";
@@ -33,6 +33,7 @@ private:
     // Network
     int _port;
     std::string _machine;
+    ClientGUI _client;
 
     // Graphical
     sf::RenderWindow _window;

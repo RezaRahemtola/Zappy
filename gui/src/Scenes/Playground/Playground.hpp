@@ -8,7 +8,7 @@
 	#define PLAYGROUND_HPP_
 
     #include <SFML/Graphics.hpp>
-    #include "SocketCommunication.hpp"
+    #include "ClientGUI.hpp"
     #include "IDisplay.hpp"
     #include "Button.hpp"
 

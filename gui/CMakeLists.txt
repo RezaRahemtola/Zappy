@@ -11,17 +11,27 @@ include_directories(src/ZappyGUI)
 include_directories(src/Scenes/Menu)
 include_directories(src/Scenes/Playground)
 include_directories(src/Components/Button)
-include_directories(src/SocketCommunication)
+include_directories(src/ClientGUI)
 
 add_executable(zappy_gui
         src/Main.cpp
+        ## GUI Parts
         src/ZappyGUI/ZappyGUI.cpp
+        src/ClientGUI/ClientGUI.cpp
+        ## Scenes
         src/Scenes/Menu/Menu.cpp
         src/Scenes/Playground/Playground.cpp
+        ## Components
         src/Components/Button/Button.cpp
-        src/SocketCommunication/SocketCommunication.cpp
+        src/Components/Slider/Slider.cpp
+        src/Components/Text/Text.cpp
+        src/Components/TextInput/TextInput.cpp
+        src/Components/Checkbox/Checkbox.cpp
+        src/Components/Image/Image.cpp
+        ## Utils
         src/Utils/ErrorHandling.cpp
         src/Utils/Help.cpp
+        src/Utils/GetArgs.cpp
         )
 
 if (WIN32)
@@ -31,12 +41,16 @@ if (WIN32)
             sfml-graphics
             sfml-window
             sfml-system
+            sfml-network
+            sfml-system
             )
 elseif (UNIX AND NOT APPLE)
     find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
     target_link_libraries(zappy_gui
             sfml-graphics
             sfml-window
+            sfml-system
+            sfml-network
             sfml-system
             )
 endif()
