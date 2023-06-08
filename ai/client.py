@@ -3,12 +3,11 @@ import os
 import time
 
 class Client:
-    def __init__(self, server: tuple[str, int], timeout: float = 5) -> None:
+    def __init__(self, server: tuple[str, int]) -> None:
         self.server = server
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connected = False
         self.last_send_time = 0
-        self.socket.settimeout(timeout)
 
     def connect(self) -> bool:
         if self.connected:
@@ -41,5 +40,8 @@ class Client:
             sent += current_sent
         self.last_send_time = time.time()
 
-    def receive_lines(self, read_size: int = 2048) -> list[str]:
-        return self.socket.recv(read_size, os.O_NONBLOCK).decode('utf8').strip().split('\n')
+    def receive_lines(self, timeout: float or None, read_size: int = 2048) -> list[str]:
+        self.socket.settimeout(timeout)
+        result = self.socket.recv(read_size, os.O_NONBLOCK).decode('utf8').strip().split('\n')
+        self.socket.settimeout(None)
+        return result

@@ -7,7 +7,5 @@ if __name__ == '__main__':
     if not client.connect():
         raise RuntimeError('Could not connect to server.')
     client.start_handshake()
-    client.send_line('Look')
-    print(client.receive_lines())
     if not client.disconnect():
         raise RuntimeError('Couldn\'t disconnect from server.')
