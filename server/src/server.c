@@ -8,7 +8,6 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "server.h"
 #include "network/network.h"
 #include "client.h"

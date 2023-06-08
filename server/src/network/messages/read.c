@@ -8,8 +8,11 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "network/network.h"
 #include "client.h"
+#include "network/messages.h"
+#include "commands/commands.h"
 
 static void handle_team_message(client_t *client, char *msg, server_t *server)
 {
@@ -30,6 +33,16 @@ static void handle_team_message(client_t *client, char *msg, server_t *server)
     dprintf(client->socket->fd, "%ld\n", found->clientsNb);
 }
 
+static void handle_message(client_t *client, char *msg, server_t *server)
+{
+    list_t *cmd_args = split_message(msg);
+
+    if (cmd_args == NULL)
+        return;
+    handle_command(cmd_args, client, server);
+    list_free(cmd_args, free);
+}
+
 void read_message(client_t *client, server_t *server)
 {
     char buffer[NETWORK_MSG_SIZE];
@@ -39,4 +52,6 @@ void read_message(client_t *client, server_t *server)
     buffer[nb_bytes - 1] = '\0';
     if (client->team == NULL)
         handle_team_message(client, buffer, server);
+    else
+        handle_message(client, buffer, server);
 }
