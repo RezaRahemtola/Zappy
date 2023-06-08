@@ -12,5 +12,6 @@
 #include "functions.h"
 
 static command_t COMMANDS[] = {
-    {"msz", msz, NULL}
+    {"msz", msz, NULL},
+    {"tna", tna, NULL}
 };
