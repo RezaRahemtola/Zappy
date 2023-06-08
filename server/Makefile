@@ -14,7 +14,10 @@ BASE_SRC	=	server.c \
 				network/socket.c \
 				network/fd_set.c \
 				network/select.c \
-				network/messages/read.c
+				network/messages/read.c \
+				network/messages/parsing.c \
+				commands/handling.c \
+				commands/functions/msz.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=

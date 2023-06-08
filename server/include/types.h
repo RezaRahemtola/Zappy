@@ -49,3 +49,11 @@ typedef struct server_s {
     list_t *clients;
     params_t *params;
 } server_t;
+
+
+// Commands
+typedef struct command_s {
+    char *name;
+    void (*function)(list_t *args, client_t *client, server_t *server);
+    list_t *args;
+} command_t;
