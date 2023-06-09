@@ -11,7 +11,7 @@
 
 #define UNKNOWN_COMMAND_PARAMETER "sbp\n"
 
-void msz(list_t *args, client_t *client, server_t *server);
-void tna(list_t *args, client_t *client, server_t *server);
-void sgt(list_t *args, client_t *client, server_t *server);
-void sst(list_t *args, client_t *client, server_t *server);
+void msz(list_t *args, client_t *client, server_t *server, char **result);
+void tna(list_t *args, client_t *client, server_t *server, char **result);
+void sgt(list_t *args, client_t *client, server_t *server, char **result);
+void sst(list_t *args, client_t *client, server_t *server, char **result);

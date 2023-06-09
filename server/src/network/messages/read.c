@@ -48,13 +48,13 @@ static void handle_team_message(client_t *client, char *msg, server_t *server)
     send_welcome(client, server, found->clientsNb);
 }
 
-static void handle_message(client_t *client, char *msg, server_t *server)
+static void handle_message(client_t *client, char *msg)
 {
     list_t *cmd_args = split_message(msg);
 
     if (cmd_args == NULL)
         return;
-    handle_command(cmd_args, client, server);
+    handle_command(cmd_args, client);
 }
 
 void read_message(client_t *client, server_t *server)
@@ -71,5 +71,5 @@ void read_message(client_t *client, server_t *server)
     if (client->team == NULL)
         handle_team_message(client, buffer, server);
     else
-        handle_message(client, buffer, server);
+        handle_message(client, buffer);
 }

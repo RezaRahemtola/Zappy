@@ -55,10 +55,13 @@ typedef struct server_s {
 
 
 // Commands
-typedef void (*command_fct)(list_t *args, client_t *client, server_t *server);
+typedef void (*command_fct)(list_t *args, client_t *client,
+    server_t *server, char **result);
 
 typedef struct command_s {
     const char *name;
     command_fct function;
     list_t *args;
+    char *result;
+    size_t time;
 } command_t;
