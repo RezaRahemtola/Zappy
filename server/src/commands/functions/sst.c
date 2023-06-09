@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include "commands/functions.h"
 
-void sst(list_t *args, client_t *client, server_t *server)
+void sst(list_t *args, client_t *client, server_t *server, char **result)
 {
-    char *content = NULL;
+    (void)client;
     size_t new_freq = 0;
     size_t len = 0;
 
@@ -21,12 +21,10 @@ void sst(list_t *args, client_t *client, server_t *server)
         if (new_freq > 0) {
             server->params->freq = new_freq;
             len = snprintf(NULL, 0, "sst %ld\n", new_freq) + 1;
-            content = malloc(sizeof(char) * len);
-            sprintf(content, "sst %ld\n", new_freq);
-            list_add(&client->output_messages, content);
+            *result = malloc(sizeof(char) * len);
+            sprintf(*result, "sst %ld\n", new_freq);
             return;
         }
     }
-    content = strdup(UNKNOWN_COMMAND_PARAMETER);
-    list_add(&client->output_messages, content);
+    *result = strdup(UNKNOWN_COMMAND_PARAMETER);
 }

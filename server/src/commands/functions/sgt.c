@@ -10,16 +10,15 @@
 #include <malloc.h>
 #include "commands/functions.h"
 
-void sgt(list_t *args, client_t *client, server_t *server)
+void sgt(list_t *args, client_t *client, server_t *server, char **result)
 {
     (void)args;
-    char *content = NULL;
+    (void)client;
     size_t freq = server->params->freq;
     size_t len = snprintf(NULL, 0, "sgt %ld\n", freq) + 1;
 
-    content = malloc(sizeof(char) * len);
-    if (content == NULL)
+    *result = malloc(sizeof(char) * len);
+    if (*result == NULL)
         return;
-    sprintf(content, "sgt %ld\n", freq);
-    list_add(&client->output_messages, content);
+    sprintf(*result, "sgt %ld\n", freq);
 }

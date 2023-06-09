@@ -27,10 +27,11 @@ static command_t *create_cmd(const char *name, list_t *args, command_fct fct)
     command->name = name;
     command->args = args;
     command->function = fct;
+    command->result = NULL;
     return command;
 }
 
-void handle_command(list_t *args, client_t *client, server_t *server)
+void handle_command(list_t *args, client_t *client)
 {
     char *name = NULL;
     command_t *cmd = NULL;

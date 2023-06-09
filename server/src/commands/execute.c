@@ -14,7 +14,8 @@ static void execute_client_command(client_t *client, server_t *server)
 
     if (client->disconnected)
         return;
-    cmd->function(cmd->args, client, server);
+    cmd->function(cmd->args, client, server, &cmd->result);
+    list_add(&client->output_messages, cmd->result);
     list_remove_head(&client->commands, (free_func)destroy_command);
 }
 
