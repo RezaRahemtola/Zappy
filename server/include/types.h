@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "my_list.h"
 #include <netinet/in.h>
+#include <time.h>
+#include "my_list.h"
 
 // Network
 typedef struct sockaddr_in sockaddr_in_t;
@@ -64,4 +65,5 @@ typedef struct command_s {
     list_t *args;
     char *result;
     size_t time;
+    time_t starting_time;
 } command_t;
