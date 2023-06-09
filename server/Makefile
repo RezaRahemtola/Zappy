@@ -20,12 +20,14 @@ BASE_SRC	=	server.c \
 				network/messages/parsing.c \
 				commands/handling.c \
 				commands/execute.c \
-				commands/functions/msz.c \
-				commands/functions/tna.c \
-				commands/functions/sgt.c \
-				commands/functions/sst.c \
+				commands/gui/msz.c \
+				commands/gui/tna.c \
+				commands/gui/sgt.c \
+				commands/gui/sst.c \
+				commands/gui/events/pnw.c \
 				commands/ai/connect_nbr.c \
-				utils/teams.c
+				utils/teams.c \
+				game/player/player.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=

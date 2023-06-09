@@ -39,6 +39,26 @@ typedef struct params_s {
 } params_t;
 
 
+// Game
+typedef struct inventory_s {
+    size_t food;
+    size_t linemate;
+    size_t deraumere;
+    size_t sibur;
+    size_t mendiane;
+    size_t phiras;
+    size_t thystame;
+} inventory_t;
+
+typedef struct player_s {
+    size_t id;
+    inventory_t *inventory;
+    size_t x;
+    size_t y;
+    size_t orientation;
+    size_t level;
+} player_t;
+
 // Main
 typedef struct client_s {
     char *team;
@@ -46,6 +66,7 @@ typedef struct client_s {
     list_t *output_messages;
     bool disconnected;
     list_t *commands;
+    player_t *player;
 } client_t;
 
 typedef struct server_s {

@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <malloc.h>
 #include "network/network.h"
+#include "game/player.h"
 
 void destroy_client(client_t *client)
 {
@@ -16,6 +17,7 @@ void destroy_client(client_t *client)
     close(client->socket->fd);
     free(client->socket);
     list_free(client->output_messages, free);
+    destroy_player(client->player);
     free(client);
 }
 
@@ -34,5 +36,6 @@ client_t *create_client(int fd, sockaddr_in_t address)
     client->output_messages = NULL;
     client->commands = NULL;
     client->disconnected = false;
+    client->player = NULL;
     return client;
 }
