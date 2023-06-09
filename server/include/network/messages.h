@@ -9,6 +9,8 @@
 
 #include "../types.h"
 
+#define MESSAGE_KO "ko\n"
+
 void read_message(client_t *client, server_t *server);
 
 // Parsing

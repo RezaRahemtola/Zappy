@@ -39,8 +39,10 @@ static void handle_team_message(client_t *client, char *msg, server_t *server)
             found = team;
         teams = teams->next;
     }
-    if (found == NULL || found->clientsNb == 0)
+    if (found == NULL || found->clientsNb == 0) {
+        list_add(&client->output_messages, strdup(MESSAGE_KO));
         return;
+    }
     client->team = found->name;
     found->clientsNb--;
     send_welcome(client, server, found->clientsNb);
