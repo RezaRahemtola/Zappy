@@ -12,6 +12,10 @@
     #include <iostream>
     #include <SFML/Network.hpp>
 
+enum class Request {
+
+};
+
 class ClientGUI {
 	public:
         ClientGUI(std::string machine, int port) : _socket(sf::TcpSocket()), _machine(machine), _port(port) {
@@ -22,8 +26,18 @@ class ClientGUI {
             } else {
                 std::cout << "Connected to server" << std::endl;
             }
+            // recieve a welcome message
+            std::size_t size;
+            char buffer[1024];
+            _socket.receive(buffer, 1024, size);
+            std::cout << "Server said : " << buffer << std::endl;
         };
 		~ClientGUI() {};
+
+        void sendRequest(std::string message);
+
+        void collectMessage();
+        std::vector<std::string> getMessageQueue() const { return _messageQueue; };
 
 	private:
         std::string _machine;
@@ -31,6 +45,9 @@ class ClientGUI {
 
         sf::TcpSocket _socket;
         sf::Socket::Status _status;
+
+        std::string _receiveBuffer;
+        std::vector<std::string> _messageQueue;
 };
 
 #endif /*CLIENTGUI_HPP_*/
