@@ -19,6 +19,7 @@ void ZappyGUI::pollEvents() {
 
 void ZappyGUI::run() {
     std::string data;
+    _client.sending("GRAPHIC\n");
 
     while (_window.isOpen()) {
         _client.sending("msz\n");
