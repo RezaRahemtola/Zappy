@@ -34,55 +34,34 @@ static command_t *create_cmd(const command_t *base, list_t *args)
     return command;
 }
 
-static void handle_gui_command(const char *name, list_t *args, client_t *client)
+static void handle_command_type(command_t *commands, const char *err,
+                                list_t *args, client_t *client)
 {
+    const char *name = args->data;
     command_t *cmd = NULL;
     bool found = false;
 
-    for (size_t i = 0; GUI_COMMANDS[i].name != NULL; i++) {
-        if (strcmp(GUI_COMMANDS[i].name, name) == 0
+    for (size_t i = 0; commands[i].name != NULL; i++) {
+        if (strcmp(commands[i].name, name) == 0
         && list_size(client->commands) < MAX_COMMANDS_PER_CLIENT) {
-            cmd = create_cmd(&GUI_COMMANDS[i], args);
+            cmd = create_cmd(&commands[i], args);
             list_add(&client->commands, cmd);
             found = true;
             break;
         }
     }
     if (!found) {
-        list_add(&client->output_messages, strdup(UNKNOWN_COMMAND_GUI));
-        list_free(args, free);
-    }
-}
-
-static void handle_ai_command(const char *name, list_t *args, client_t *client)
-{
-    command_t *cmd = NULL;
-    bool found = false;
-
-    for (size_t i = 0; AI_COMMANDS[i].name != NULL; i++) {
-        if (strcmp(AI_COMMANDS[i].name, name) == 0
-        && list_size(client->commands) < MAX_COMMANDS_PER_CLIENT) {
-            cmd = create_cmd(&AI_COMMANDS[i], args);
-            list_add(&client->commands, cmd);
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
-        list_add(&client->output_messages, strdup(UNKNOWN_COMMAND_AI));
+        list_add(&client->output_messages, strdup(err));
         list_free(args, free);
     }
 }
 
 void handle_command(list_t *args, client_t *client)
 {
-    char *name = NULL;
-
     if (list_size(args) < 1)
         return;
-    name = args->data;
     if (strcmp(client->team, GUI_TEAM_NAME) == 0)
-        handle_gui_command(name, args, client);
+        handle_command_type( GUI_COMMANDS, UNKNOWN_COMMAND_GUI, args, client);
     else
-        handle_ai_command(name, args, client);
+        handle_command_type(AI_COMMANDS, UNKNOWN_COMMAND_AI, args, client);
 }
