@@ -23,7 +23,7 @@ void ZappyGUI::run() {
     while (_window.isOpen()) {
         _client.sending("msz\n");
         _client.receive(data);
-        std::cout << "Data Received : " << data << std::endl;
+        std::cout << "Data Received : " << data;
         pollEvents();
         _window.clear();
         if (_currentDisplay != "Quit")
