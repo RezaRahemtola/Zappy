@@ -24,6 +24,7 @@ enum class Request {
 class ClientGUI {
 	public:
         ClientGUI(std::string &machine, int port) {
+            std::cout << "On va se connecter à [" << machine << ":" << port << "]" << std::endl;
             // Création du socket
             _sockfd = socket(AF_INET, SOCK_STREAM, 0);
             if (_sockfd == -1) {
