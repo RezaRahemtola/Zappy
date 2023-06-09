@@ -18,16 +18,18 @@ void destroy_command(command_t *command)
     free(command);
 }
 
-static command_t *create_cmd(const char *name, list_t *args, command_fct fct)
+static command_t *create_cmd(const command_t *base, list_t *args)
 {
     command_t *command = malloc(sizeof(command_t));
 
     if (command == NULL)
         return NULL;
-    command->name = name;
+    command->name = base->name;
     command->args = args;
-    command->function = fct;
+    command->function = base->function;
     command->result = NULL;
+    command->time = base->time;
+    command->starting_time = 0;
     return command;
 }
 
@@ -42,7 +44,7 @@ void handle_command(list_t *args, client_t *client)
     for (size_t i = 0; COMMANDS[i].name != NULL; i++) {
         if (strcmp(COMMANDS[i].name, name) == 0
         && list_size(client->commands) < MAX_COMMANDS_PER_CLIENT) {
-            cmd = create_cmd(name, args, COMMANDS[i].function);
+            cmd = create_cmd(&COMMANDS[i], args);
             list_add(&client->commands, cmd);
             break;
         }
