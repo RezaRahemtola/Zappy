@@ -44,8 +44,9 @@ static server_t *create_server(params_t *params)
     socket_t *sock = init_server_socket(params->port);
 
     if (server == NULL || sock == NULL) {
-        destroy_server(server);
+        free(server);
         free(sock);
+        destroy_params(params);
         return NULL;
     }
     server->socket = sock;
