@@ -37,6 +37,7 @@ void handle_command(list_t *args, client_t *client)
 {
     char *name = NULL;
     command_t *cmd = NULL;
+    bool found = false;
 
     if (list_size(args) < 1)
         return;
@@ -46,7 +47,12 @@ void handle_command(list_t *args, client_t *client)
         && list_size(client->commands) < MAX_COMMANDS_PER_CLIENT) {
             cmd = create_cmd(&COMMANDS[i], args);
             list_add(&client->commands, cmd);
+            found = true;
             break;
         }
+    }
+    if (!found) {
+        list_add(&client->output_messages, strdup(UNKNOWN_COMMAND));
+        list_free(args, free);
     }
 }
