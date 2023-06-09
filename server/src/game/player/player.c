@@ -33,7 +33,7 @@ static inventory_t *create_player_inventory(void)
     return inventory;
 }
 
-player_t *create_player(void)
+static player_t *create_player(size_t id)
 {
     player_t *player = malloc(sizeof(player_t));
     inventory_t *inventory = create_player_inventory();
@@ -43,7 +43,7 @@ player_t *create_player(void)
         free(inventory);
         return NULL;
     }
-    player->id = 42;
+    player->id = id;
     player->inventory = inventory;
     player->x = 0;
     player->y = 0;
@@ -54,10 +54,11 @@ player_t *create_player(void)
 
 void init_player(client_t *client, server_t *server)
 {
-    player_t *player = create_player();
+    player_t *player = create_player(server->player_nb);
 
     if (player == NULL)
         return;
     client->player = player;
+    server->player_nb++;
     emit_new_player_event(client, server);
 }
