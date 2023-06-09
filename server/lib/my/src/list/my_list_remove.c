@@ -37,3 +37,8 @@ free_func free_func)
         current = current->next;
     }
 }
+
+void list_remove_head(list_t **list, free_func free_func)
+{
+    remove_data(*list, list, free_func);
+}

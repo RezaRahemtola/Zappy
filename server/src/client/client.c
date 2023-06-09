@@ -32,6 +32,7 @@ client_t *create_client(int fd, sockaddr_in_t address)
     client->socket = sock;
     client->team = NULL;
     client->output_messages = NULL;
+    client->commands = NULL;
     client->disconnected = false;
     return client;
 }

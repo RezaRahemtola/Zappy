@@ -55,7 +55,6 @@ static void handle_message(client_t *client, char *msg, server_t *server)
     if (cmd_args == NULL)
         return;
     handle_command(cmd_args, client, server);
-    list_free(cmd_args, free);
 }
 
 void read_message(client_t *client, server_t *server)
