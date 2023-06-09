@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 #include "network/network.h"
 #include "network/messages.h"
 #include "client.h"
@@ -14,7 +15,10 @@ void handle_connections(server_t *server, fd_set *readfds)
 {
     client_t *client = NULL;
     int fd = 0;
+    char *welcome = strdup("WELCOME\n");
 
+    if (welcome == NULL)
+        return;
     if (FD_ISSET(server->socket->fd, readfds)) {
         fd = accept(server->socket->fd, NULL, &server->socket->len);
         if (fd == -1) {
@@ -27,7 +31,7 @@ void handle_connections(server_t *server, fd_set *readfds)
             return;
         }
         list_add(&server->clients, client);
-        dprintf(fd, "WELCOME\n");
+        list_add(&client->output_messages, welcome);
     }
 }
 
