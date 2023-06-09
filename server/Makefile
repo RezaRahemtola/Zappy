@@ -20,7 +20,8 @@ BASE_SRC	=	server.c \
 				network/messages/parsing.c \
 				commands/handling.c \
 				commands/functions/msz.c \
-				commands/functions/tna.c
+				commands/functions/tna.c \
+				commands/functions/sgt.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=

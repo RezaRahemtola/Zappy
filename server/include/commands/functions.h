@@ -11,3 +11,4 @@
 
 void msz(list_t *args, client_t *client, server_t *server);
 void tna(list_t *args, client_t *client, server_t *server);
+void sgt(list_t *args, client_t *client, server_t *server);
