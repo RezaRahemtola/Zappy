@@ -27,7 +27,8 @@ void list_free(list_t *list, free_func free_func)
 
     while (current != NULL) {
         tmp = current->next;
-        free_func(current->data);
+        if (free_func != NULL)
+            free_func(current->data);
         free(current);
         current = tmp;
     }

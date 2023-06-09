@@ -14,3 +14,6 @@ void destroy_client(client_t *client);
 
 // Data handling
 void write_to_clients(list_t *clients, fd_set *writefds);
+
+// Disconnect
+void disconnect_clients(server_t *server);

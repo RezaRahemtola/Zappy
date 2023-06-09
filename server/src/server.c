@@ -69,6 +69,7 @@ void launch_server(params_t *params)
             handle_messages(server, &readfds);
         }
         write_to_clients(server->clients, &writefds);
+        disconnect_clients(server);
     }
     destroy_server(server);
 }

@@ -7,7 +7,9 @@
 
 BASE_DIR	= 	src
 BASE_SRC	=	server.c \
-				client.c \
+				client/client.c \
+				client/write.c \
+				client/disconnect.c \
 				params/params.c \
 				params/setters.c \
 				params/checks.c \
