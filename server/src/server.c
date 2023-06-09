@@ -11,6 +11,7 @@
 #include "server.h"
 #include "network/network.h"
 #include "client.h"
+#include "commands/commands.h"
 
 static bool running(bool val)
 {
@@ -68,6 +69,7 @@ void launch_server(params_t *params)
             handle_connections(server, &readfds);
             handle_messages(server, &readfds);
         }
+        execute_commands(server);
         write_to_clients(server->clients, &writefds);
         disconnect_clients(server);
     }

@@ -44,6 +44,7 @@ typedef struct client_s {
     socket_t *socket;
     list_t *output_messages;
     bool disconnected;
+    list_t *commands;
 } client_t;
 
 typedef struct server_s {
@@ -54,8 +55,10 @@ typedef struct server_s {
 
 
 // Commands
+typedef void (*command_fct)(list_t *args, client_t *client, server_t *server);
+
 typedef struct command_s {
-    char *name;
-    void (*function)(list_t *args, client_t *client, server_t *server);
+    const char *name;
+    command_fct function;
     list_t *args;
 } command_t;
