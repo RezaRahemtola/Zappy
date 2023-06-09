@@ -9,13 +9,15 @@
 #include <malloc.h>
 #include "network/network.h"
 
-static void write_to_client(list_t *messages, int fd)
+static void write_to_client(list_t *messages, client_t *client)
 {
     char *message = NULL;
 
+    if (client->disconnected)
+        return;
     while (messages != NULL) {
         message = messages->data;
-        dprintf(fd, "%s", message);
+        dprintf(client->socket->fd, "%s", message);
         messages = messages->next;
     }
 }
@@ -27,7 +29,7 @@ void write_to_clients(list_t *clients, fd_set *writefds)
     while (clients != NULL) {
         client = clients->data;
         if (FD_ISSET(client->socket->fd, writefds)) {
-            write_to_client(client->output_messages, client->socket->fd);
+            write_to_client(client->output_messages, client);
             list_free(client->output_messages, free);
             client->output_messages = NULL;
         }
@@ -58,5 +60,6 @@ client_t *create_client(int fd, sockaddr_in_t address)
     client->socket = sock;
     client->team = NULL;
     client->output_messages = NULL;
+    client->disconnected = false;
     return client;
 }

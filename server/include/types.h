@@ -43,6 +43,7 @@ typedef struct client_s {
     char *team;
     socket_t *socket;
     list_t *output_messages;
+    bool disconnected;
 } client_t;
 
 typedef struct server_s {
