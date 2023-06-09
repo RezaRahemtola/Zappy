@@ -16,15 +16,15 @@ static char *get_content(client_t *client)
     char *result = NULL;
     player_t *pl = client->player;
     size_t len = snprintf(NULL, 0, "pnw #%ld %ld %ld %ld %ld %s\n",
-                          pl->id, pl->x, pl->y, pl->orientation,
-                          pl->level, client->team) + 1;
+                        pl->id, pl->x, pl->y, pl->orientation,
+                        pl->level, client->team) + 1;
 
     result = malloc(sizeof(char) * len);
     if (result == NULL)
         return NULL;
     sprintf(result, "pnw #%ld %ld %ld %ld %ld %s\n",
-                          pl->id, pl->x, pl->y, pl->orientation,
-                          pl->level, client->team);
+            pl->id, pl->x, pl->y, pl->orientation,
+            pl->level, client->team);
     return result;
 }
 

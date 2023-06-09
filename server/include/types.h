@@ -73,6 +73,7 @@ typedef struct server_s {
     socket_t *socket;
     list_t *clients;
     params_t *params;
+    size_t player_nb;
 } server_t;
 
 
