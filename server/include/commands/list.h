@@ -14,5 +14,7 @@
 static command_t COMMANDS[] = {
     {"msz", msz, NULL},
     {"tna", tna, NULL},
-    {"sgt", sgt, NULL}
+    {"sgt", sgt, NULL},
+    {"sst", sst, NULL},
+    {NULL, NULL, NULL}
 };
