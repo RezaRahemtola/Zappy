@@ -16,5 +16,6 @@ static command_t COMMANDS[] = {
     {"tna", tna, NULL, NULL, 0, 0},
     {"sgt", sgt, NULL, NULL, 0, 0},
     {"sst", sst, NULL, NULL, 0, 0},
+    {"Connect_nbr", connect_nbr, NULL, NULL, 0, 0},
     {NULL, NULL, NULL, NULL, 0, 0}
 };

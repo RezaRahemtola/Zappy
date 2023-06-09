@@ -23,7 +23,9 @@ BASE_SRC	=	server.c \
 				commands/functions/msz.c \
 				commands/functions/tna.c \
 				commands/functions/sgt.c \
-				commands/functions/sst.c
+				commands/functions/sst.c \
+				commands/ai/connect_nbr.c \
+				utils/teams.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=
