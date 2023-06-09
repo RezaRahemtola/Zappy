@@ -13,16 +13,13 @@ void ClientGUI::sendRequest(std::string message) {
 }
 
 void ClientGUI::collectMessage() {
-    std::cout << "COLLECT MESSAGE" << std::endl;
     std::string buffer;
     size_t size;
 
-    std::cout << "RECEIVE MESSAGE" << std::endl;
     if (_socket.receiveNonBlocking(buffer, size) == sf::Socket::Done) {
+        std::cout << " - Recieved: " << buffer;
         _receiveBuffer += buffer;
     }
-    std::cout << "RECEIVE MESSAGE DONE" << std::endl;
-    std::cout << "RECEIVE BUFFER : " << _receiveBuffer << std::endl;
 }
 
 bool ClientGUI::receiveNonBlocking(std::vector<char>& buffer) {
