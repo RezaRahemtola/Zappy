@@ -64,6 +64,10 @@ void read_message(client_t *client, server_t *server)
     ssize_t nb_bytes = 0;
 
     nb_bytes = read(client->socket->fd, &buffer, NETWORK_MSG_SIZE);
+    if (nb_bytes == 0) {
+        client->disconnected = true;
+        return;
+    }
     buffer[nb_bytes - 1] = '\0';
     if (client->team == NULL)
         handle_team_message(client, buffer, server);
