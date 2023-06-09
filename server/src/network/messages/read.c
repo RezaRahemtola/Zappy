@@ -13,6 +13,8 @@
 #include "client.h"
 #include "network/messages.h"
 #include "commands/commands.h"
+#include "utils.h"
+#include "game/player.h"
 
 static void send_welcome(client_t *client, server_t *server, size_t clientsNb)
 {
@@ -29,23 +31,17 @@ static void send_welcome(client_t *client, server_t *server, size_t clientsNb)
 
 static void handle_team_message(client_t *client, char *msg, server_t *server)
 {
-    list_t *teams = server->params->teams;
-    team_t *team = NULL;
-    team_t *found = NULL;
+    team_t *team = get_team_by_name(msg, server->params->teams);
 
-    while (teams != NULL && found == NULL) {
-        team = teams->data;
-        if (strcmp(msg, team->name) == 0)
-            found = team;
-        teams = teams->next;
-    }
-    if (found == NULL || found->clientsNb == 0) {
+    if (team == NULL || team->clientsNb == 0) {
         list_add(&client->output_messages, strdup(MESSAGE_KO));
         return;
     }
-    client->team = found->name;
-    found->clientsNb--;
-    send_welcome(client, server, found->clientsNb);
+    client->team = team->name;
+    team->clientsNb--;
+    send_welcome(client, server, team->clientsNb);
+    if (strcmp(team->name, GUI_TEAM_NAME) != 0)
+        init_player(client, server);
 }
 
 static void handle_message(client_t *client, char *msg)
