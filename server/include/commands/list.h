@@ -28,5 +28,6 @@ static command_t AI_COMMANDS[] = {
     {"Right", right, NULL, NULL, 7, 0},
     {"Left", left, NULL, NULL, 7, 0},
     {"Forward", forward, NULL, NULL, 7, 0},
+    {"Broadcast", broadcast, NULL, NULL, 7, 0},
     {NULL, NULL, NULL, NULL, 0, 0}
 };
