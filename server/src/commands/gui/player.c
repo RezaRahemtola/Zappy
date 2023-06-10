@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "commands/functions.h"
+#include "utils.h"
 
 static size_t get_player_id(list_t *args)
 {
@@ -25,18 +26,6 @@ static size_t get_player_id(list_t *args)
     if (result <= 0)
         return 0;
     return result;
-}
-
-static player_t *get_player_by_id(list_t *clients, size_t id)
-{
-    client_t *client = NULL;
-
-    for (; clients != NULL; clients = clients->next) {
-        client = clients->data;
-        if (client->player != NULL && client->player->id == id)
-            return client->player;
-    }
-    return NULL;
 }
 
 void ppo(list_t *args, client_t *client, server_t *server, char **result)
@@ -75,6 +64,39 @@ void plv(list_t *args, client_t *client, server_t *server, char **result)
             *result = malloc(sizeof(char) * len);
             sprintf(*result, "ppo %ld %ld\n",
                         pl->id, pl->level);
+            return;
+        }
+    }
+    *result = strdup(UNKNOWN_COMMAND_PARAMETER);
+}
+
+static void set_pin_result(char **result, player_t * player, inventory_t *inventory)
+{
+    size_t len =  snprintf(NULL, 0,
+                           "pin %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld\n",
+                           player->id, player->x, player->y, inventory->food,
+                           inventory->linemate, inventory->deraumere,
+                           inventory->sibur, inventory->mendiane,
+                           inventory->phiras, inventory->thystame) + 1;
+
+    *result = malloc(sizeof(char) * len);
+    sprintf(*result, "pin %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld\n",
+                           player->id, player->x, player->y, inventory->food,
+                           inventory->linemate, inventory->deraumere,
+                           inventory->sibur, inventory->mendiane,
+                           inventory->phiras, inventory->thystame);
+}
+
+void pin(list_t *args, client_t *client, server_t *server, char **result)
+{
+    (void)client;
+    player_t *player = NULL;
+    size_t id = get_player_id(args);
+
+    if (id > 0) {
+        player = get_player_by_id(server->clients, id);
+        if (player != NULL) {
+            set_pin_result(result, player, player->inventory);
             return;
         }
     }
