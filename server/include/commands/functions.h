@@ -26,3 +26,4 @@ void connect_nbr(list_t *args, client_t *client, server_t *serv, char **);
 void inventory(list_t *args, client_t *client, server_t *serv, char **result);
 void right(list_t *args, client_t *client, server_t *serv, char **result);
 void left(list_t *args, client_t *client, server_t *serv, char **result);
+void forward(list_t *args, client_t *client, server_t *serv, char **result);
