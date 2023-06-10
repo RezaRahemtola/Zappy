@@ -55,7 +55,7 @@ typedef struct player_s {
     inventory_t *inventory;
     size_t x;
     size_t y;
-    size_t orientation;
+    short orientation;
     size_t level;
 } player_t;
 
