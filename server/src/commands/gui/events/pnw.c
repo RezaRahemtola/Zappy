@@ -38,7 +38,7 @@ void emit_new_player_event(client_t *client, server_t *server)
         return;
     while (clients != NULL) {
         current = clients->data;
-        if (strcmp(current->team, GUI_TEAM_NAME) == 0)
+        if (current->team != NULL && strcmp(current->team, GUI_TEAM_NAME) == 0)
             list_add(&current->output_messages, strdup(content));
         clients = clients->next;
     }
