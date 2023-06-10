@@ -9,25 +9,27 @@
 #include <malloc.h>
 #include <string.h>
 #include "parameters.h"
+#include "commands/events.h"
 #include "commands/functions.h"
 
-static void send_message(server_t *serv, client_t *current, char *message)
+static void send_message(server_t *serv, client_t *current, const char *msg)
 {
     list_t *clients = serv->clients;
     client_t *client = NULL;
     short tile = 42;
-    size_t len = snprintf(NULL, 0, "message %d, %s\n", tile, message) + 1;
+    size_t len = snprintf(NULL, 0, "msg %d, %s\n", tile, msg) + 1;
     char *content = malloc(sizeof(char) * len);
 
     if (content == NULL)
         return;
-    sprintf(content, "message %d, %s\n", tile, message);
+    sprintf(content, "msg %d, %s\n", tile, msg);
     for (; clients != NULL; clients = clients->next) {
         client = clients->data;
         if (strcmp(client->team, GUI_TEAM_NAME) != 0
         && current->player->id != client->player->id)
             list_add(&client->output_messages, strdup(content));
     }
+    emit_broadcast_event(msg, serv, current->player->id);
     free(content);
 }
 
