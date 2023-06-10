@@ -19,5 +19,6 @@ void sgt(list_t *args, client_t *client, server_t *server, char **result);
 void sst(list_t *args, client_t *client, server_t *server, char **result);
 void ppo(list_t *args, client_t *client, server_t *server, char **result);
 void plv(list_t *args, client_t *client, server_t *server, char **result);
+void pin(list_t *args, client_t *client, server_t *server, char **result);
 
 void connect_nbr(list_t *args, client_t *client, server_t *serv, char **);
