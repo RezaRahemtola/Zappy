@@ -38,10 +38,10 @@ void ppo(list_t *args, client_t *client, server_t *server, char **result)
     if (id > 0) {
         pl = get_player_by_id(server->clients, id);
         if (pl != NULL) {
-            len = snprintf(NULL, 0, "ppo %ld %ld %ld %ld\n",
+            len = snprintf(NULL, 0, "ppo %ld %ld %ld %d\n",
                         pl->id, pl->x, pl->y, pl->orientation) + 1;
             *result = malloc(sizeof(char) * len);
-            sprintf(*result, "ppo %ld %ld %ld %ld\n",
+            sprintf(*result, "ppo %ld %ld %ld %d\n",
                         pl->id, pl->x, pl->y, pl->orientation);
             return;
         }
