@@ -17,6 +17,7 @@ static command_t GUI_COMMANDS[] = {
     {"sgt", sgt, NULL, NULL, 0, 0},
     {"sst", sst, NULL, NULL, 0, 0},
     {"ppo", ppo, NULL, NULL, 0, 0},
+    {"plv", plv, NULL, NULL, 0, 0},
     {NULL, NULL, NULL, NULL, 0, 0}
 };
 
