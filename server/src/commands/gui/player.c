@@ -70,21 +70,21 @@ void plv(list_t *args, client_t *client, server_t *server, char **result)
     *result = strdup(UNKNOWN_COMMAND_PARAMETER);
 }
 
-static void set_pin_result(char **result, player_t * player, inventory_t *inventory)
+static void set_pin_result(char **result, player_t * player, inventory_t *inv)
 {
-    size_t len =  snprintf(NULL, 0,
-                           "pin %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld\n",
-                           player->id, player->x, player->y, inventory->food,
-                           inventory->linemate, inventory->deraumere,
-                           inventory->sibur, inventory->mendiane,
-                           inventory->phiras, inventory->thystame) + 1;
+    size_t len = snprintf(NULL, 0,
+                        "pin %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld\n",
+                        player->id, player->x, player->y, inv->food,
+                        inv->linemate, inv->deraumere,
+                        inv->sibur, inv->mendiane,
+                        inv->phiras, inv->thystame) + 1;
 
     *result = malloc(sizeof(char) * len);
     sprintf(*result, "pin %ld %ld %ld %ld %ld %ld %ld %ld %ld %ld\n",
-                           player->id, player->x, player->y, inventory->food,
-                           inventory->linemate, inventory->deraumere,
-                           inventory->sibur, inventory->mendiane,
-                           inventory->phiras, inventory->thystame);
+            player->id, player->x, player->y, inv->food,
+            inv->linemate, inv->deraumere,
+            inv->sibur, inv->mendiane,
+            inv->phiras, inv->thystame);
 }
 
 void pin(list_t *args, client_t *client, server_t *server, char **result)

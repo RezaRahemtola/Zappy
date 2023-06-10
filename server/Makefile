@@ -27,6 +27,7 @@ BASE_SRC	=	server.c \
 				commands/gui/player.c \
 				commands/gui/events/pnw.c \
 				commands/ai/connect_nbr.c \
+				commands/ai/inventory.c \
 				utils/teams.c \
 				utils/player.c \
 				game/player/player.c
