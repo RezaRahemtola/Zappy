@@ -25,6 +25,7 @@ BASE_SRC	=	server.c \
 				commands/gui/sgt.c \
 				commands/gui/sst.c \
 				commands/gui/player.c \
+				commands/gui/tiles.c \
 				commands/gui/events/pnw.c \
 				commands/gui/events/pbc.c \
 				commands/gui/events/resource.c \
