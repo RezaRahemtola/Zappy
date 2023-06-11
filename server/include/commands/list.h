@@ -20,6 +20,7 @@ static command_t GUI_COMMANDS[] = {
     {"plv", plv, NULL, NULL, 0, 0},
     {"pin", pin, NULL, NULL, 0, 0},
     {"bct", bct, NULL, NULL, 0, 0},
+    {"mct", mct, NULL, NULL, 0, 0},
     {NULL, NULL, NULL, NULL, 0, 0}
 };
 
