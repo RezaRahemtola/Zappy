@@ -12,6 +12,7 @@
 #include "network/network.h"
 #include "client.h"
 #include "commands/commands.h"
+#include "game/game.h"
 
 static bool running(bool val)
 {
@@ -34,6 +35,7 @@ static void destroy_server(server_t *server)
         return;
     list_free(server->clients, (free_func)destroy_client);
     free(server->socket);
+    destroy_game(server->game, server->params);
     destroy_params(server->params);
     free(server);
 }
@@ -53,6 +55,7 @@ static server_t *create_server(params_t *params)
     server->clients = NULL;
     server->params = params;
     server->player_nb = 1;
+    server->game = create_game(params);
     return server;
 }
 

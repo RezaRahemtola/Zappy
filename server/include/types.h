@@ -59,6 +59,19 @@ typedef struct player_s {
     size_t level;
 } player_t;
 
+typedef struct egg_s {
+    size_t x;
+    size_t y;
+    char *team;
+} egg_t;
+
+typedef inventory_t tile_t;
+typedef struct game_s {
+    tile_t ***map;
+    list_t *eggs;
+} game_t;
+
+
 // Main
 typedef struct client_s {
     char *team;
@@ -74,6 +87,7 @@ typedef struct server_s {
     list_t *clients;
     params_t *params;
     size_t player_nb;
+    game_t *game;
 } server_t;
 
 
