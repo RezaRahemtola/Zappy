@@ -60,7 +60,7 @@ void handle_command(list_t *args, client_t *client)
 {
     if (list_size(args) < 1)
         return;
-    if (strcmp(client->team, GUI_TEAM_NAME) == 0)
+    if (strcmp(client->team->name, GUI_TEAM_NAME) == 0)
         handle_command_type( GUI_COMMANDS, UNKNOWN_COMMAND_GUI, args, client);
     else
         handle_command_type(AI_COMMANDS, FAILED_COMMAND_AI, args, client);

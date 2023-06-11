@@ -35,7 +35,8 @@ void emit_resource_event(enum RESOURCE_EVENT evt, const char *resource,
     sprintf(content, "%s %ld %d\n", name, id, nb);
     for (; clients != NULL; clients = clients->next) {
         client = clients->data;
-        if (client->team != NULL && strcmp(client->team, GUI_TEAM_NAME) == 0)
+        if (client->team != NULL
+        && strcmp(client->team->name, GUI_TEAM_NAME) == 0)
             list_add(&client->output_messages, strdup(content));
     }
     free(content);

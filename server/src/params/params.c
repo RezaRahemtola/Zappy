@@ -88,7 +88,7 @@ params_t *get_params(int argc, char *const *argv)
             return NULL;
         }
     }
-    set_teams_clients_nb(params);
+    set_teams_eggs(params);
     check_params(params, &error);
     if (error) {
         fprintf(stderr, "Parameter checks failed.\n");

@@ -6,6 +6,8 @@
 */
 
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 #include "server.h"
 
 static void display_usage(void)
@@ -29,6 +31,7 @@ int main(int argc, char *const *argv)
         display_usage();
         return 84;
     }
+    srand(time(NULL));
     launch_server(params);
     return 0;
 }

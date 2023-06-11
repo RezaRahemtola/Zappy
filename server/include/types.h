@@ -26,7 +26,7 @@ typedef struct socket_s {
 
 typedef struct team_s {
     char *name;
-    size_t clientsNb;
+    list_t *eggs;
 } team_t;
 
 typedef struct params_s {
@@ -62,19 +62,18 @@ typedef struct player_s {
 typedef struct egg_s {
     size_t x;
     size_t y;
-    char *team;
+    size_t id;
 } egg_t;
 
 typedef inventory_t tile_t;
 typedef struct game_s {
     tile_t ***map;
-    list_t *eggs;
 } game_t;
 
 
 // Main
 typedef struct client_s {
-    char *team;
+    team_t *team;
     socket_t *socket;
     list_t *output_messages;
     bool disconnected;
@@ -86,7 +85,6 @@ typedef struct server_s {
     socket_t *socket;
     list_t *clients;
     params_t *params;
-    size_t player_nb;
     game_t *game;
 } server_t;
 

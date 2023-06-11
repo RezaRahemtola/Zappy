@@ -25,3 +25,4 @@ free_func free_func);
 size_t list_size(list_t *list);
 void list_free(list_t *list, free_func free_func);
 void list_remove_head(list_t **list, free_func free_func);
+void list_remove_index(list_t **list, size_t index, free_func free_func);
