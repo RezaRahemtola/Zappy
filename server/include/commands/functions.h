@@ -32,3 +32,4 @@ void forward(list_t *args, client_t *client, server_t *serv, char **result);
 void broadcast(list_t *args, client_t *client, server_t *serv, char **result);
 void take_obj(list_t *args, client_t *client, server_t *serv, char **result);
 void set_obj(list_t *args, client_t *client, server_t *serv, char **result);
+void fork_player(list_t *args, client_t *client, server_t *serv, char **result);
