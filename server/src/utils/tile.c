@@ -8,52 +8,61 @@
 #include <string.h>
 #include "types.h"
 
-static bool add_resource_to_tile_helper(tile_t ***map, player_t *player,
+static bool can_add(size_t tile, size_t inv, int nb)
+{
+    if (nb < 0 && (int)tile + nb >= 0)
+        return true;
+    if (nb >= 0 && (int)inv - nb >= 0)
+        return true;
+    return false;
+}
+
+static bool add_resource_to_tile_helper(tile_t ***map, player_t *p,
                                         const char *e, int nb)
 {
-    size_t x = player->x;
-    size_t y = player->y;
-
-    if (strcmp(e, "mendiane") == 0 && (int)map[y][x]->mendiane + nb >= 0) {
-        map[y][x]->mendiane += nb;
-        player->inventory->mendiane -= nb;
+    if (strcmp(e, "mendiane") == 0 && can_add(map[p->y][p->x]->mendiane,
+                                            p->inventory->mendiane, nb)) {
+        map[p->y][p->x]->mendiane += nb;
+        p->inventory->mendiane -= nb;
         return true;
     }
-    if (strcmp(e, "phiras") == 0 && (int)map[y][x]->phiras + nb >= 0) {
-        map[y][x]->phiras += nb;
-        player->inventory->phiras -= nb;
+    if (strcmp(e, "phiras") == 0 && can_add(map[p->y][p->x]->phiras,
+                                            p->inventory->phiras, nb)) {
+        map[p->y][p->x]->phiras += nb;
+        p->inventory->phiras -= nb;
         return true;
     }
-    if (strcmp(e, "thystame") == 0 && (int)map[y][x]->thystame + nb >= 0) {
-        map[y][x]->thystame += nb;
-        player->inventory->thystame -= nb;
+    if (strcmp(e, "thystame") == 0 && can_add(map[p->y][p->x]->thystame,
+                                            p->inventory->thystame, nb)) {
+        map[p->y][p->x]->thystame += nb;
+        p->inventory->thystame -= nb;
         return true;
     }
     return false;
 }
 
-static bool add_resource_to_tile(tile_t ***map, player_t *player,
+static bool add_resource_to_tile(tile_t ***map, player_t *p,
                                 const char *e, int nb)
 {
-    size_t x = player->x;
-    size_t y = player->y;
-
-    if (strcmp(e, "linemate") == 0 && (int)map[y][x]->linemate + nb >= 0) {
-        map[y][x]->linemate += nb;
-        player->inventory->linemate -= nb;
+    if (strcmp(e, "linemate") == 0 && can_add(map[p->y][p->x]->linemate,
+                                            p->inventory->linemate, nb)) {
+        map[p->y][p->x]->linemate += nb;
+        p->inventory->linemate -= nb;
         return true;
     }
-    if (strcmp(e, "deraumere") == 0 && (int)map[y][x]->deraumere + nb >= 0) {
-        map[y][x]->deraumere += nb;
-        player->inventory->deraumere -= nb;
+    if (strcmp(e, "deraumere") == 0 && can_add(map[p->y][p->x]->deraumere,
+                                            p->inventory->deraumere, nb)) {
+        map[p->y][p->x]->deraumere += nb;
+        p->inventory->deraumere -= nb;
         return true;
     }
-    if (strcmp(e, "sibur") == 0 && (int)map[y][x]->sibur + nb >= 0) {
-        map[y][x]->sibur += nb;
-        player->inventory->sibur -= nb;
+    if (strcmp(e, "sibur") == 0 && can_add(map[p->y][p->x]->sibur,
+                                            p->inventory->sibur, nb)) {
+        map[p->y][p->x]->sibur += nb;
+        p->inventory->sibur -= nb;
         return true;
     }
-    return add_resource_to_tile_helper(map, player, e, nb);
+    return add_resource_to_tile_helper(map, p, e, nb);
 }
 
 bool add_elem_to_tile(tile_t ***map, player_t *player, const char *e,
@@ -62,7 +71,8 @@ bool add_elem_to_tile(tile_t ***map, player_t *player, const char *e,
     size_t x = player->x;
     size_t y = player->y;
 
-    if (strcmp(e, "food") == 0 && (int)map[y][x]->food + nb >= 0) {
+    if (strcmp(e, "food") == 0 && can_add(map[y][x]->food,
+                                        player->inventory->food, nb)) {
         map[y][x]->food += nb;
         player->inventory->food -= nb;
         return true;
