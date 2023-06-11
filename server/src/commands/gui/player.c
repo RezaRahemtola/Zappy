@@ -46,7 +46,7 @@ void ppo(list_t *args, client_t *client, server_t *server, char **result)
             return;
         }
     }
-    *result = strdup(UNKNOWN_COMMAND_PARAMETER);
+    *result = strdup(UNKNOWN_COMMAND_PARAMETER_GUI);
 }
 
 void plv(list_t *args, client_t *client, server_t *server, char **result)
@@ -67,7 +67,7 @@ void plv(list_t *args, client_t *client, server_t *server, char **result)
             return;
         }
     }
-    *result = strdup(UNKNOWN_COMMAND_PARAMETER);
+    *result = strdup(UNKNOWN_COMMAND_PARAMETER_GUI);
 }
 
 static void set_pin_result(char **result, player_t * player, inventory_t *inv)
@@ -100,5 +100,5 @@ void pin(list_t *args, client_t *client, server_t *server, char **result)
             return;
         }
     }
-    *result = strdup(UNKNOWN_COMMAND_PARAMETER);
+    *result = strdup(UNKNOWN_COMMAND_PARAMETER_GUI);
 }
