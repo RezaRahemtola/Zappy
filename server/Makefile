@@ -33,7 +33,9 @@ BASE_SRC	=	server.c \
 				commands/ai/broadcast.c \
 				utils/teams.c \
 				utils/player.c \
-				game/player/player.c
+				game/player/player.c \
+				game/map/map.c \
+				game/game.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=
