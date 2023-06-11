@@ -9,6 +9,7 @@
 #include <string.h>
 #include "parameters.h"
 #include "commands/functions.h"
+#include "commands/events.h"
 
 void fork_player(list_t *args, client_t *client, server_t *serv, char **result)
 {
@@ -24,4 +25,5 @@ void fork_player(list_t *args, client_t *client, server_t *serv, char **result)
     }
     list_add(&client->team->eggs, egg);
     *result = message;
+    emit_egg_laying_event(client->player->id, serv);
 }
