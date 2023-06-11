@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include "commands/functions.h"
+#include "commands/events.h"
 #include "parameters.h"
 #include "game/resources.h"
 
@@ -20,17 +20,19 @@ static short get_resource_nb(const char *resource)
     return 0;
 }
 
-void emit_drop_resource_event(const char *resource, server_t *server, size_t id)
+void emit_resource_event(enum RESOURCE_EVENT evt, const char *resource,
+    server_t *server, size_t id)
 {
     list_t *clients = server->clients;
     client_t *client = NULL;
+    char *name = (evt == TAKE) ? "pgt" : "pdr";
     short nb = get_resource_nb(resource);
-    size_t len = snprintf(NULL, 0, "pdr %ld %d\n", id, nb) + 1;
+    size_t len = snprintf(NULL, 0, "%s %ld %d\n", name, id, nb) + 1;
     char *content = malloc(sizeof(char) * len);
 
     if (content == NULL)
         return;
-    sprintf(content, "pdr %ld %d\n", id, nb);
+    sprintf(content, "%s %ld %d\n", name, id, nb);
     for (; clients != NULL; clients = clients->next) {
         client = clients->data;
         if (client->team != NULL && strcmp(client->team, GUI_TEAM_NAME) == 0)
