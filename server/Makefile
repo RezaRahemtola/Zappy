@@ -13,6 +13,7 @@ BASE_SRC	=	server.c \
 				params/params.c \
 				params/setters.c \
 				params/checks.c \
+				params/eggs.c \
 				network/socket.c \
 				network/fd_set.c \
 				network/select.c \

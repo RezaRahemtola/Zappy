@@ -32,16 +32,19 @@ static void send_welcome(client_t *client, server_t *server, size_t clientsNb)
 static void handle_team_message(client_t *client, char *msg, server_t *server)
 {
     team_t *team = get_team_by_name(msg, server->params->teams);
+    size_t size = 0;
 
-    if (team == NULL || team->clientsNb == 0) {
+    if (team == NULL || list_size(team->eggs) == 0) {
         list_add(&client->output_messages, strdup(MESSAGE_KO));
         return;
     }
-    client->team = team->name;
-    team->clientsNb--;
-    send_welcome(client, server, team->clientsNb);
+    size = list_size(team->eggs);
+    client->team = team;
+    send_welcome(client, server, size - 1);
     if (strcmp(team->name, GUI_TEAM_NAME) != 0)
         init_player(client, server);
+    else
+        list_remove_index(&team->eggs, rand() % size, free);
 }
 
 static void handle_message(client_t *client, char *msg)

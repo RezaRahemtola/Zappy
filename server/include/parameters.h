@@ -22,11 +22,12 @@
 // Utils
 params_t *get_params(int argc, char *const *argv);
 void destroy_params(params_t *params);
+egg_t *create_egg(size_t x, size_t y, bool emit_event);
 
 // Setters
 void set_nb_param(size_t *storage, bool *error);
 void set_teams(char *const *argv, params_t *params, bool *error);
-void set_teams_clients_nb(params_t *params);
+void set_teams_eggs(params_t *params);
 
 // Checks
 void check_params(params_t *params, bool *error);

@@ -30,7 +30,7 @@ static team_t *create_team(char *name)
     team->name = strdup(name);
     if (team->name == NULL)
         return NULL;
-    team->clientsNb = 0;
+    team->eggs = NULL;
     return team;
 }
 
@@ -39,6 +39,7 @@ void destroy_team(team_t *team)
     if (team == NULL)
         return;
     free(team->name);
+    list_free(team->eggs, free);
     free(team);
 }
 
@@ -63,14 +64,18 @@ void set_teams(char *const *argv, params_t *params, bool *error)
     }
 }
 
-void set_teams_clients_nb(params_t *params)
+void set_teams_eggs(params_t *params)
 {
     list_t *teams = params->teams;
     team_t *team = NULL;
+    egg_t *egg = NULL;
 
-    while (teams != NULL) {
+    for (; teams != NULL; teams = teams->next) {
         team = teams->data;
-        team->clientsNb = params->clientsNb;
-        teams = teams->next;
+        for (size_t i = 0; i < params->clientsNb; i++) {
+            egg = create_egg(rand() % params->width, rand() % params->height,
+                            false);
+            list_add(&team->eggs, egg);
+        }
     }
 }

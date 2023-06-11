@@ -25,7 +25,8 @@ static void send_message(server_t *serv, client_t *current, const char *msg)
     sprintf(content, "msg %d, %s\n", tile, msg);
     for (; clients != NULL; clients = clients->next) {
         client = clients->data;
-        if (client->team != NULL && strcmp(client->team, GUI_TEAM_NAME) != 0
+        if (client->team != NULL
+        && strcmp(client->team->name, GUI_TEAM_NAME) != 0
         && current->player->id != client->player->id)
             list_add(&client->output_messages, strdup(content));
     }

@@ -6,8 +6,9 @@
 */
 
 #include <string.h>
-#include "types.h"
+#include <stdlib.h>
 #include "client.h"
+#include "parameters.h"
 
 static bool find_by_fd(client_t *current, client_t *sample)
 {
@@ -18,14 +19,18 @@ static void decrement_team(server_t *server, client_t *client)
 {
     list_t *teams = server->params->teams;
     team_t *team = NULL;
+    egg_t *egg = NULL;
+    size_t x = rand() % server->params->width;
+    size_t y = rand() % server->params->height;
 
-    while (teams != NULL) {
+    for (; teams != NULL; teams = teams->next) {
         team = teams->data;
-        if (client->team != NULL && strcmp(client->team, team->name) == 0) {
-            team->clientsNb++;
+        if (client->team != NULL
+        && strcmp(client->team->name, team->name) == 0) {
+            egg = create_egg(x, y, false);
+            list_add(&team->eggs, egg);
             break;
         }
-        teams = teams->next;
     }
 }
 

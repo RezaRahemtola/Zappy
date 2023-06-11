@@ -17,14 +17,14 @@ static char *get_content(client_t *client)
     player_t *pl = client->player;
     size_t len = snprintf(NULL, 0, "pnw #%ld %ld %ld %d %ld %s\n",
                         pl->id, pl->x, pl->y, pl->orientation,
-                        pl->level, client->team) + 1;
+                        pl->level, client->team->name) + 1;
 
     result = malloc(sizeof(char) * len);
     if (result == NULL)
         return NULL;
     sprintf(result, "pnw #%ld %ld %ld %d %ld %s\n",
             pl->id, pl->x, pl->y, pl->orientation,
-            pl->level, client->team);
+            pl->level, client->team->name);
     return result;
 }
 
@@ -38,7 +38,8 @@ void emit_new_player_event(client_t *client, server_t *server)
         return;
     while (clients != NULL) {
         current = clients->data;
-        if (current->team != NULL && strcmp(current->team, GUI_TEAM_NAME) == 0)
+        if (current->team != NULL
+        && strcmp(current->team->name, GUI_TEAM_NAME) == 0)
             list_add(&current->output_messages, strdup(content));
         clients = clients->next;
     }

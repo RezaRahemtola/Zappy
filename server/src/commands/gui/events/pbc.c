@@ -23,7 +23,8 @@ void emit_broadcast_event(const char *message, server_t *server, size_t id)
     sprintf(content, "pbc %ld %s\n", id, message);
     for (; clients != NULL; clients = clients->next) {
         client = clients->data;
-        if (client->team != NULL && strcmp(client->team, GUI_TEAM_NAME) == 0)
+        if (client->team != NULL
+        && strcmp(client->team->name, GUI_TEAM_NAME) == 0)
             list_add(&client->output_messages, strdup(content));
     }
     free(content);

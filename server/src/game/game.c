@@ -22,6 +22,5 @@ game_t *create_game(params_t *params)
     if (game == NULL)
         return NULL;
     game->map = create_map(params->width, params->height);
-    game->eggs = NULL;
     return game;
 }

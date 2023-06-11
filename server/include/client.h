@@ -8,6 +8,7 @@
 #pragma once
 
 #include "my_list.h"
+#include "types.h"
 
 client_t *create_client(int fd, sockaddr_in_t address);
 void destroy_client(client_t *client);

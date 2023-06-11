@@ -54,7 +54,6 @@ static server_t *create_server(params_t *params)
     server->socket = sock;
     server->clients = NULL;
     server->params = params;
-    server->player_nb = 1;
     server->game = create_game(params);
     return server;
 }
