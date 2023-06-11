@@ -21,7 +21,7 @@ static void decrement_team(server_t *server, client_t *client)
 
     while (teams != NULL) {
         team = teams->data;
-        if (strcmp(client->team, team->name) == 0) {
+        if (client->team != NULL && strcmp(client->team, team->name) == 0) {
             team->clientsNb++;
             break;
         }
