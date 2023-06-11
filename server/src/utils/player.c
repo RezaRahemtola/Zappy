@@ -5,6 +5,7 @@
 ** player utils
 */
 
+#include <stddef.h>
 #include "types.h"
 
 player_t *get_player_by_id(list_t *clients, size_t id)
