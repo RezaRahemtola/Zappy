@@ -27,6 +27,7 @@ void take_obj(list_t *args, client_t *client, server_t *serv, char **result)
     if (valid_object(args) && add_elem_to_tile(serv->game->map, client->player,
         args->next->data, -1)) {
         *result = strdup(SUCCESS_COMMAND_AI);
+        emit_resource_event(TAKE, args->next->data, serv, client->player->id);
         return;
     }
     *result = strdup(FAILED_COMMAND_AI);
@@ -37,7 +38,7 @@ void set_obj(list_t *args, client_t *client, server_t *serv, char **result)
     if (valid_object(args) && add_elem_to_tile(serv->game->map, client->player,
         args->next->data, 1)) {
         *result = strdup(SUCCESS_COMMAND_AI);
-        emit_drop_resource_event(args->next->data, serv, client->player->id);
+        emit_resource_event(SET, args->next->data, serv, client->player->id);
         return;
     }
     *result = strdup(FAILED_COMMAND_AI);
