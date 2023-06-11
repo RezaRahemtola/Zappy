@@ -8,7 +8,7 @@
 #pragma once
 
 #include <netinet/in.h>
-#include <time.h>
+#include <sys/time.h>
 #include "my_list.h"
 
 // Network
@@ -93,11 +93,12 @@ typedef struct server_s {
 typedef void (*command_fct)(list_t *args, client_t *client,
     server_t *server, char **result);
 
+typedef struct timeval timeval_t;
 typedef struct command_s {
     const char *name;
     command_fct function;
     list_t *args;
     char *result;
     size_t time;
-    time_t starting_time;
+    timeval_t start;
 } command_t;

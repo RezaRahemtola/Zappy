@@ -30,7 +30,7 @@ static command_t *create_cmd(const command_t *base, list_t *args)
     command->function = base->function;
     command->result = NULL;
     command->time = base->time;
-    command->starting_time = 0;
+    command->start = (struct timeval){0};
     return command;
 }
 
