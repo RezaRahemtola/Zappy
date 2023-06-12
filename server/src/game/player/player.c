@@ -52,6 +52,7 @@ static player_t *create_player(void)
     player->y = 0;
     player->level = 1;
     player->orientation = orientation != 0 ? orientation : 1;
+    gettimeofday(&player->last_eat, NULL);
     return player;
 }
 

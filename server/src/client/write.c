@@ -13,8 +13,6 @@ static void write_to_client(list_t *messages, client_t *client)
 {
     char *message = NULL;
 
-    if (client->disconnected)
-        return;
     while (messages != NULL) {
         message = messages->data;
         dprintf(client->socket->fd, "%s", message);
