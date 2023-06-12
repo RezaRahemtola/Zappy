@@ -50,6 +50,18 @@ typedef struct inventory_s {
     size_t thystame;
 } inventory_t;
 
+enum direction {
+    LEFT,
+    RIGHT,
+    FRONT,
+    BACK
+};
+
+typedef struct mov_s {
+    short orientation;
+    enum direction dir;
+} mov_t;
+
 typedef struct player_s {
     size_t id;
     inventory_t *inventory;

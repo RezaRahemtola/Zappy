@@ -42,6 +42,7 @@ BASE_SRC	=	server.c \
 				utils/player.c \
 				utils/tile.c \
 				utils/strings.c \
+				utils/direction.c \
 				game/player/player.c \
 				game/map/map.c \
 				game/game.c
