@@ -12,5 +12,7 @@
 #define BASE_PLAYER_FOOD 10
 
 void destroy_player(player_t *player);
-
 void init_player(client_t *client, server_t *server);
+
+// Inventory
+inventory_t *create_inventory(size_t base_food);
