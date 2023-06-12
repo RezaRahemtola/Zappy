@@ -6,7 +6,7 @@
 */
 
 #include <string.h>
-#include "types.h"
+#include "utils.h"
 
 static bool can_add(size_t tile, size_t inv, int nb)
 {
@@ -78,4 +78,28 @@ bool add_elem_to_tile(tile_t ***map, player_t *player, const char *e,
         return true;
     }
     return add_resource_to_tile(map, player, e, nb);
+}
+
+char *get_tile_content(size_t x, size_t y, player_t *player, tile_t ***map)
+{
+    char *str = NULL;
+    tile_t *tile = map[y][x];
+
+    if (player->x == x && player->y == y)
+        str = strdup(" player");
+    for (size_t i = 0; i < tile->food; i++)
+        str = new_strcat(str, " food", true, false);
+    for (size_t i = 0; i < tile->linemate; i++)
+        str = new_strcat(str, " linemate", true, false);
+    for (size_t i = 0; i < tile->deraumere; i++)
+        str = new_strcat(str, " deraumere", true, false);
+    for (size_t i = 0; i < tile->sibur; i++)
+        str = new_strcat(str, " sibur", true, false);
+    for (size_t i = 0; i < tile->mendiane; i++)
+        str = new_strcat(str, " mendiane", true, false);
+    for (size_t i = 0; i < tile->phiras; i++)
+        str = new_strcat(str, " phiras", true, false);
+    for (size_t i = 0; i < tile->thystame; i++)
+        str = new_strcat(str, " thystame", true, false);
+    return str;
 }
