@@ -21,6 +21,7 @@ public:
         _displays["Menu"] = std::make_unique<Menu>();
         _displays["Playground"] = std::make_unique<Playground>();
         _currentDisplay = "Menu";
+        _client.sending("GRAPHIC\n");
     }
     ~ZappyGUI() { };
 
@@ -42,6 +43,7 @@ private:
     std::string _currentDisplay;
 
     void pollEvents();
+    void comunicateWithServer();
 };
 
 #endif /*SIMULATION_HPP_*/

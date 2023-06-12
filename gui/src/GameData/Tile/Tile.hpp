@@ -39,6 +39,8 @@ public:
     ~Tile();
 
     void display(sf::RenderWindow &window);
+
+    std::size_t getRessource(Ressource ressource);
     void updateRessource(Ressource ressource, Operation operation, std::size_t value);
 
 private:

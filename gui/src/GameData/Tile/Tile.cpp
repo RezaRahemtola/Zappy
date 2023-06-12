@@ -1,6 +1,9 @@
-//
-// Created by Tomi-Tom on 6/12/23.
-//
+/*
+** EPITECH PROJECT, 2023
+** Zappy Project
+** File description:
+** Tile.cpp
+*/
 
 #include "Tile.hpp"
 
@@ -18,4 +21,8 @@ void Tile::updateRessource(Ressource ressource, Operation operation, std::size_t
         _ressources[ressource] += value;
     else
         _ressources[ressource] -= value;
+}
+
+size_t Tile::getRessource(Ressource ressource) {
+    return _ressources[ressource];
 }

@@ -28,7 +28,5 @@ void Playground::display(sf::RenderWindow &window) {
     window.draw(_ButtonContainer);
     _playButton.display(window);
     _quitButton.display(window);
-    _plusButton.display(window);
-    _minusButton.display(window);
     _pauseButton.display(window);
 }
