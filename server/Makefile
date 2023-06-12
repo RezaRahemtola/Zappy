@@ -37,9 +37,11 @@ BASE_SRC	=	server.c \
 				commands/ai/broadcast.c \
 				commands/ai/objects.c \
 				commands/ai/fork.c \
+				commands/ai/look.c \
 				utils/teams.c \
 				utils/player.c \
 				utils/tile.c \
+				utils/strings.c \
 				game/player/player.c \
 				game/map/map.c \
 				game/game.c
