@@ -6,6 +6,7 @@
 */
 
 #include <stddef.h>
+#include <string.h>
 #include "commands/commands.h"
 #include "utils.h"
 
@@ -19,7 +20,7 @@ static void execute_client_command(client_t *client, server_t *server)
         gettimeofday(&cmd->start, NULL);
         cmd->function(cmd->args, client, server, &cmd->result);
     } else if (check_time(cmd->start, cmd->time, server->params->freq)) {
-        list_add(&client->output_messages, cmd->result);
+        list_add(&client->output_messages, strdup(cmd->result));
         list_remove_head(&client->commands, (free_func)destroy_command);
     }
 }

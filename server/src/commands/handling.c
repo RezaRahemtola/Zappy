@@ -16,6 +16,7 @@ void destroy_command(command_t *command)
     if (command == NULL)
         return;
     list_free(command->args, free);
+    free(command->result);
     free(command);
 }
 

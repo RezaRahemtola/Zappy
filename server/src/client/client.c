@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include "network/network.h"
 #include "game/player.h"
+#include "commands/commands.h"
 
 void destroy_client(client_t *client)
 {
@@ -18,6 +19,7 @@ void destroy_client(client_t *client)
     free(client->socket);
     list_free(client->output_messages, free);
     destroy_player(client->player);
+    list_free(client->commands, (free_func)destroy_command);
     free(client);
 }
 
