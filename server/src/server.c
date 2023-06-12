@@ -74,6 +74,7 @@ void launch_server(params_t *params)
             handle_messages(server, &readfds);
         }
         execute_commands(server);
+        eat_food(server);
         write_to_clients(server->clients, &writefds);
         disconnect_clients(server);
     }

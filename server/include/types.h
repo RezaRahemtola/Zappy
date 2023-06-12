@@ -11,6 +11,9 @@
 #include <sys/time.h>
 #include "my_list.h"
 
+// Time
+typedef struct timeval timeval_t;
+
 // Network
 typedef struct sockaddr_in sockaddr_in_t;
 typedef struct sockaddr sockaddr_t;
@@ -69,6 +72,7 @@ typedef struct player_s {
     size_t y;
     short orientation;
     size_t level;
+    timeval_t last_eat;
 } player_t;
 
 typedef struct egg_s {
@@ -105,7 +109,6 @@ typedef struct server_s {
 typedef void (*command_fct)(list_t *args, client_t *client,
     server_t *server, char **result);
 
-typedef struct timeval timeval_t;
 typedef struct command_s {
     const char *name;
     command_fct function;
