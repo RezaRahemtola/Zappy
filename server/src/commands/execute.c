@@ -7,19 +7,7 @@
 
 #include <stddef.h>
 #include "commands/commands.h"
-
-static bool check_time(timeval_t start, size_t time, size_t freq)
-{
-    timeval_t end;
-    size_t mult = 1000000;
-    uint64_t diff = 0;
-    uint64_t timer = 0;
-
-    gettimeofday(&end, NULL);
-    diff = (end.tv_sec - start.tv_sec) * mult + (end.tv_usec - start.tv_usec);
-    timer = ((float)time / (float)freq) * mult;
-    return diff >= timer;
-}
+#include "utils.h"
 
 static void execute_client_command(client_t *client, server_t *server)
 {

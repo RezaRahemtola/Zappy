@@ -18,13 +18,13 @@ void destroy_player(player_t *player)
     free(player);
 }
 
-static inventory_t *create_player_inventory(void)
+inventory_t *create_inventory(size_t base_food)
 {
     inventory_t *inventory = malloc(sizeof(inventory_t));
 
     if (inventory == NULL)
         return NULL;
-    inventory->food = BASE_PLAYER_FOOD;
+    inventory->food = base_food;
     inventory->deraumere = 0;
     inventory->linemate = 0;
     inventory->mendiane = 0;
@@ -37,7 +37,7 @@ static inventory_t *create_player_inventory(void)
 static player_t *create_player(void)
 {
     player_t *player = malloc(sizeof(player_t));
-    inventory_t *inventory = create_player_inventory();
+    inventory_t *inventory = create_inventory(BASE_PLAYER_FOOD);
     static size_t id = 1;
     short orientation = rand() % 5;
 

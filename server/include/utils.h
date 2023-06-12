@@ -25,3 +25,6 @@ size_t get_y(size_t y, size_t max, mov_t *mov, size_t offset);
 
 // Strings
 char *new_strcat(char *str1, char *str2, bool free1, bool free2);
+
+// Time
+bool check_time(timeval_t start, size_t time, size_t freq);
