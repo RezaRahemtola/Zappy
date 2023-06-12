@@ -13,18 +13,21 @@ char *new_strcat(char *str1, char *str2, bool free1, bool free2)
 {
     size_t len1 = (str1 == NULL) ? 0 : strlen(str1);
     size_t len2 = (str2 == NULL) ? 0 : strlen(str2);
-    size_t len = len1 + len2;
     char *new = NULL;
 
-    if (len == 0)
+    if (len1 + len2 == 0)
         return NULL;
-    new = malloc(sizeof(char) * (len + 1));
-    if (new == NULL)
-        return NULL;
-    strcpy(new, str1);
+    new = malloc(sizeof(char) * (len1 + len2 + 1));
+    if (str2 == NULL)
+        strcpy(new, str1);
+    else if (str1 == NULL)
+        strcpy(new, str2);
+    else {
+        strcpy(new, str1);
+        strcat(new, str2);
+    }
     if (free1)
         free(str1);
-    strcat(new, str2);
     if (free2)
         free(str2);
     return new;
