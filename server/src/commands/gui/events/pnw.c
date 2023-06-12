@@ -9,7 +9,6 @@
 #include <malloc.h>
 #include <string.h>
 #include "parameters.h"
-#include "types.h"
 
 static char *get_content(client_t *client)
 {
@@ -36,12 +35,11 @@ void emit_new_player_event(client_t *client, server_t *server)
 
     if (content == NULL)
         return;
-    while (clients != NULL) {
+    for (; clients != NULL; clients = clients->next) {
         current = clients->data;
         if (current->team != NULL
         && strcmp(current->team->name, GUI_TEAM_NAME) == 0)
             list_add(&current->output_messages, strdup(content));
-        clients = clients->next;
     }
     free(content);
 }
