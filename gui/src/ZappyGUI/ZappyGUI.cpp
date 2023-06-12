@@ -18,13 +18,13 @@ void ZappyGUI::pollEvents() {
 }
 
 void ZappyGUI::run() {
-    std::string data;
-    _client.sending("GRAPHIC\n");
+    //std::string data;
+    //_client.sending("GRAPHIC\n");
 
     while (_window.isOpen()) {
-        _client.sending("msz\n");
-        _client.receive(data);
-        std::cout << "Data Received : " << data;
+        //_client.sending("mct\n");
+        //_client.receive(data);
+        //std::cout << "Data Received mct : " << data;
         pollEvents();
         _window.clear();
         if (_currentDisplay != "Quit")

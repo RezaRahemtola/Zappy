@@ -28,6 +28,9 @@ add_executable(zappy_gui
         src/Components/TextInput/TextInput.cpp
         src/Components/Checkbox/Checkbox.cpp
         src/Components/Image/Image.cpp
+        ## GameData
+        src/GameData/GameData.cpp
+        src/GameData/Tile/Tile.cpp
         ## Utils
         src/Utils/ErrorHandling.cpp
         src/Utils/Help.cpp

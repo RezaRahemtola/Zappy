@@ -1,14 +1,25 @@
-//
-// Created by Tomi-Tom on 6/12/23.
-//
+/*
+** EPITECH PROJECT, 2023
+** Zappy Project
+** File description:
+** GameData.hpp
+*/
+#ifndef GAMEDATA_HPP_
+	#define GAMEDATA_HPP_
 
-#ifndef ZAPPY_PROJECT_GAMEDATA_HPP
-#define ZAPPY_PROJECT_GAMEDATA_HPP
+#include <vector>
+#include "Tile/Tile.hpp"
 
+class GameData{
+public:
+    GameData();
+    ~GameData();
 
-class GameData {
+private:
+    std::size_t _width;
+    std::size_t _height;
+    std::vector<std::vector<Tile>> _tiles;
 
 };
 
-
-#endif //ZAPPY_PROJECT_GAMEDATA_HPP
+#endif /*GAMEDATA_HPP_*/
