@@ -28,6 +28,7 @@ std::string Playground::run(sf::RenderWindow &window) {
 void Playground::display(sf::RenderWindow &window) {
     window.draw(_background);
     window.draw(_ButtonContainer);
+    _gameData.display(window);
     _playButton.display(window);
     _quitButton.display(window);
     _pauseButton.display(window);
@@ -42,7 +43,6 @@ void Playground::comunicateWithServer() {
     _client.sending("msz\n");
     _client.sending("mct\n");
     _client.sending("tna\n");
-    sleep(1);
     _client.receive(data2);
     _buffer += data2;
 }

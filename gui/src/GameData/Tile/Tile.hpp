@@ -27,12 +27,13 @@ enum class Ressource {
 
 class Tile {
 public:
-    Tile(int x, int y, int size) : _position(sf::Vector2f(x, y)), _size(sf::Vector2f(size, size)) {
-        _ressources[Ressource::FOOD] = 0;
+    Tile(int x, int y, int size) : _position(sf::Vector2f(x +500, y+10)), _size(sf::Vector2f(size, size)) {
+        _font.loadFromFile("assets/fonts/arial.ttf");
+        _ressources[Ressource::FOOD] = 1;
         _ressources[Ressource::LINEMATE] = 0;
-        _ressources[Ressource::DERAUMERE] = 0;
+        _ressources[Ressource::DERAUMERE] = 2;
         _ressources[Ressource::SIBUR] = 0;
-        _ressources[Ressource::MENDIANE] = 0;
+        _ressources[Ressource::MENDIANE] = 3;
         _ressources[Ressource::PHIRAS] = 0;
         _ressources[Ressource::THYSTAME] = 0;
     }
@@ -52,7 +53,9 @@ private:
 
     // content
     std::unordered_map<Ressource, int> _ressources;
+    sf::Font _font;
 
+    void dislpayRessources(sf::RenderWindow &window);
 };
 
 #endif /*TILE_HPP_*/

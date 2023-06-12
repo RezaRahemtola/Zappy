@@ -21,7 +21,7 @@ public:
         for (std::size_t i = 0; i < _height; i++) {
             std::vector<Tile> line;
             for (std::size_t j = 0; j < _width; j++) {
-                line.push_back(Tile(j * 100, i * 100, 100));
+                line.push_back(Tile(j * 90, i * 90, 90));
             }
             _tiles.push_back(line);
         }
