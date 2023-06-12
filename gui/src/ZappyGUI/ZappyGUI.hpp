@@ -16,25 +16,16 @@
 
 class ZappyGUI {
 public:
-    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1020), "Zappy"),
-    _machine(machine), _port(port), _client(ClientGUI(_machine, _port)) {
+    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1020), "Zappy") {
         _displays["Menu"] = std::make_unique<Menu>();
-        _displays["Playground"] = std::make_unique<Playground>();
+        _displays["Playground"] = std::make_unique<Playground>(machine, port);
         _currentDisplay = "Menu";
-        _client.sending("GRAPHIC\n");
     }
     ~ZappyGUI() { };
-
-    void setPort(int port) { _port = port; }
-    void setMachine(std::string machine) { _machine = machine; }
 
     void run();
 
 private:
-    // Network
-    int _port;
-    std::string _machine;
-    ClientGUI _client;
 
     // Graphical
     sf::RenderWindow _window;
@@ -43,7 +34,6 @@ private:
     std::string _currentDisplay;
 
     void pollEvents();
-    void comunicateWithServer();
 };
 
 #endif /*SIMULATION_HPP_*/

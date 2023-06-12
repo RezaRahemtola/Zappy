@@ -36,7 +36,7 @@ public:
         _ressources[Ressource::PHIRAS] = 0;
         _ressources[Ressource::THYSTAME] = 0;
     }
-    ~Tile();
+    ~Tile() = default;
 
     void display(sf::RenderWindow &window);
 

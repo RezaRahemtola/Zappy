@@ -12,6 +12,8 @@ include_directories(src/Scenes/Menu)
 include_directories(src/Scenes/Playground)
 include_directories(src/Components/Button)
 include_directories(src/ClientGUI)
+include_directories(src/GameData)
+include_directories(src/GameData/Tile)
 
 add_executable(zappy_gui
         src/Main.cpp

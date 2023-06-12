@@ -8,7 +8,9 @@
 	#define GAMEDATA_HPP_
 
 #include <vector>
-#include "Tile/Tile.hpp"
+#include "Tile.hpp"
+
+void tokenize(std::string const &str, const char delim, std::vector<std::string> &out);
 
 class GameData{
 public:
@@ -23,8 +25,8 @@ public:
             }
             _tiles.push_back(line);
         }
-    }
-    ~GameData();
+    };
+    ~GameData() = default;
 
     void display(sf::RenderWindow &window);
 

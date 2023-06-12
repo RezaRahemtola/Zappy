@@ -20,21 +20,10 @@ void ZappyGUI::pollEvents() {
 void ZappyGUI::run() {
 
     while (_window.isOpen()) {
-        comunicateWithServer();
         pollEvents();
         _window.clear();
         if (_currentDisplay != "Quit")
             _currentDisplay = _displays[_currentDisplay]->run(_window);
         _window.display();
     }
-}
-
-void ZappyGUI::comunicateWithServer() {
-    static std::string buffer;
-    std::string data;
-
-    _client.sending("msz\n");
-    _client.sending("mct\n");
-    _client.sending("tna\n");
-    _client.receive(data);
 }
