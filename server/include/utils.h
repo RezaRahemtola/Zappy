@@ -28,3 +28,6 @@ char *new_strcat(char *str1, char *str2, bool free1, bool free2);
 
 // Time
 bool check_time(timeval_t start, size_t time, size_t freq);
+
+// Random function
+size_t rand_between_range(size_t lowest, size_t higher);
