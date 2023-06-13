@@ -24,6 +24,7 @@ enum class Request {
 class ClientGUI {
 	public:
         ClientGUI(std::string &machine, int port) {
+            std::string data;
             std::cout << "On va se connecter à [" << machine << ":" << port << "]" << std::endl;
             // Création du socket
             _sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -52,6 +53,9 @@ class ClientGUI {
             // Passage en mode non bloquant
             int flags = fcntl(_sockfd, F_GETFL, 0);
             fcntl(_sockfd, F_SETFL, flags | O_NONBLOCK);
+            sending("GRAPHIC\n");
+            receive(data);
+            std::cout << "Server said: " << data << std::endl;
         }
 		~ClientGUI() {
             if (_sockfd != -1) {
@@ -63,8 +67,12 @@ class ClientGUI {
     bool sending(const std::string& message);
     bool receive(std::string& receivedData);
 
+    std::pair<std::size_t, std::size_t> msz();
+
 	private:
         int _sockfd;
+
+        std::string _buffer;
 };
 
 #endif /*CLIENTGUI_HPP_*/

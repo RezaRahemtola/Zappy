@@ -9,11 +9,11 @@
 
 #include <vector>
 #include "Tile.hpp"
-
-void tokenize(std::string const &str, const char delim, std::vector<std::string> &out);
+#include "Tokenize.hpp"
 
 class GameData{
 public:
+    GameData() = default;
     GameData(std::size_t width, std::size_t height) {
         _width = width;
         _height = height;

@@ -37,6 +37,7 @@ add_executable(zappy_gui
         src/Utils/ErrorHandling.cpp
         src/Utils/Help.cpp
         src/Utils/GetArgs.cpp
+        src/Tokenize.cpp
         )
 
 if (WIN32)
