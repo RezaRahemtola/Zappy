@@ -62,6 +62,7 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
+    std::string newBuffer;
 
     receive(data);
     tokenize(data, '\n', tokens);
@@ -69,8 +70,11 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 3 && line_tokens[0] == "msz") {
             return std::make_pair(std::stoi(line_tokens[1]), std::stoi(line_tokens[2]));
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return std::make_pair(0, 0);
 }
 
@@ -81,6 +85,7 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::size_t> res = {};
+    std::string newBuffer;
 
     receive(data);
     tokenize(data, '\n', tokens);
@@ -90,8 +95,11 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
             for (int i = 3; i < 10; i++)
                 res.push_back(std::stoi(line_tokens[i]));
             return res;
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return res;
 }
 
@@ -102,6 +110,7 @@ std::vector<std::vector<std::size_t>> ClientGUI::mct() {
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::vector<std::size_t>> res = {};
+    std::string newBuffer;
 
     receive(data);
     tokenize(data, '\n', tokens);
@@ -113,8 +122,11 @@ std::vector<std::vector<std::size_t>> ClientGUI::mct() {
             for (int i = 3; i < 10; i++)
                 tmp.push_back(std::stoi(line_tokens[i]));
             res.push_back(tmp);
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return res;
 }
 
@@ -125,6 +137,7 @@ std::vector<std::string> ClientGUI::tna() {
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::string> res = {};
+    std::string newBuffer;
 
     receive(data);
     tokenize(data, '\n', tokens);
@@ -132,8 +145,11 @@ std::vector<std::string> ClientGUI::tna() {
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 2 && line_tokens[0] == "tna") {
             res.push_back(line_tokens[1]);
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return res;
 }
 
@@ -142,6 +158,7 @@ std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
+    std::string newBuffer;
 
     sending("ppo\n");
     receive(data);
@@ -150,8 +167,11 @@ std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 5 && line_tokens[0] == "ppo") {
             return std::make_pair(std::stoi(line_tokens[2]), std::stoi(line_tokens[3]));
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return std::make_pair(0, 0);
 }
 
@@ -160,6 +180,7 @@ size_t ClientGUI::plv(){
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
+    std::string newBuffer;
 
     sending("plv\n");
     receive(data);
@@ -168,8 +189,11 @@ size_t ClientGUI::plv(){
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 4 && line_tokens[0] == "plv") {
             return std::stoi(line_tokens[2]);
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return 0;
 }
 
@@ -180,6 +204,7 @@ std::vector<std::size_t> ClientGUI::pin() {
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::size_t> res = {};
+    std::string newBuffer;
 
     receive(data);
     tokenize(data, '\n', tokens);
@@ -189,7 +214,10 @@ std::vector<std::size_t> ClientGUI::pin() {
             for (int i = 4; i < 10; i++)
                 res.push_back(std::stoi(line_tokens[i]));
             return res;
+        } else {
+            newBuffer += token;
         }
     }
+    _buffer = newBuffer;
     return res;
 }
