@@ -35,5 +35,6 @@ static command_t AI_COMMANDS[] = {
     {"Set", set_obj, NULL, NULL, 7, {0}},
     {"Fork", fork_player, NULL, NULL, 42, {0}},
     {"Look", look, NULL, NULL, 7, {0}},
+    {"Eject", eject, NULL, NULL, 7, {0}},
     {NULL, NULL, NULL, NULL, 0, {0}}
 };
