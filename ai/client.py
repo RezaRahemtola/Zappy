@@ -1,4 +1,3 @@
-import os
 import socket
 import time
 from typing import Tuple, List
@@ -42,8 +41,5 @@ class Client:
             sent += current_sent
         self.last_send_time = time.time()
 
-    def receive_lines(self, timeout: float or None, read_size: int = 2048) -> List[str]:
-        self.socket.settimeout(timeout)
-        result = self.socket.recv(read_size, os.O_NONBLOCK).decode('utf8').strip().split('\n')
-        self.socket.settimeout(None)
-        return result
+    def receive_lines(self, read_size: int = 2048) -> List[str]:
+        return self.socket.recv(read_size).decode('utf8').strip().split('\n')

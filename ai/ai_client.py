@@ -1,34 +1,52 @@
 import re
+from queue import Queue
 from typing import List, Tuple
 
 from client import Client
 
 SERVER_BANNER = 'WELCOME'
+DEFAULT_INVENTORY = {
+    'food': 7,
+    'linemate': 0,
+    'deraumere': 0,
+    'sibur': 0,
+    'mendiane': 0,
+    'phiras': 0,
+    'thystame': 0
+}
+INCANTATION_REQUIREMENTS = [
+    {'players': 1, 'linemate': 1, 'deraumere': 0, 'sibur': 0, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
+    {'players': 2, 'linemate': 1, 'deraumere': 1, 'sibur': 1, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
+    {'players': 2, 'linemate': 2, 'deraumere': 0, 'sibur': 1, 'mendiane': 0, 'phiras': 2, 'thystame': 0},
+    {'players': 4, 'linemate': 1, 'deraumere': 1, 'sibur': 2, 'mendiane': 0, 'phiras': 1, 'thystame': 0},
+    {'players': 4, 'linemate': 1, 'deraumere': 2, 'sibur': 1, 'mendiane': 3, 'phiras': 0, 'thystame': 0},
+    {'players': 6, 'linemate': 1, 'deraumere': 2, 'sibur': 3, 'mendiane': 0, 'phiras': 1, 'thystame': 0},
+    {'players': 6, 'linemate': 2, 'deraumere': 2, 'sibur': 2, 'mendiane': 2, 'phiras': 2, 'thystame': 1}
+]
 
 
 class AICommand:
-    def __init__(self, call_id: str, response_format: List[re.Pattern], time_limit: int or None) -> None:
+    def __init__(self, call_id: str, response_format: List[re.Pattern]) -> None:
         self.call_id = call_id
         self.response_format = response_format
-        self.time_limit = time_limit
 
 
 COMMANDS = {
-    'forward': AICommand('Forward', [r'ok'], 7),
-    'right': AICommand('Right', [r'ok'], 7),
-    'left': AICommand('Left', [r'ok'], 7),
+    'forward': AICommand('Forward', [r'ok']),
+    'right': AICommand('Right', [r'ok']),
+    'left': AICommand('Left', [r'ok']),
 
-    'look': AICommand('Look', [r'\[ .+(, .+)* \]'], 7),
-    'inventory': AICommand('Inventory', [r'\[ \w+ [1-9]\d*(, \w+ [1-9]\d*)* \]'], 1),
-    'broadcast': AICommand('Broadcast', [r'ok'], 7),
+    'look': AICommand('Look', [r'\[ .+(, .+)* \]']),
+    'inventory': AICommand('Inventory', [r'\[ \w+ [1-9]\d*(, \w+ [1-9]\d*)* \]']),
+    'broadcast': AICommand('Broadcast', [r'ok']),
 
-    'connect_nbr': AICommand('Connect_nbr', [r'[1-9]\d*'], None),
-    'fork': AICommand('Fork', [r'ok'], 42),
-    'eject': AICommand('Eject', [r'(ok|ko)'], 7),
+    'connect_nbr': AICommand('Connect_nbr', [r'[1-9]\d*']),
+    'fork': AICommand('Fork', [r'ok']),
+    'eject': AICommand('Eject', [r'(ok|ko)']),
 
-    'take': AICommand('Take', [r'(ok|ko)'], 7),
-    'set': AICommand('Set', [r'(ok|ko)'], 7),
-    'incantation': AICommand('Incantation', [r'(Elevation underway|ko)', r'Current level: [1-8]'], 300)
+    'take': AICommand('Take', [r'(ok|ko)']),
+    'set': AICommand('Set', [r'(ok|ko)']),
+    'incantation': AICommand('Incantation', [r'(Elevation underway|ko)', r'Current level: [1-8]'])
 }
 
 
@@ -39,13 +57,17 @@ class AIClient(Client):
         self.team_available_slots = 0
         self.position = None
         self.time_unit = time_unit
+        self.broadcast_messages = Queue()
+        self.received_ejects = Queue()
+        self.inventory = DEFAULT_INVENTORY
+        self.elevation = 1
 
     def start_handshake(self):
-        if SERVER_BANNER not in self.receive_lines(None):
+        if SERVER_BANNER not in self.receive_lines():
             raise RuntimeError('Can\'t find server banner.')
 
         self.send_line(self.team_name)
-        response = self.receive_lines(None)
+        response = self.receive_lines()
 
         if len(response) != 2 or not re.match(r'\d+', response[0]):
             raise RuntimeError('Invalid server response: bad handshake response format.')
@@ -64,7 +86,7 @@ class AIClient(Client):
     def execute_command(self, command: AICommand, arguments: List[str] = []) -> List[str]:
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
-        response = self.receive_lines(None)
+        response = self.receive_lines()
 
         actual_lines, expected_lines = len(response), len(command.response_format)
 
