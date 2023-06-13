@@ -113,3 +113,32 @@ std::vector<std::vector<std::size_t>> ClientGUI::mct() {
     }
     return res;
 }
+
+std::vector<std::string> ClientGUI::tna() {
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
+    std::vector<std::string> res = {};
+
+    sending("tna\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 2 && line_tokens[0] == "tna") {
+            res.push_back(line_tokens[1]);
+        }
+    }
+    return res;
+}
+
+std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
+    
+}
+
+size_t ClientGUI::plv(){
+
+}
+std::vector<std::size_t> ClientGUI::pin() {
+
+}

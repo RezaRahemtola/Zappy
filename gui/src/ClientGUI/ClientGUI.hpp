@@ -66,6 +66,11 @@ class ClientGUI {
     std::pair<std::size_t, std::size_t> msz();
     std::vector<std::size_t> bct(std::size_t x, std::size_t y);
     std::vector<std::vector<std::size_t>> mct();
+    std::vector<std::string> tna();
+    std::pair<std::size_t, std::size_t> ppo();
+    size_t plv();
+    std::vector<std::size_t> pin();
+
 
 	private:
         int _sockfd;
