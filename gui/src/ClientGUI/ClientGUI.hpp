@@ -23,7 +23,7 @@ enum class Request {
 
 class ClientGUI {
 	public:
-        ClientGUI(std::string &machine, int port) {
+        ClientGUI(std::string &machine, int port) : _sockfd(-1), _buffer("") {
             std::string data;
             std::cout << "On va se connecter à [" << machine << ":" << port << "]" << std::endl;
             // Création du socket
