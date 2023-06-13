@@ -4,6 +4,7 @@
 ** File description:
 ** Slider.hpp
 */
+
 #ifndef SLIDER_HPP_
 	#define SLIDER_HPP_
 

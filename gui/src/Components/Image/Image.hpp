@@ -4,6 +4,7 @@
 ** File description:
 ** Image.hpp
 */
+
 #ifndef IMAGE_HPP_
 	#define IMAGE_HPP_
 

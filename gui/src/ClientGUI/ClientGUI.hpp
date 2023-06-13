@@ -5,7 +5,6 @@
 ** ClientGUI.hpp
 */
 
-
 #ifndef CLIENTGUI_HPP_
 	#define CLIENTGUI_HPP_
 

@@ -4,6 +4,7 @@
 ** File description:
 ** ZappyGUI.hpp
 */
+
 #ifndef SIMULATION_HPP_
 	#define SIMULATION_HPP_
 
@@ -15,25 +16,23 @@
     #include "Playground.hpp"
 
 class ZappyGUI {
-public:
-    ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1020), "Zappy") {
-        _displays["Menu"] = std::make_unique<Menu>();
-        _displays["Playground"] = std::make_unique<Playground>(machine, port);
-        _currentDisplay = "Playground";
-    }
-    ~ZappyGUI() { };
+    public:
+        ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1020), "Zappy") {
+            _displays["Menu"] = std::make_unique<Menu>();
+            _displays["Playground"] = std::make_unique<Playground>(machine, port);
+            _currentDisplay = "Playground";
+        }
+        ~ZappyGUI() { };
 
-    void run();
+        void run();
 
-private:
+    private:
+        sf::RenderWindow _window;
+        sf::Event _event;
+        std::unordered_map<std::string, std::unique_ptr<IDisplay>> _displays;
+        std::string _currentDisplay;
 
-    // Graphical
-    sf::RenderWindow _window;
-    sf::Event _event;
-    std::unordered_map<std::string, std::unique_ptr<IDisplay>> _displays;
-    std::string _currentDisplay;
-
-    void pollEvents();
+        void pollEvents();
 };
 
 #endif /*SIMULATION_HPP_*/

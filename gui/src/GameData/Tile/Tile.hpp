@@ -4,6 +4,7 @@
 ** File description:
 ** Tile.hpp
 */
+
 #ifndef TILE_HPP_
 #define TILE_HPP_
 
@@ -26,36 +27,36 @@ enum class Ressource {
 };
 
 class Tile {
-public:
-    Tile(int x, int y, int size) : _position(sf::Vector2f(x +500, y+10)), _size(sf::Vector2f(size, size)) {
-        _font.loadFromFile("assets/fonts/arial.ttf");
-        _ressources[Ressource::FOOD] = 1;
-        _ressources[Ressource::LINEMATE] = 0;
-        _ressources[Ressource::DERAUMERE] = 2;
-        _ressources[Ressource::SIBUR] = 0;
-        _ressources[Ressource::MENDIANE] = 3;
-        _ressources[Ressource::PHIRAS] = 0;
-        _ressources[Ressource::THYSTAME] = 0;
-    }
-    ~Tile() = default;
+    public:
+        Tile(int x, int y, int size) : _position(sf::Vector2f(x +500, y+10)), _size(sf::Vector2f(size, size)) {
+            _font.loadFromFile("assets/fonts/arial.ttf");
+            _ressources[Ressource::FOOD] = 1;
+            _ressources[Ressource::LINEMATE] = 0;
+            _ressources[Ressource::DERAUMERE] = 2;
+            _ressources[Ressource::SIBUR] = 0;
+            _ressources[Ressource::MENDIANE] = 3;
+            _ressources[Ressource::PHIRAS] = 0;
+            _ressources[Ressource::THYSTAME] = 0;
+        }
+        ~Tile() = default;
 
-    void display(sf::RenderWindow &window);
+        void display(sf::RenderWindow &window);
 
-    std::size_t getRessource(Ressource ressource);
-    void updateRessource(Ressource ressource, Operation operation, std::size_t value);
+        std::size_t getRessource(Ressource ressource);
+        void updateRessource(Ressource ressource, Operation operation, std::size_t value);
 
-private:
-    // information
-    sf::Vector2f _position;
-    sf::Vector2f _size;
-    sf::Color _color;
-    sf::Color _borderColor;
+    private:
+        // Information
+        sf::Vector2f _position;
+        sf::Vector2f _size;
+        sf::Color _color;
+        sf::Color _borderColor;
 
-    // content
-    std::unordered_map<Ressource, int> _ressources;
-    sf::Font _font;
+        // Content
+        std::unordered_map<Ressource, int> _ressources;
+        sf::Font _font;
 
-    void dislpayRessources(sf::RenderWindow &window);
+        void dislpayRessources(sf::RenderWindow &window);
 };
 
 #endif /*TILE_HPP_*/
