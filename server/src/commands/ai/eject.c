@@ -67,7 +67,6 @@ static void eject_player(client_t *curr, short orientation, server_t *serv)
     curr->player->y = get_y(curr->player->y, serv->params->height,
                             &(mov_t){orientation, FRONT}, 1);
     list_add(&curr->output_messages, msg);
-    emit_eject_player_event(curr, serv);
 }
 
 void eject(list_t *args, client_t *client, server_t *serv, char **result)
@@ -86,4 +85,6 @@ void eject(list_t *args, client_t *client, server_t *serv, char **result)
     }
     remove_eggs(serv->params->teams, client->player->x, client->player->y);
     *result = ejected ? strdup(SUCCESS_COMMAND_AI) : strdup(FAILED_COMMAND_AI);
+    if (ejected)
+        emit_eject_player_event(client, serv);
 }
