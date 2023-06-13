@@ -18,6 +18,26 @@ void destroy_game(game_t *game, params_t *params)
     free(game);
 }
 
+void print_map(tile_t ***map, size_t width, size_t height)
+{
+    printf("\n\nINNNNNNNNNNNNNNNNNN\n\n");
+    for (size_t i = 0; i < height; i++) {
+        for (size_t j = 0; j < width; j++) {
+            printf("---------------------------------------------\n");
+            printf("map[%lu][%lu]\n", i, j);
+            printf("food = %lu\n", map[i][j]->food);
+            printf("linemate = %lu\n", map[i][j]->linemate);
+            printf("deraumere = %lu\n", map[i][j]->deraumere);
+            printf("sibur = %lu\n", map[i][j]->sibur);
+            printf("mendiane = %lu\n", map[i][j]->mendiane);
+            printf("phiras = %lu\n", map[i][j]->phiras);
+            printf("thystame = %lu\n", map[i][j]->thystame);
+            printf("---------------------------------------------\n");
+        }
+    }
+    printf("\n\nOUUUUUUUUUT\n\n");
+}
+
 game_t *create_game(params_t *params)
 {
     game_t *game = malloc(sizeof(game_t));
@@ -25,6 +45,7 @@ game_t *create_game(params_t *params)
     if (game == NULL)
         return NULL;
     game->map = create_map(params->width, params->height);
+    game->map = fill_map(game->map, params->width, params->height);
     return game;
 }
 

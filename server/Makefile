@@ -45,10 +45,14 @@ BASE_SRC	=	server.c \
 				utils/player.c \
 				utils/tile.c \
 				utils/strings.c \
+				utils/random.c \
 				utils/direction.c \
 				utils/time.c \
 				game/player/player.c \
 				game/map/map.c \
+				game/map/refill_map.c \
+				game/map/refill_tile.c \
+				game/map/future_resource.c \
 				game/game.c
 
 TESTS_DIR	=	tests
