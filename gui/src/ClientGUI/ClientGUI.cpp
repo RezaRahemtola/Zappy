@@ -150,9 +150,22 @@ std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
 }
 
 size_t ClientGUI::plv(){
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
 
+    sending("plv\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 4 && line_tokens[0] == "plv") {
+            return std::stoi(line_tokens[2]);
+        }
+    }
+    return 0;
 }
 
 std::vector<std::size_t> ClientGUI::pin() {
-
+    
 }
