@@ -84,8 +84,8 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
         tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 9 && line_tokens[0] == "bct") {
-            for (int i = 1; i < 7; i++)
+        if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
+            for (int i = 4; i < 10; i++)
                 res.push_back(std::stoi(line_tokens[i]));
             return res;
         }
@@ -106,7 +106,7 @@ std::vector<std::vector<std::size_t>> ClientGUI::mct() {
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
             std::vector<std::size_t> tmp = {};
-            for (int i = 1; i < 7; i++)
+            for (int i = 4; i < 10; i++)
                 tmp.push_back(std::stoi(line_tokens[i]));
             res.push_back(tmp);
         }
@@ -167,5 +167,21 @@ size_t ClientGUI::plv(){
 }
 
 std::vector<std::size_t> ClientGUI::pin() {
-    
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
+    std::vector<std::size_t> res = {};
+
+    sending("pin\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 11 && line_tokens[0] == "pin") {
+            for (int i = 4; i < 10; i++)
+                res.push_back(std::stoi(line_tokens[i]));
+            return res;
+        }
+    }
+    return res;
 }
