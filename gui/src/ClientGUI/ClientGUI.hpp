@@ -17,10 +17,6 @@
     #include <sys/time.h>
     #include <fcntl.h>
 
-enum class Request {
-
-};
-
 class ClientGUI {
 	public:
         ClientGUI(std::string &machine, int port) : _sockfd(-1), _buffer("") {
@@ -68,6 +64,7 @@ class ClientGUI {
     bool receive(std::string& receivedData);
 
     std::pair<std::size_t, std::size_t> msz();
+    std::vector<std::size_t> bct(std::size_t x, std::size_t y);
 
 	private:
         int _sockfd;

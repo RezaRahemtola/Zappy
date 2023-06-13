@@ -72,3 +72,23 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
     }
     return std::make_pair(0, 0);
 }
+
+std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
+    std::vector<std::size_t> res = {};
+
+    sending("bct " + std::to_string(x) + " " + std::to_string(y) + "\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 9 && line_tokens[0] == "bct") {
+            for (int i = 1; i < 7; i++)
+                res.push_back(std::stoi(line_tokens[i]));
+            return res;
+        }
+    }
+    return res;
+}
