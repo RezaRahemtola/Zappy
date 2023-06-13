@@ -133,12 +133,26 @@ std::vector<std::string> ClientGUI::tna() {
 }
 
 std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
-    
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
+
+    sending("ppo\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 5 && line_tokens[0] == "ppo") {
+            return std::make_pair(std::stoi(line_tokens[2]), std::stoi(line_tokens[3]));
+        }
+    }
+    return std::make_pair(0, 0);
 }
 
 size_t ClientGUI::plv(){
 
 }
+
 std::vector<std::size_t> ClientGUI::pin() {
 
 }
