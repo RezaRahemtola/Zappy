@@ -15,6 +15,14 @@ std::string Playground::run(sf::RenderWindow &window) {
     // run simulation
     handlePause();
     if (!_pause) {
+        std::vector<std::vector<std::size_t>> map = _client.mct();
+        for (std::size_t i = 0; i < map.size(); i++) {
+            std::cout << "tile " << i % 10 << " " << i / 10 << " : ";
+            for (std::size_t j = 0; j < map[i].size(); j++) {
+                std::cout << map[i][j] << " ";
+            }
+            std::cout << std::endl;
+        }
         // mettre a jour les choses hors pause
     }
     display(window);

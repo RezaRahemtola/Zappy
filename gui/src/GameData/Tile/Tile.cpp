@@ -46,7 +46,7 @@ void Tile::dislpayRessources(sf::RenderWindow &window) {
             text.setFillColor(sf::Color::White);
         else if (ressource.first == Ressource::THYSTAME)
             text.setFillColor(sf::Color::Black);
-        text.setPosition(_position.x + 15 * (i % 5) + 2, _position.y + 20 * (i / 5) + 2);
+        text.setPosition(_position.x + 17 * (i % 5) + 5, _position.y + 22 * (i / 5));
         window.draw(text);
         i++;
     }

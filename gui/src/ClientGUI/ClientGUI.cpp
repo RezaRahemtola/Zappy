@@ -57,11 +57,12 @@ bool ClientGUI::receive(std::string& receivedData) {
 // Commands to send to the server
 
 std::pair<std::size_t, std::size_t> ClientGUI::msz() {
+    std::cout << "Sending command : msz" << std::endl;
+    sending("msz\n");
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
 
-    sending("msz\n");
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
@@ -74,18 +75,19 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
 }
 
 std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
+    std::cout << "Sending command : bct " << x << " " << y << std::endl;
+    sending("bct " + std::to_string(x) + " " + std::to_string(y) + "\n");
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::size_t> res = {};
 
-    sending("bct " + std::to_string(x) + " " + std::to_string(y) + "\n");
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
         tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
-            for (int i = 4; i < 10; i++)
+        if (line_tokens.size() == 10 && line_tokens[0] == "bct" && std::stoi(line_tokens[1]) == x && std::stoi(line_tokens[2]) == y) {
+            for (int i = 3; i < 10; i++)
                 res.push_back(std::stoi(line_tokens[i]));
             return res;
         }
@@ -94,19 +96,21 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
 }
 
 std::vector<std::vector<std::size_t>> ClientGUI::mct() {
+    std::cout << "Sending command : mct" << std::endl;
+    sending("mct\n");
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::vector<std::size_t>> res = {};
 
-    sending("mct\n");
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
+        line_tokens.clear();
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
             std::vector<std::size_t> tmp = {};
-            for (int i = 4; i < 10; i++)
+            for (int i = 3; i < 10; i++)
                 tmp.push_back(std::stoi(line_tokens[i]));
             res.push_back(tmp);
         }
@@ -115,12 +119,13 @@ std::vector<std::vector<std::size_t>> ClientGUI::mct() {
 }
 
 std::vector<std::string> ClientGUI::tna() {
+    std::cout << "Sending command : tna" << std::endl;
+    sending("tna\n");
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::string> res = {};
 
-    sending("tna\n");
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
@@ -133,6 +138,7 @@ std::vector<std::string> ClientGUI::tna() {
 }
 
 std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
+    std::cout << "Sending command : ppo" << std::endl;
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
@@ -150,6 +156,7 @@ std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
 }
 
 size_t ClientGUI::plv(){
+    std::cout << "Sending command : plv" << std::endl;
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
@@ -167,12 +174,13 @@ size_t ClientGUI::plv(){
 }
 
 std::vector<std::size_t> ClientGUI::pin() {
+    std::cout << "Sending command : pin" << std::endl;
+    sending("pin\n");
     std::string data;
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::vector<std::size_t> res = {};
 
-    sending("pin\n");
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
