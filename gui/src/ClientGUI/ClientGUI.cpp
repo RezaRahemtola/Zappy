@@ -92,3 +92,24 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
     }
     return res;
 }
+
+std::vector<std::vector<std::size_t>> ClientGUI::mct() {
+    std::string data;
+    std::vector<std::string> tokens;
+    std::vector<std::string> line_tokens;
+    std::vector<std::vector<std::size_t>> res = {};
+
+    sending("mct\n");
+    receive(data);
+    tokenize(data, '\n', tokens);
+    for (auto &token : tokens) {
+        tokenize(token, ' ', line_tokens);
+        if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
+            std::vector<std::size_t> tmp = {};
+            for (int i = 1; i < 7; i++)
+                tmp.push_back(std::stoi(line_tokens[i]));
+            res.push_back(tmp);
+        }
+    }
+    return res;
+}
