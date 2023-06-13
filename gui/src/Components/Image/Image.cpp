@@ -5,5 +5,4 @@
 ** Image.cpp
 */
 
-
 #include "Image.hpp"

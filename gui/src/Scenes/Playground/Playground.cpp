@@ -1,6 +1,9 @@
-//
-// Created by Tomi-Tom on 3/29/23.
-//
+/*
+** EPITECH PROJECT, 2023
+** zappy_gui
+** File description:
+** Playground.cpp
+*/
 
 #include "Playground.hpp"
 

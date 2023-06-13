@@ -5,5 +5,4 @@
 ** Slider.cpp
 */
 
-
 #include "Slider.hpp"

@@ -1,6 +1,9 @@
-//
-// Created by Tomi-Tom on 3/28/23.
-//
+/*
+** EPITECH PROJECT, 2023
+** zappy_gui
+** File description:
+** Button.cpp
+*/
 
 #include <iostream>
 #include "Button.hpp"
