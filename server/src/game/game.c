@@ -45,7 +45,7 @@ static void check_resources_generation(server_t *server)
     game_t *game = server->game;
 
     if (!check_time(game->last_gen, RESOURCE_GENERATION_DURATION,
-                   server->params->freq))
+                    server->params->freq))
         return;
     fill_map(game->map, server->params->width, server->params->height);
     gettimeofday(&game->last_gen, NULL);
