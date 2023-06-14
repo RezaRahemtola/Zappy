@@ -83,11 +83,11 @@ class AIClient(Client):
         except ValueError:
             raise RuntimeError('Invalid server response: non decimal numbers.')
 
-    def execute_command(self, command: AICommand, arguments: List[str] = []) -> List[str]:
+    def execute_command(self, command: AICommand, arguments: List[str] = ()) -> List[str]:
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
         response = self.receive_lines_until_matches_regex(
-            list(map(lambda response_format: fr'^({response_format}|dead)$', command.response_format))
+            list(map(lambda response_format: re.Pattern(fr'^({response_format}|dead)$'), command.response_format))
         )
 
         if "dead" in response:
