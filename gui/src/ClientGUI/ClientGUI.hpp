@@ -25,6 +25,7 @@ class ClientGUI {
         ClientGUI(std::string &machine, int port, std::shared_ptr<GameData> gameData) : _sockfd(-1),
             _buffer(""), _gameData(gameData) {
 
+            createHandleDic();
             std::string data;
             std::cout << "On va se connecter à [" << machine << ":" << port << "]" << std::endl;
 
@@ -59,7 +60,6 @@ class ClientGUI {
             receive(data);
             std::cout << "Server said: " << data << std::endl;
 
-            createHandleDic();
         }
 		~ClientGUI() {
             if (_sockfd != -1) {

@@ -49,10 +49,10 @@ bool ClientGUI::receive(std::string& receivedData) {
             std::cout << "La connexion a été fermée par le serveur." << std::endl;
             return false;
         }
-        dispatchData("test");
     }
 
     receivedData = std::string(buffer, bytesRead);
+
     return true;
 }
 
@@ -85,12 +85,16 @@ void ClientGUI::createHandleDic() {
 }
 
 void ClientGUI::dispatchData(std::string data) {
-    std::vector<std::string> tokens;
-    std::string test = "hell";
+    std::vector<std::string> commands;
 
-    tokenize(data, ' ', tokens);
-    if (_handlers.find(tokens[0]) != _handlers.end()) {
-        _handlers[tokens[0]](tokens);
+    tokenize(data, '\n', commands);
+    for (auto &command : commands) {
+        std::vector<std::string> tokens;
+
+        tokenize(command, ' ', tokens);
+        if (_handlers.find(tokens[0]) != _handlers.end()) {
+            _handlers[tokens[0]](tokens);
+        }
     }
 }
 
