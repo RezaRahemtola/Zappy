@@ -17,10 +17,15 @@ void GameData::display(sf::RenderWindow &window) {
 void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
+    std::size_t size_base = width > height ? width : height;
 
-    _tiles.resize(height);
-    for (auto &line : _tiles)
-        line.resize(width);
+    for (std::size_t y = 0; y < height; y++) {
+        std::vector<Tile> line;
+        for (std::size_t x = 0; x < width; x++) {
+            line.emplace_back(Tile(x, y, 900/size_base));
+        }
+        _tiles.emplace_back(line);
+    }
 }
 
 void GameData::updateRessources(std::vector <std::string> &data) {

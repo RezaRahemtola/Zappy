@@ -28,7 +28,7 @@ enum class Ressource {
 
 class Tile {
     public:
-        Tile(int x, int y, int size) : _position(sf::Vector2f(x +500, y+10)), _size(sf::Vector2f(size, size)) {
+        Tile(std::size_t x, std::size_t y, std::size_t size) : _position(sf::Vector2f(x +500, y+10)), _size(sf::Vector2f(size, size)) {
             _font.loadFromFile("assets/fonts/arial.ttf");
             _ressources[Ressource::FOOD] = 1;
             _ressources[Ressource::LINEMATE] = 0;

@@ -9,6 +9,7 @@
 	#define PLAYGROUND_HPP_
 
     #include <SFML/Graphics.hpp>
+    #include <memory>
     #include "ClientGUI.hpp"
     #include "IDisplay.hpp"
     #include "Button.hpp"
@@ -16,8 +17,8 @@
 
 class Playground : public IDisplay {
     public:
-        Playground(std::string machine, std::size_t port) : _pause(false), _machine(machine),
-            _port(port), _client(ClientGUI(_machine, _port)) {
+        Playground(std::string machine, std::size_t port) : _pause(false), _machine(machine), _port(port),
+        _gameData(std::make_shared<GameData>()), _client(ClientGUI(machine, port, _gameData)) {
 
             // Color setup
             sf::Color color = sf::Color(253, 217, 163);
@@ -46,7 +47,7 @@ class Playground : public IDisplay {
         ClientGUI _client;
 
         // Content
-        GameData _gameData;
+        std::shared_ptr<GameData> _gameData;
 
         // UI Components
         sf::RectangleShape _background;
@@ -60,6 +61,8 @@ class Playground : public IDisplay {
         // Utils
         bool _pause;
         void handlePause();
+
+
 };
 
 #endif /*PLAYGROUND_HPP_*/

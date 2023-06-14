@@ -15,12 +15,19 @@
     #include <unistd.h>
     #include <sys/time.h>
     #include <fcntl.h>
+#include <memory>
+#include <functional>
+#include "GameData.hpp"
 
 class ClientGUI {
 	public:
-        ClientGUI(std::string &machine, int port) : _sockfd(-1), _buffer("") {
+        ClientGUI() = default;
+        ClientGUI(std::string &machine, int port, std::shared_ptr<GameData> gameData) : _sockfd(-1),
+            _buffer(""), _gameData(gameData) {
+
             std::string data;
             std::cout << "On va se connecter à [" << machine << ":" << port << "]" << std::endl;
+
             // Création du socket
             _sockfd = socket(AF_INET, SOCK_STREAM, 0);
             if (_sockfd == -1) {
@@ -51,6 +58,8 @@ class ClientGUI {
             sending("GRAPHIC\n");
             receive(data);
             std::cout << "Server said: " << data << std::endl;
+
+            createHandleDic();
         }
 		~ClientGUI() {
             if (_sockfd != -1) {
@@ -62,19 +71,40 @@ class ClientGUI {
     bool sending(const std::string& message);
     bool receive(std::string& receivedData);
 
-    std::pair<std::size_t, std::size_t> msz();
-    std::vector<std::size_t> bct(std::size_t x, std::size_t y);
-    std::vector<std::vector<std::size_t>> mct();
-    std::vector<std::string> tna();
-    std::pair<std::size_t, std::size_t> ppo();
-    size_t plv();
-    std::vector<std::size_t> pin();
-
-
 	private:
         int _sockfd;
+        std::shared_ptr<GameData> _gameData;
 
         std::string _buffer;
+
+        // handle data from server
+        void createHandleDic();
+        std::unordered_map<std::string, std::function<void(std::vector<std::string> &)>> _handlers;
+
+        static void handleMsz(std::vector<std::string> &data);
+        static void handleBct(std::vector<std::string> &data);
+        static void handleTna(std::vector<std::string> &data);
+        static void handlePnw(std::vector<std::string> &data);
+        static void handlePpo(std::vector<std::string> &data);
+        static void handlePlv(std::vector<std::string> &data);
+        static void handlePin(std::vector<std::string> &data);
+        static void handlePex(std::vector<std::string> &data);
+        static void handlePbc(std::vector<std::string> &data);
+        static void handlePic(std::vector<std::string> &data);
+        static void handlePie(std::vector<std::string> &data);
+        static void handlePfk(std::vector<std::string> &data);
+        static void handlePdr(std::vector<std::string> &data);
+        static void handlePgt(std::vector<std::string> &data);
+        static void handlePdi(std::vector<std::string> &data);
+        static void handleEnw(std::vector<std::string> &data);
+        static void handleEbo(std::vector<std::string> &data);
+        static void handleEdi(std::vector<std::string> &data);
+        static void handleSgt(std::vector<std::string> &data);
+        static void handleSst(std::vector<std::string> &data);
+        static void handleSeg(std::vector<std::string> &data);
+        static void handleSmg(std::vector<std::string> &data);
+        static void handleSuc(std::vector<std::string> &data);
+        static void handleSbp(std::vector<std::string> &data);
 };
 
 #endif /*CLIENTGUI_HPP_*/
