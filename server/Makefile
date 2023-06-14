@@ -41,6 +41,7 @@ BASE_SRC	=	server.c \
 				commands/ai/fork.c \
 				commands/ai/look.c \
 				commands/ai/eject.c \
+				commands/ai/incantation.c \
 				utils/teams.c \
 				utils/player.c \
 				utils/tile.c \
