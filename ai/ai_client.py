@@ -87,7 +87,7 @@ class AIClient(Client):
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
         response = self.receive_lines_until_matches_regex(
-            list(map(lambda response_format: fr'({response_format}|dead)', command.response_format))
+            list(map(lambda response_format: fr'^({response_format}|dead)$', command.response_format))
         )
 
         if "dead" in response:
