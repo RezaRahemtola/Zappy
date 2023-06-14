@@ -6,14 +6,28 @@
 */
 
 #include <string.h>
-#include <stdio.h>
-#include <malloc.h>
 #include "parameters.h"
 #include "commands/functions.h"
 #include "commands/incantation.h"
 #include "commands/commands.h"
+#include "utils.h"
 
-bool verify_incant(client_t *client, server_t *server)
+static size_t count_incant_players(player_t *player, list_t *clients)
+{
+    size_t count = 0;
+    client_t *client = NULL;
+
+    for (; clients != NULL; clients = clients->next) {
+        client = clients->data;
+        if (client->player != NULL
+            && client->player->x == player->x && client->player->y == player->y
+            && client->player->level == player->level)
+            count++;
+    }
+    return count;
+}
+
+static bool verify_incant(client_t *client, server_t *server)
 {
     size_t level = client->player->level;
     incant_t incant = INCANT_DATA[level - 1];
@@ -23,33 +37,31 @@ bool verify_incant(client_t *client, server_t *server)
         || tile->sibur < incant.sibur || tile->mendiane < incant.mendiane
         || tile->phiras < incant.phiras || tile->thystame < incant.thystame)
         return false;
-    // TODO: verify player (same tile and state)
-    return true;
+    return count_incant_players(client->player, server->clients)
+            >= incant.players;
 }
 
 void incant_end_func(list_t *args, client_t *client, server_t *serv,
-                     char **result)
+                    char **result)
 {
     (void)args;
-    size_t len = snprintf(NULL, 0, "Current level: %ld\n",
-                          client->player->level) + 1;
-    char *msg = NULL;
+    tile_t *tile = serv->game->map[client->player->y][client->player->x];
 
     if (strcmp(*result, FAILED_COMMAND_AI) == 0
         || !verify_incant(client, serv)) {
         list_add(&client->output_messages, strdup(FAILED_COMMAND_AI));
     } else {
-        msg = malloc(sizeof(char) * len);
-        sprintf(msg, "Current level: %ld\n", ++(client->player->level));
-        list_add(&client->output_messages, msg);
-        // TODO: remove resources from the map
+        remove_incant_resources(&INCANT_DATA[client->player->level - 1], tile);
+        dispatch_incant_success(client, serv->clients);
     }
     list_remove_head(&client->commands, (free_func)destroy_command);
 }
 
-void incantation(list_t *args, client_t *client, server_t *serv, char **result)
+void incant(list_t *args, client_t *client, server_t *serv, char **result)
 {
     (void)args;
+    list_t *clients = serv->clients;
+    player_t *pl = client->player;
 
     if (!verify_incant(client, serv)) {
         *result = strdup(FAILED_COMMAND_AI);
@@ -58,5 +70,13 @@ void incantation(list_t *args, client_t *client, server_t *serv, char **result)
     }
     *result = strdup("Elevation underway\n");
     list_add(&client->output_messages, strdup(*result));
-    // TODO: send message to other clients too
+    for (; clients != NULL; clients = clients->next) {
+        client = clients->data;
+        if (client->player != NULL && client->player->x == pl->x
+        && client->player->y == pl->y && client->player->level == pl->level
+        && client->player->id != pl->id) {
+            list_add(&client->output_messages, strdup(*result));
+            list_add(&client->commands, create_slave_incant_cmd());
+        }
+    }
 }
