@@ -14,23 +14,12 @@
 
 class GameData{
     public:
-        GameData() = default;
-        GameData(std::size_t width, std::size_t height) {
-            _width = width;
-            _height = height;
-
-            for (std::size_t i = 0; i < _height; i++) {
-                std::vector<Tile> line;
-                for (std::size_t j = 0; j < _width; j++) {
-                    line.push_back(Tile(j * 90, i * 90, 90));
-                }
-                _tiles.push_back(line);
-            }
-        };
+        GameData() {};
         ~GameData() = default;
 
         void display(sf::RenderWindow &window);
 
+        void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);
 
     private:

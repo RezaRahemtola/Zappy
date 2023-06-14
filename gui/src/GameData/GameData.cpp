@@ -14,6 +14,15 @@ void GameData::display(sf::RenderWindow &window) {
             tile.display(window);
 }
 
+void GameData::updateMapSize(std::size_t width, std::size_t height) {
+    _width = width;
+    _height = height;
+
+    _tiles.resize(height);
+    for (auto &line : _tiles)
+        line.resize(width);
+}
+
 void GameData::updateRessources(std::vector <std::string> &data) {
     for (auto &line : data) {
         std::vector<std::string> tileData;

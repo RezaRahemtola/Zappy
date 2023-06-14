@@ -18,11 +18,6 @@ class Playground : public IDisplay {
     public:
         Playground(std::string machine, std::size_t port) : _pause(false), _machine(machine),
             _port(port), _client(ClientGUI(_machine, _port)) {
-            std::pair<std::size_t, std::size_t> mapSize = _client.msz();
-
-            // Tiles setup
-            std::cout << "Map size: " << mapSize.first << "x" << mapSize.second << std::endl;
-            _gameData = GameData(mapSize.first, mapSize.second);
 
             // Color setup
             sf::Color color = sf::Color(253, 217, 163);

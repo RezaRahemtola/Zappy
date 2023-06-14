@@ -5,6 +5,7 @@
 ** ClientGUI.cpp
 */
 
+#include <SFML/System.hpp>
 #include <vector>
 #include "ClientGUI.hpp"
 #include "Tokenize.hpp"
@@ -63,10 +64,27 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
     std::vector<std::string> tokens;
     std::vector<std::string> line_tokens;
     std::string newBuffer;
+    bool found = false;
 
+    while (!found) {
+        receive(data);
+        tokenize(data, '\n', tokens);
+        for (auto &token : tokens) {
+            line_tokens.clear();
+            tokenize(token, ' ', line_tokens);
+            if (line_tokens.size() == 3 && line_tokens[0] == "msz") {
+                found = true;
+                break;
+            } else {
+                newBuffer += token;
+            }
+        }
+    }
+    data.clear();
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
+        line_tokens.clear();
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 3 && line_tokens[0] == "msz") {
             return std::make_pair(std::stoi(line_tokens[1]), std::stoi(line_tokens[2]));
@@ -74,7 +92,6 @@ std::pair<std::size_t, std::size_t> ClientGUI::msz() {
             newBuffer += token;
         }
     }
-    _buffer = newBuffer;
     return std::make_pair(0, 0);
 }
 
@@ -90,6 +107,7 @@ std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
+        line_tokens.clear();
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 10 && line_tokens[0] == "bct" && std::stoi(line_tokens[1]) == x && std::stoi(line_tokens[2]) == y) {
             for (int i = 3; i < 10; i++)
@@ -142,6 +160,7 @@ std::vector<std::string> ClientGUI::tna() {
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
+        line_tokens.clear();
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 2 && line_tokens[0] == "tna") {
             res.push_back(line_tokens[1]);
@@ -164,6 +183,7 @@ std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
     receive(data);
     tokenize(data, '\n', tokens);
     for (auto &token : tokens) {
+        line_tokens.clear();
         tokenize(token, ' ', line_tokens);
         if (line_tokens.size() == 5 && line_tokens[0] == "ppo") {
             return std::make_pair(std::stoi(line_tokens[2]), std::stoi(line_tokens[3]));
