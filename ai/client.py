@@ -1,3 +1,4 @@
+import re
 import socket
 import time
 from typing import Tuple, List
@@ -43,3 +44,11 @@ class Client:
 
     def receive_lines(self, read_size: int = 2048) -> List[str]:
         return self.socket.recv(read_size).decode('utf8').strip().split('\n')
+
+    def receive_lines_until_matches_regex(self, regex: re.Pattern, read_size: int = 2048) -> List[str]:
+        lines = []
+        while True:
+            lines += self.receive_lines(read_size)
+            if regex.match(lines[-1]):
+                break
+        return lines
