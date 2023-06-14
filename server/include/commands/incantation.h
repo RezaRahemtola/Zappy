@@ -9,6 +9,7 @@
 
 #include "types.h"
 
+#define INCANT_TIME 300
 #define INCANT_DATA_SIZE 7
 
 typedef struct incant_s {
