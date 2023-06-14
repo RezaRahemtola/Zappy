@@ -5,7 +5,6 @@
 ** random
 */
 
-//#include <stddef.h>
 #include <stdlib.h>
 
 size_t rand_between_range(size_t lowest, size_t higher)
