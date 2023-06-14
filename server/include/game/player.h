@@ -10,7 +10,7 @@
 #include "types.h"
 
 #define BASE_PLAYER_FOOD 10
-#define FOOD_DURATION 1260
+#define FOOD_DURATION 126
 #define AI_DEAD "dead\n"
 
 void destroy_player(player_t *player);
