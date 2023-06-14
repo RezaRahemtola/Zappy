@@ -6,12 +6,12 @@
 */
 
 #include <stddef.h>
-
 #include "game/map.h"
+#include "game/player.h"
 
 tile_t *max_resources_on_map(size_t width, size_t height)
 {
-    tile_t *tile = create_tile();
+    tile_t *tile = create_inventory(0);
 
     if (tile == NULL)
         return tile;
@@ -25,7 +25,7 @@ tile_t *max_resources_on_map(size_t width, size_t height)
     return tile;
 }
 
-tile_t *spawn_ressource(tile_t ***map, size_t width, size_t height)
+tile_t *spawn_resource(tile_t ***map, size_t width, size_t height)
 {
     tile_t *tile = max_resources_on_map(width, height);
 
