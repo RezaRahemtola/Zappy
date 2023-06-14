@@ -1,9 +1,22 @@
 ##
-## EPITECH PROJECT, 2021
+## EPITECH PROJECT, 2023
 ## Zappy
 ## File description:
-## GUI Makefile
+## Makefile
 ##
 
+NAME	=	zappy_gui
+
 all:
-	echo "Hello World"
+	cmake -B build;make -C build;mv build/${NAME} .
+
+re: fclean all
+
+clean:
+	rm -rf build
+	rm -rf cmake-build-debug
+
+fclean: clean
+	rm -rf ${NAME}
+
+.PHONY: all re clean fclean
