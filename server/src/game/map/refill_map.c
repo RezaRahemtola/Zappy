@@ -8,21 +8,7 @@
 #include <stdlib.h>
 
 #include "game/map.h"
-#include "game/resources.h"
 #include "utils.h"
-
-void print_tile(tile_t *map)
-{
-    printf("---------------------------------------------\n");
-    printf("food = %lu\n", map->food);
-    printf("linemate = %lu\n", map->linemate);
-    printf("deraumere = %lu\n", map->deraumere);
-    printf("sibur = %lu\n", map->sibur);
-    printf("mendiane = %lu\n", map->mendiane);
-    printf("phiras = %lu\n", map->phiras);
-    printf("thystame = %lu\n", map->thystame);
-    printf("---------------------------------------------\n");
-}
 
 tile_t ***refill_empty_tile(tile_t ***map, size_t width, size_t height)
 {

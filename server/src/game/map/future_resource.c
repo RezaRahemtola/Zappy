@@ -5,8 +5,9 @@
 ** new_resources
 */
 
+#include <stddef.h>
+
 #include "game/map.h"
-#include "game/resources.h"
 
 tile_t *max_resources_on_map(size_t width, size_t height)
 {
