@@ -95,97 +95,145 @@ void ClientGUI::dispatchData(std::string data) {
 }
 
 void ClientGUI::handleMsz(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
     std::cout << "msz" << std::endl;
 }
 
 void ClientGUI::handleBct(std::vector<std::string> &data) {
+    if (data.size() != 10)
+        return;
     std::cout << "bct" << std::endl;
 }
 
 void ClientGUI::handleTna(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "tna" << std::endl;
 }
 
 void ClientGUI::handlePnw(std::vector<std::string> &data) {
+    if (data.size() != 7)
+        return;
     std::cout << "pnw" << std::endl;
 }
 
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
+    if (data.size() != 5)
+        return;
     std::cout << "ppo" << std::endl;
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
+    if (data.size() != 5)
+        return;
     std::cout << "plv" << std::endl;
 }
 
 void ClientGUI::handlePin(std::vector<std::string> &data) {
+    if (data.size() != 11)
+        return;
     std::cout << "pin" << std::endl;
 }
 
 void ClientGUI::handlePex(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "pex" << std::endl;
 }
 
 void ClientGUI::handlePbc(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
     std::cout << "pbc" << std::endl;
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
+    if (data.size() != 4)
+        return;
     std::cout << "pic" << std::endl;
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {
+    if (data.size() != 4)
+        return;
     std::cout << "pie" << std::endl;
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "pfk" << std::endl;
 }
 
 void ClientGUI::handlePdr(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
     std::cout << "pdr" << std::endl;
 }
 
 void ClientGUI::handlePgt(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
     std::cout << "pgt" << std::endl;
 }
 
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
      std::cout << "pdi" << std::endl;
 }
 
 void ClientGUI::handleEnw(std::vector<std::string> &data) {
+    if (data.size() != 7)
+        return;
     std::cout << "enw" << std::endl;
 }
 
 void ClientGUI::handleEbo(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "ebo" << std::endl;
 }
 
 void ClientGUI::handleEdi(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "edi" << std::endl;
 }
 
 void ClientGUI::handleSgt(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "sgt" << std::endl;
 }
 
 void ClientGUI::handleSst(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "sst" << std::endl;
 }
 
 void ClientGUI::handleSeg(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "seg" << std::endl;
 }
 
 void ClientGUI::handleSmg(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "smg" << std::endl;
 }
 
 void ClientGUI::handleSuc(std::vector<std::string> &data){
+    if (data.size() != 2)
+        return;
     std::cout << "suc" << std::endl;
 }
 
 void ClientGUI::handleSbp(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
     std::cout << "sbp" << std::endl;
 }
