@@ -26,6 +26,7 @@ game_t *create_game(params_t *params)
         return NULL;
     game->map = create_map(params->width, params->height);
     game->map = fill_map(game->map, params->width, params->height);
+    gettimeofday(&game->last_gen, NULL);
     return game;
 }
 
@@ -39,7 +40,18 @@ static void check_hunger_death(client_t *client)
     gettimeofday(&client->player->last_eat, NULL);
 }
 
-void eat_food(server_t *server)
+static void check_resources_generation(server_t *server)
+{
+    game_t *game = server->game;
+
+    if (!check_time(game->last_gen, RESOURCE_GENERATION_DURATION,
+                   server->params->freq))
+        return;
+    fill_map(game->map, server->params->width, server->params->height);
+    gettimeofday(&game->last_gen, NULL);
+}
+
+void game_logic(server_t *server)
 {
     list_t *clients = server->clients;
     client_t *client = NULL;
@@ -54,4 +66,5 @@ void eat_food(server_t *server)
             check_hunger_death(client);
         }
     }
+    check_resources_generation(server);
 }

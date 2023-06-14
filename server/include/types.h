@@ -84,6 +84,7 @@ typedef struct egg_s {
 typedef inventory_t tile_t;
 typedef struct game_s {
     tile_t ***map;
+    timeval_t last_gen;
 } game_t;
 
 
