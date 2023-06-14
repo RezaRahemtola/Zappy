@@ -80,7 +80,7 @@ params_t *get_params(int argc, char *const *argv)
     params_t *params = init_params();
     int option = 0;
 
-    while ((option = getopt(argc, argv, ":p:x:y:n:c:f")) != -1) {
+    while ((option = getopt(argc, argv, ":p:x:y:n:c:f:")) != -1) {
         parse_opt(option, argv, params, &error);
         if (error) {
             fprintf(stderr, "Incorrect value for %c.\n", option);
