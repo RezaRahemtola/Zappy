@@ -30,3 +30,6 @@ static const incant_t INCANT_DATA[INCANT_DATA_SIZE] = {
     {6, 1, 2, 3, 0, 1, 0},
     {6, 2, 2, 2, 2, 2, 1}
 };
+
+// Functions
+void incant_end_func(list_t *args, client_t *, server_t *serv, char **result);
