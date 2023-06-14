@@ -100,9 +100,4 @@ class AIClient(Client):
                 self.broadcast_messages.put(line)
             else:
                 filtered_response.append(line)
-
-        for index, response_line in enumerate(filtered_response):
-            if not re.match(command.response_format[index], response_line):
-                raise RuntimeError(
-                    f'Invalid server response: to command {command.call_id}, got invalid line \'{response_line}\'')
-        return response
+        return filtered_response
