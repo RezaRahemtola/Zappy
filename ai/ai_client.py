@@ -26,27 +26,27 @@ INCANTATION_REQUIREMENTS = [
 
 
 class AICommand:
-    def __init__(self, call_id: str, response_format: re.Pattern) -> None:
+    def __init__(self, call_id: str, response_format: List[re.Pattern]) -> None:
         self.call_id = call_id
         self.response_format = response_format
 
 
 COMMANDS = {
-    'forward': AICommand('Forward', r'ok'),
-    'right': AICommand('Right', r'ok'),
-    'left': AICommand('Left', r'ok'),
+    'forward': AICommand('Forward', [r'ok']),
+    'right': AICommand('Right', [r'ok']),
+    'left': AICommand('Left', [r'ok']),
 
-    'look': AICommand('Look', r'\[ .+(, .+)* \]'),
-    'inventory': AICommand('Inventory', r'\[ \w+ [1-9]\d*(, \w+ [1-9]\d*)* \]'),
-    'broadcast': AICommand('Broadcast', r'ok'),
+    'look': AICommand('Look', [r'\[ .+(, .+)* \]']),
+    'inventory': AICommand('Inventory', [r'\[ \w+ [1-9]\d*(, \w+ [1-9]\d*)* \]']),
+    'broadcast': AICommand('Broadcast', [r'ok']),
 
-    'connect_nbr': AICommand('Connect_nbr', r'[1-9]\d*'),
-    'fork': AICommand('Fork', r'ok'),
-    'eject': AICommand('Eject', r'(ok|ko)'),
+    'connect_nbr': AICommand('Connect_nbr', [r'[1-9]\d*']),
+    'fork': AICommand('Fork', [r'ok']),
+    'eject': AICommand('Eject', [r'(ok|ko)']),
 
-    'take': AICommand('Take', r'(ok|ko)'),
-    'set': AICommand('Set', r'(ok|ko)'),
-    'incantation': AICommand('Incantation', r'(Elevation underway Current level: [1-8]|ko)')
+    'take': AICommand('Take', [r'(ok|ko)']),
+    'set': AICommand('Set', [r'(ok|ko)']),
+    'incantation': AICommand('Incantation', [r'(Elevation underway|ko)', r'(Current level: [1-8]|ko)'])
 }
 
 
@@ -86,7 +86,9 @@ class AIClient(Client):
     def execute_command(self, command: AICommand, arguments: List[str] = []) -> List[str]:
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
-        response = self.receive_lines_until_matches_regex(fr'({command.response_format})|(dead)')
+        response = self.receive_lines_until_matches_regex(
+            list(map(lambda response_format: fr'({response_format}|dead)', command.response_format))
+        )
 
         if "dead" in response:
             exit(0)

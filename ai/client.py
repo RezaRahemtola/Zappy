@@ -3,6 +3,8 @@ import socket
 import time
 from typing import Tuple, List
 
+MAX_TIMEOUT = 305
+
 
 class Client:
     def __init__(self, server: Tuple[str, int]) -> None:
@@ -10,6 +12,7 @@ class Client:
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connected = False
         self.last_send_time = 0
+        self.socket.settimeout(MAX_TIMEOUT)
 
     def connect(self) -> bool:
         if self.connected:
@@ -45,10 +48,11 @@ class Client:
     def receive_lines(self, read_size: int = 2048) -> List[str]:
         return self.socket.recv(read_size).decode('utf8').strip().split('\n')
 
-    def receive_lines_until_matches_regex(self, regex: re.Pattern, read_size: int = 2048) -> List[str]:
+    def receive_lines_until_matches_regex(self, response_formats: List[re.Pattern], read_size: int = 2048) -> List[str]:
         lines = []
-        while True:
-            lines += self.receive_lines(read_size)
-            if regex.match(lines[-1]):
-                break
+        for response_format in response_formats:
+            while True:
+                lines += self.receive_lines(read_size)
+                if response_format.match(lines[-1]):
+                    break
         return lines
