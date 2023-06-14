@@ -92,13 +92,16 @@ class AIClient(Client):
 
         if "dead" in response:
             exit(0)
-        for eject_message in filter(lambda msg: msg.startswith("eject"), response):
-            self.received_ejects.put(eject_message)
-        for broadcast_message in filter(lambda msg: msg.startswith("message"), response):
-            self.broadcast_messages.put(broadcast_message)
-        response = list(filter(lambda msg: not msg.startswith("eject") and not msg.startswith("message"), response))
+        filtered_response = []
+        for line in response:
+            if line.startswith("eject"):
+                self.received_ejects.put(line)
+            elif line.startswith("message"):
+                self.broadcast_messages.put(line)
+            else:
+                filtered_response.append(line)
 
-        for index, response_line in enumerate(response):
+        for index, response_line in enumerate(filtered_response):
             if not re.match(command.response_format[index], response_line):
                 raise RuntimeError(
                     f'Invalid server response: to command {command.call_id}, got invalid line \'{response_line}\'')
