@@ -49,6 +49,7 @@ bool ClientGUI::receive(std::string& receivedData) {
             std::cout << "La connexion a été fermée par le serveur." << std::endl;
             return false;
         }
+        dispatchData("test");
     }
 
     receivedData = std::string(buffer, bytesRead);
@@ -83,98 +84,108 @@ void ClientGUI::createHandleDic() {
     _handlers[std::string("sbp")] = handleSbp;
 }
 
-void ClientGUI::handleMsz(std::vector<std::string> &data) {
+void ClientGUI::dispatchData(std::string data) {
+    std::vector<std::string> tokens;
+    std::string test = "hell";
 
+    tokenize(data, ' ', tokens);
+    if (_handlers.find(tokens[0]) != _handlers.end()) {
+        _handlers[tokens[0]](tokens);
+    }
+}
+
+void ClientGUI::handleMsz(std::vector<std::string> &data) {
+    std::cout << "msz" << std::endl;
 }
 
 void ClientGUI::handleBct(std::vector<std::string> &data) {
-
+    std::cout << "bct" << std::endl;
 }
 
 void ClientGUI::handleTna(std::vector<std::string> &data) {
-
+    std::cout << "tna" << std::endl;
 }
 
 void ClientGUI::handlePnw(std::vector<std::string> &data) {
-
+    std::cout << "pnw" << std::endl;
 }
 
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
-
+    std::cout << "ppo" << std::endl;
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
-
+    std::cout << "plv" << std::endl;
 }
 
 void ClientGUI::handlePin(std::vector<std::string> &data) {
-
+    std::cout << "pin" << std::endl;
 }
 
 void ClientGUI::handlePex(std::vector<std::string> &data) {
-
+    std::cout << "pex" << std::endl;
 }
 
 void ClientGUI::handlePbc(std::vector<std::string> &data) {
-
+    std::cout << "pbc" << std::endl;
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-
+    std::cout << "pic" << std::endl;
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {
-
+    std::cout << "pie" << std::endl;
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {
-
+    std::cout << "pfk" << std::endl;
 }
 
 void ClientGUI::handlePdr(std::vector<std::string> &data) {
-
+    std::cout << "pdr" << std::endl;
 }
 
 void ClientGUI::handlePgt(std::vector<std::string> &data) {
-
+    std::cout << "pgt" << std::endl;
 }
 
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
-
+     std::cout << "pdi" << std::endl;
 }
 
 void ClientGUI::handleEnw(std::vector<std::string> &data) {
-
+    std::cout << "enw" << std::endl;
 }
 
 void ClientGUI::handleEbo(std::vector<std::string> &data) {
-
+    std::cout << "ebo" << std::endl;
 }
 
 void ClientGUI::handleEdi(std::vector<std::string> &data) {
-
+    std::cout << "edi" << std::endl;
 }
 
 void ClientGUI::handleSgt(std::vector<std::string> &data) {
-
+    std::cout << "sgt" << std::endl;
 }
 
 void ClientGUI::handleSst(std::vector<std::string> &data) {
-
+    std::cout << "sst" << std::endl;
 }
 
 void ClientGUI::handleSeg(std::vector<std::string> &data) {
-
+    std::cout << "seg" << std::endl;
 }
 
 void ClientGUI::handleSmg(std::vector<std::string> &data) {
-
+    std::cout << "smg" << std::endl;
 }
 
 void ClientGUI::handleSuc(std::vector<std::string> &data){
-
+    std::cout << "suc" << std::endl;
 }
 
 void ClientGUI::handleSbp(std::vector<std::string> &data) {
-
+    std::cout << "sbp" << std::endl;
 }

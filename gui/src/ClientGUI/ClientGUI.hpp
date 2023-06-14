@@ -79,6 +79,7 @@ class ClientGUI {
 
         // handle data from server
         void createHandleDic();
+        void dispatchData(std::string data);
         std::unordered_map<std::string, std::function<void(std::vector<std::string> &)>> _handlers;
 
         static void handleMsz(std::vector<std::string> &data);
