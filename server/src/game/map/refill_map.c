@@ -12,7 +12,7 @@
 
 tile_t ***refill_empty_tile(tile_t ***map, size_t width, size_t height)
 {
-    tile_t *new_resources = spawn_ressource(map, width, height);
+    tile_t *new_resources = spawn_resource(map, width, height);
 
     if (new_resources == NULL)
         return map;
@@ -32,7 +32,7 @@ tile_t ***fill_map(tile_t ***map, size_t width, size_t height)
     size_t y = 0;
 
     map = refill_empty_tile(map, width, height);
-    new_resources = spawn_ressource(map, width, height);
+    new_resources = spawn_resource(map, width, height);
     if (new_resources == NULL)
         return map;
     while (!is_tile_empty(new_resources)) {
