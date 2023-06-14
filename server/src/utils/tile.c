@@ -101,5 +101,5 @@ char *get_tile_content(size_t x, size_t y, player_t *player, tile_t ***map)
         str = new_strcat(str, " phiras", true, false);
     for (size_t i = 0; i < tile->thystame; i++)
         str = new_strcat(str, " thystame", true, false);
-    return str;
+    return new_strcat(str, ",", true, false);
 }
