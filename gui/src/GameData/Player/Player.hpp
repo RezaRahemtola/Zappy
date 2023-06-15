@@ -33,6 +33,10 @@ class Player {
         std::string getMessage() const { return _message; }
         void setMessage(std::string message) { _message = message; }
 
+        void updateInventory(std::vector<std::string> &inventory);
+        void updatePosition(std::vector<std::string> &position);
+        void updateLevel(size_t level) { _level = level; }
+
 	private:
         // Information
         std::size_t _id;
@@ -41,6 +45,7 @@ class Player {
         std::size_t _orientation;
         std::size_t _inventory[7];
         std::size_t _children;
+        bool _elevation = false;
         std::string _message;
 
         // Graphical information
