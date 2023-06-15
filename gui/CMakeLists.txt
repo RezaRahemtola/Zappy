@@ -7,14 +7,19 @@ project(zappy_gui)
 
 include_directories(include)
 include_directories(include/Interface)
+## GUI Parts
 include_directories(src/ZappyGUI)
+include_directories(src/ClientGUI)
+## Scenes
 include_directories(src/Scenes/Menu)
 include_directories(src/Scenes/Playground)
+## Components
 include_directories(src/Components/Button)
-include_directories(src/ClientGUI)
+## GameData
 include_directories(src/GameData)
 include_directories(src/GameData/Tile)
 include_directories(src/GameData/Player)
+include_directories(src/GameData/Egg)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 

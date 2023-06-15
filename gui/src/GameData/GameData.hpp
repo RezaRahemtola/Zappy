@@ -11,15 +11,17 @@
     #include <vector>
     #include "Tile.hpp"
     #include "Player.hpp"
+    #include "Egg.hpp"
     #include "Tokenize.hpp"
 
 class GameData{
     public:
-        GameData() {};
+        GameData() : _width(0), _height(0), _tileSize(0), _margin(sf::Vector2f(0, 0)) {};
         ~GameData() = default;
 
         void display(sf::RenderWindow &window);
 
+        void createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName);
         void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);
 
@@ -27,10 +29,13 @@ class GameData{
         // Information
         std::size_t _width;
         std::size_t _height;
+        std::size_t _tileSize;
+        sf::Vector2f _margin;
 
         // Content
         std::vector<std::vector<Tile>> _tiles;
         std::vector<Player> _players;
+        std::vector<Egg> _eggs;
 
         // Private methods
         void updateRessource(std::size_t x, std::size_t y, Ressource ressource, std::size_t value);

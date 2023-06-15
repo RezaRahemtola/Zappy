@@ -12,23 +12,31 @@ void GameData::display(sf::RenderWindow &window) {
     for (auto &line : _tiles)
         for (auto &tile : line)
             tile.display(window);
+    for (auto &player : _players)
+        player.display(window);
+}
+
+void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName) {
+    std::cout << "Creating player " << id << " at " << x << ", " << y << " with orientation " << orientation << " teamName " << teamName << "and level " << level << std::endl;
+    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x, y * _tileSize + _margin.y)));
+    _players.back().setLevel(level);
+    _players.back().setTeamName(teamName);
+    _players.back().setOrientation(orientation);
 }
 
 void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
-    std::size_t size_base = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
-    sf::Vector2f margin((1900 - size_base * _width) / 2, (900 - size_base * _height) / 2);
+    _tileSize = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
+    _margin = sf::Vector2f((1900 - _width * _tileSize) / 2, (900 - _height * _tileSize) / 2);
 
     if (_tiles.size() != 0)
         return;
     for (std::size_t y = 0; y < _height; y++) {
         std::vector<Tile> line;
 
-        for (std::size_t x = 0; x < _width; x++) {
-            std::cout << "size base : " << size_base << std::endl;
-            line.emplace_back(Tile(x, y, size_base, margin));
-        }
+        for (std::size_t x = 0; x < _width; x++)
+            line.emplace_back(Tile(x, y, _tileSize, _margin));
         _tiles.push_back(line);
     }
 }

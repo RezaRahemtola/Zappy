@@ -11,11 +11,7 @@
 
 class Player {
 	public:
-		Player() {
-            _texture.loadFromFile("assets/sprites/player.png");
-            _sprite.setTexture(_texture);
-            _sprite.setScale(sf::Vector2f(0.5, 0.5));
-        }
+		Player(std::size_t id, sf::Vector2f position) : _id(id), _position(position) {};
 		~Player() = default;
 
         void display(sf::RenderWindow &window);
@@ -45,8 +41,6 @@ class Player {
         sf::Vector2f _position;
         sf::Texture _texture;
         sf::Sprite _sprite;
-
-
 };
 
 #endif /*PLAYER_HPP_*/

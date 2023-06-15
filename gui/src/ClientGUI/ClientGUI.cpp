@@ -61,8 +61,6 @@ void ClientGUI::handleDataServer() {
     std::string data;
 
     sending("mct\n");
-    sending("tna\n");
-    sending("sgt\n");
 
     receive(data);
     if (data.empty())
@@ -135,6 +133,7 @@ void ClientGUI::handlePnw(std::vector<std::string> &data) {
     if (data.size() != 7)
         return;
     std::cout << "pnw" << std::endl;
+    _gameData->createPlayer(std::stoi(data[1]), std::stoi(data[2]), std::stoi(data[3]), std::stoi(data[4]), std::stoi(data[5]), data[6]);
 }
 
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
