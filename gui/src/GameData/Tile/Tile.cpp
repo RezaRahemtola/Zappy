@@ -5,16 +5,17 @@
 ** Tile.cpp
 */
 
+#include <iostream>
 #include "Tile.hpp"
 
 void Tile::display(sf::RenderWindow &window) {
-    sf::RectangleShape border(_size);
-    sf::RectangleShape tile(sf::Vector2f(_size.x - 2, _size.y - 2));
+    sf::RectangleShape border(sf::Vector2f(_size, _size));
+    sf::RectangleShape tile(sf::Vector2f(_size - 2, _size - 2));
 
-    border.setPosition(_position);
     border.setFillColor(sf::Color::Transparent);
     border.setOutlineThickness(1);
     border.setOutlineColor(sf::Color::Black);
+    border.setPosition(_position.x, _position.y);
     tile.setPosition(_position.x + 1, _position.y + 1);
     tile.setFillColor(sf::Color(16, 180, 16));
     window.draw(border);
@@ -32,6 +33,7 @@ void Tile::dislpayRessources(sf::RenderWindow &window) {
         text.setFont(_font);
         text.setString(str);
         text.setCharacterSize(20);
+
         if (ressource.first == Ressource::FOOD)
             text.setFillColor(sf::Color::Red);
         else if (ressource.first == Ressource::LINEMATE)
@@ -46,6 +48,7 @@ void Tile::dislpayRessources(sf::RenderWindow &window) {
             text.setFillColor(sf::Color::White);
         else if (ressource.first == Ressource::THYSTAME)
             text.setFillColor(sf::Color::Black);
+
         text.setPosition(_position.x + 17 * (i % 5) + 5, _position.y + 22 * (i / 5));
         window.draw(text);
         i++;

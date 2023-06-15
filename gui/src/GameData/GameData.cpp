@@ -17,14 +17,19 @@ void GameData::display(sf::RenderWindow &window) {
 void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
-    std::size_t size_base = width > height ? width : height;
+    std::size_t size_base = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
+    sf::Vector2f margin((1900 - size_base * _width) / 2, (900 - size_base * _height) / 2);
 
-    for (std::size_t y = 0; y < height; y++) {
+    if (_tiles.size() != 0)
+        return;
+    for (std::size_t y = 0; y < _height; y++) {
         std::vector<Tile> line;
-        for (std::size_t x = 0; x < width; x++) {
-            line.emplace_back(Tile(x, y, 900/size_base));
+
+        for (std::size_t x = 0; x < _width; x++) {
+            std::cout << "size base : " << size_base << std::endl;
+            line.emplace_back(Tile(x, y, size_base, margin));
         }
-        _tiles.emplace_back(line);
+        _tiles.push_back(line);
     }
 }
 
