@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
 
+from ai_client import AIClient
+
 if __name__ == '__main__':
-    print("Hello World!")
+    client = AIClient(('localhost', 4242), 'michel')
+    if not client.connect():
+        raise RuntimeError('Could not connect to server.')
+    client.start_handshake()
+    if not client.disconnect():
+        raise RuntimeError('Couldn\'t disconnect from server.')

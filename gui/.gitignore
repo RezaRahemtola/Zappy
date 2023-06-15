@@ -5,6 +5,7 @@ zappy_gui
 build/
 .idea
 cmake-build-debug
+ai/.idea
 
 ## Trash ##
 .o

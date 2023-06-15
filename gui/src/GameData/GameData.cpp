@@ -12,26 +12,64 @@ void GameData::display(sf::RenderWindow &window) {
     for (auto &line : _tiles)
         for (auto &tile : line)
             tile.display(window);
+    for (auto &player : _players)
+        player.display(window);
+}
+
+void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName) {
+    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x + 30, y * _tileSize + _margin.y + 30)));
+    _players.back().setLevel(level);
+    _players.back().setTeamName(teamName);
+    _players.back().setOrientation(orientation);
+}
+
+std::size_t GameData::getPlayerId(std::size_t id) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            return player.getId();
+    return -1;
+}
+
+void GameData::addMessageToPlayer(std::size_t id, std::string message) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.setMessage(message);
+}
+
+void GameData::deletePlayer(std::size_t id) {
+    for (std::size_t i = 0; i < _players.size(); i++)
+        if (_players[i].getId() == id)
+            _players.erase(_players.begin() + i);
+}
+
+void GameData::createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId) {
+    _eggs.push_back(Egg(pos, id, teamId));
+}
+
+void GameData::deleteEgg(std::size_t id) {
+    for (std::size_t i = 0; i < _eggs.size(); i++)
+        if (_eggs[i].getId() == id)
+            _eggs.erase(_eggs.begin() + i);
 }
 
 void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
-    std::size_t size_base = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
-    sf::Vector2f margin((1900 - size_base * _width) / 2, (900 - size_base * _height) / 2);
+    _tileSize = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
+    _margin = sf::Vector2f((1900 - _width * _tileSize) / 2, (900 - _height * _tileSize) / 2);
 
     if (_tiles.size() != 0)
         return;
     for (std::size_t y = 0; y < _height; y++) {
         std::vector<Tile> line;
 
-        for (std::size_t x = 0; x < _width; x++) {
-            std::cout << "size base : " << size_base << std::endl;
-            line.emplace_back(Tile(x, y, size_base, margin));
-        }
+        for (std::size_t x = 0; x < _width; x++)
+            line.emplace_back(Tile(x, y, _tileSize, _margin));
         _tiles.push_back(line);
     }
 }
+
+
 
 void GameData::updateRessources(std::vector <std::string> &tileData) {
     std::size_t x = std::stoi(tileData[1]);
@@ -53,4 +91,22 @@ void GameData::updateRessource(std::size_t x, std::size_t y, Ressource ressource
         _tiles[y][x].updateRessource(ressource, Operation::INC, value - currentRessource);
     else
         _tiles[y][x].updateRessource(ressource, Operation::DEC, currentRessource - value);
+}
+
+void GameData::updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.updateInventory(inventory);
+}
+
+void GameData::updatePlayerPosition(std::size_t id, std::vector<std::string> &position) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.updatePosition(position);
+}
+
+void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.setLevel(level);
 }

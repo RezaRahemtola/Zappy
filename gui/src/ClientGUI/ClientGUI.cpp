@@ -61,8 +61,6 @@ void ClientGUI::handleDataServer() {
     std::string data;
 
     sending("mct\n");
-    sending("tna\n");
-    sending("sgt\n");
 
     receive(data);
     if (data.empty())
@@ -135,24 +133,26 @@ void ClientGUI::handlePnw(std::vector<std::string> &data) {
     if (data.size() != 7)
         return;
     std::cout << "pnw" << std::endl;
+    data[1].erase(0, 1);
+    _gameData->createPlayer(std::stoi(data[1]), std::stoi(data[2]), std::stoi(data[3]), std::stoi(data[4]), std::stoi(data[5]), data[6]);
 }
 
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
     if (data.size() != 5)
         return;
-    std::cout << "ppo" << std::endl;
+    _gameData->updatePlayerPosition(std::stoi(data[1]), data);
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
-    if (data.size() != 5)
+    if (data.size() != 3)
         return;
-    std::cout << "plv" << std::endl;
+    _gameData->updatePlayerLevel(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePin(std::vector<std::string> &data) {
     if (data.size() != 11)
         return;
-    std::cout << "pin" << std::endl;
+    _gameData->updatePlayerInventory(std::stoi(data[1]), data);
 }
 
 void ClientGUI::handlePex(std::vector<std::string> &data) {
@@ -162,9 +162,17 @@ void ClientGUI::handlePex(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePbc(std::vector<std::string> &data) {
-    if (data.size() != 3)
+    std::size_t id;
+    std::string message;
+
+    if (data.size() < 3)
         return;
-    std::cout << "pbc" << std::endl;
+    id = _gameData->getPlayerId(std::stoi(data[1]));
+    if (id == -1)
+        return;
+    for (int i = 2; i < data.size(); i++)
+        message += data[i] + " ";
+    _gameData->addMessageToPlayer(id, message);
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
@@ -200,13 +208,13 @@ void ClientGUI::handlePgt(std::vector<std::string> &data) {
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-     std::cout << "pdi" << std::endl;
+    _gameData->deletePlayer(std::stoi(data[1]));
 }
 
 void ClientGUI::handleEnw(std::vector<std::string> &data) {
-    if (data.size() != 7)
+    if (data.size() != 5)
         return;
-    std::cout << "enw" << std::endl;
+    _gameData->createEgg(sf::Vector2f(std::stoi(data[3]), std::stoi(data[4])), std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handleEbo(std::vector<std::string> &data) {
@@ -218,7 +226,7 @@ void ClientGUI::handleEbo(std::vector<std::string> &data) {
 void ClientGUI::handleEdi(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-    std::cout << "edi" << std::endl;
+    _gameData->deleteEgg(std::stoi(data[1]));
 }
 
 void ClientGUI::handleSgt(std::vector<std::string> &data) {
