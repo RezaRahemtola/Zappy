@@ -33,7 +33,7 @@ std::size_t GameData::getPlayerId(std::size_t id) {
 void GameData::addMessageToPlayer(std::size_t id, std::string message) {
     for (auto &player : _players)
         if (player.getId() == id)
-            player.addMessage(message);
+            player.setMessage(message);
 }
 
 void GameData::deletePlayer(std::size_t id) {

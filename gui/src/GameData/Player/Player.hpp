@@ -30,8 +30,8 @@ class Player {
         std::size_t getOrientation() const { return _orientation; }
         void setOrientation(std::size_t orientation) { _orientation = orientation; }
 
-        std::string getMessages() const { return _message; }
-        void setMessages(std::string message) { _message = message; }
+        std::string getMessage() const { return _message; }
+        void setMessage(std::string message) { _message = message; }
 
 	private:
         // Information
