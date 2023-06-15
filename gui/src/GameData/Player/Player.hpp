@@ -23,6 +23,15 @@ class Player {
         sf::Vector2f getPosition() const { return _position; }
         void setPosition(sf::Vector2f position) { _position = position; }
 
+        std::size_t getLevel() const { return _level; }
+        void setLevel(std::size_t level) { _level = level; }
+
+        std::string getTeamName() const { return _teamName; }
+        void setTeamName(std::string teamName) { _teamName = teamName; }
+
+        std::size_t getOrientation() const { return _orientation; }
+        void setOrientation(std::size_t orientation) { _orientation = orientation; }
+
 	private:
         // Information
         std::size_t _id;
