@@ -176,15 +176,15 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-    if (data.size() != 4)
+    if (data.size() < 5)
         return;
-    std::cout << "pic" << std::endl;
+    data.erase(data.begin(), data.begin() + 4);
+    _gameData->startIncantation(data);
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
-    std::cout << "pie" << std::endl;
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {

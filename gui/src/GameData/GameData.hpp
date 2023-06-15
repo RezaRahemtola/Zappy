@@ -28,6 +28,8 @@ class GameData{
         void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
         void updatePlayerPosition(std::size_t id, std::vector<std::string> &position);
         void updatePlayerLevel(std::size_t id, std::size_t level);
+        void startIncantation(std::vector<std::string> &ids);
+        void endIncantation(int x, int y);
 
         void createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId);
         void deleteEgg(std::size_t id);

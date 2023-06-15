@@ -110,3 +110,17 @@ void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
         if (player.getId() == id)
             player.setLevel(level);
 }
+
+void GameData::startIncantation(std::vector<std::string> &ids) {
+    for (auto &player : _players)
+        for (auto &id : ids)
+            if (player.getId() == std::stoi(id))
+                player.startIncantation();
+}
+
+void GameData::endIncantation(int x, int y)
+{
+    for (auto &player : _players)
+        if (player.getPosition().x == x && player.getPosition().y == y)
+            player.endIncantation();
+}
