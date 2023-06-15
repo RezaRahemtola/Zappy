@@ -75,3 +75,9 @@ void GameData::updatePlayerInventory(std::size_t id, std::vector<std::string> &i
         if (player.getId() == id)
             player.updateInventory(inventory);
 }
+
+void GameData::updatePlayerPosition(std::size_t id, std::vector<std::string> &position) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.updatePosition(position);
+}

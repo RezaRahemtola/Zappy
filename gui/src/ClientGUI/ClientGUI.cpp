@@ -140,7 +140,7 @@ void ClientGUI::handlePnw(std::vector<std::string> &data) {
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
     if (data.size() != 5)
         return;
-    std::cout << "ppo" << std::endl;
+    _gameData->updatePlayerPosition(std::stoi(data[1]), data);
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {

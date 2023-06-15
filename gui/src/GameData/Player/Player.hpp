@@ -31,6 +31,7 @@ class Player {
         void setOrientation(std::size_t orientation) { _orientation = orientation; }
 
         void updateInventory(std::vector<std::string> &inventory);
+        void updatePosition(std::vector<std::string> &position);
 
 	private:
         // Information
