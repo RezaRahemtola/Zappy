@@ -16,7 +16,7 @@ class Player {
             _sprite.setTexture(_texture);
             _sprite.setScale(sf::Vector2f(0.5, 0.5));
         }
-		~Player();
+		~Player() = default;
 
         void display(sf::RenderWindow &window);
 

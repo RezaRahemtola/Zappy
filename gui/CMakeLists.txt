@@ -14,6 +14,7 @@ include_directories(src/Components/Button)
 include_directories(src/ClientGUI)
 include_directories(src/GameData)
 include_directories(src/GameData/Tile)
+include_directories(src/GameData/Player)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 

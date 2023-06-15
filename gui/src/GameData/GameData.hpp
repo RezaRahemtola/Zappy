@@ -10,6 +10,7 @@
 
     #include <vector>
     #include "Tile.hpp"
+    #include "Player.hpp"
     #include "Tokenize.hpp"
 
 class GameData{
@@ -29,6 +30,7 @@ class GameData{
 
         // Content
         std::vector<std::vector<Tile>> _tiles;
+        std::vector<Player> _players;
 
         // Private methods
         void updateRessource(std::size_t x, std::size_t y, Ressource ressource, std::size_t value);
