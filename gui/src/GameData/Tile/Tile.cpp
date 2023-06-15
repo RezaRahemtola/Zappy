@@ -32,7 +32,7 @@ void Tile::dislpayRessources(sf::RenderWindow &window) {
 
         text.setFont(_font);
         text.setString(str);
-        text.setCharacterSize(20);
+        text.setCharacterSize(_fontSize);
 
         if (ressource.first == Ressource::FOOD)
             text.setFillColor(sf::Color::Red);
@@ -49,7 +49,7 @@ void Tile::dislpayRessources(sf::RenderWindow &window) {
         else if (ressource.first == Ressource::THYSTAME)
             text.setFillColor(sf::Color::Black);
 
-        text.setPosition(_position.x + 17 * (i % 5) + 5, _position.y + 22 * (i / 5));
+        text.setPosition(_position.x + (_fontSize - 2) * (i % 5) + 5, _position.y + (_fontSize + 2) * (i / 5));
         window.draw(text);
         i++;
     }

@@ -204,9 +204,9 @@ void ClientGUI::handlePdi(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handleEnw(std::vector<std::string> &data) {
-    if (data.size() != 7)
+    if (data.size() != 5)
         return;
-    std::cout << "enw" << std::endl;
+    _gameData->createEgg(sf::Vector2f(std::stoi(data[3]), std::stoi(data[4])), std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handleEbo(std::vector<std::string> &data) {
@@ -218,7 +218,7 @@ void ClientGUI::handleEbo(std::vector<std::string> &data) {
 void ClientGUI::handleEdi(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-    std::cout << "edi" << std::endl;
+    _gameData->deleteEgg(std::stoi(data[1]));
 }
 
 void ClientGUI::handleSgt(std::vector<std::string> &data) {

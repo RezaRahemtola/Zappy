@@ -32,8 +32,11 @@ class Tile {
             _position(sf::Vector2f(x, y)), _size(size), _margin(margin) {
 
             _position.x = _position.x * _size + _margin.x;
-            _position.y = _position.y * _size + _margin.y;
+            _position.y = _position.y * _size + _margin.y + 20;
             _font.loadFromFile("assets/fonts/arial.ttf");
+
+            _fontSize = size / 5;
+
             _ressources[Ressource::FOOD] = 5;
             _ressources[Ressource::LINEMATE] = 5;
             _ressources[Ressource::DERAUMERE] = 5;
@@ -60,6 +63,7 @@ class Tile {
         // Content
         std::unordered_map<Ressource, int> _ressources;
         sf::Font _font;
+        std::size_t _fontSize;
 
         void dislpayRessources(sf::RenderWindow &window);
 };
