@@ -6,3 +6,10 @@
 */
 
 #include "Player.hpp"
+
+void Player::display(sf::RenderWindow &window)
+{
+    _sprite.setPosition(_position);
+
+    window.draw(_sprite);
+}

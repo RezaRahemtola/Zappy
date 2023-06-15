@@ -11,17 +11,30 @@
 
 class Player {
 	public:
-		Player();
+		Player() {
+            _texture.loadFromFile("assets/sprites/player.png");
+            _sprite.setTexture(_texture);
+            _sprite.setScale(sf::Vector2f(0.5, 0.5));
+        }
 		~Player();
 
-	private:
-        sf::Vector2f _position;
+        void display(sf::RenderWindow &window);
 
+	private:
+        // Information
+        std::size_t _id;
         size_t _level;
         std::string _teamName;
         std::size_t _orientation;
         std::size_t _inventory[7];
         std::size_t _children;
+
+        // Graphical information
+        sf::Vector2f _position;
+        sf::Texture _texture;
+        sf::Sprite _sprite;
+
+
 };
 
 #endif /*PLAYER_HPP_*/
