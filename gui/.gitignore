@@ -4,6 +4,7 @@ zappy_gui
 ## directory ##
 build/
 .idea
+cmake-build-debug
 
 ## Trash ##
 .o

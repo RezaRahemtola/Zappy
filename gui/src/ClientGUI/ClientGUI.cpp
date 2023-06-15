@@ -5,6 +5,7 @@
 ** ClientGUI.cpp
 */
 
+#include <SFML/System.hpp>
 #include <vector>
 #include "ClientGUI.hpp"
 #include "Tokenize.hpp"
@@ -54,170 +55,204 @@ bool ClientGUI::receive(std::string& receivedData) {
     return true;
 }
 
-// Commands to send to the server
+// Handle the reception of the server's message
 
-std::pair<std::size_t, std::size_t> ClientGUI::msz() {
-    std::cout << "Sending command : msz" << std::endl;
-    sending("msz\n");
+void ClientGUI::handleDataServer() {
     std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::string newBuffer;
 
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 3 && line_tokens[0] == "msz") {
-            return std::make_pair(std::stoi(line_tokens[1]), std::stoi(line_tokens[2]));
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return std::make_pair(0, 0);
-}
-
-std::vector<std::size_t> ClientGUI::bct(std::size_t x, std::size_t y) {
-    std::cout << "Sending command : bct " << x << " " << y << std::endl;
-    sending("bct " + std::to_string(x) + " " + std::to_string(y) + "\n");
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::vector<std::size_t> res = {};
-    std::string newBuffer;
-
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 10 && line_tokens[0] == "bct" && std::stoi(line_tokens[1]) == x && std::stoi(line_tokens[2]) == y) {
-            for (int i = 3; i < 10; i++)
-                res.push_back(std::stoi(line_tokens[i]));
-            return res;
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return res;
-}
-
-std::vector<std::vector<std::size_t>> ClientGUI::mct() {
-    std::cout << "Sending command : mct" << std::endl;
     sending("mct\n");
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::vector<std::vector<std::size_t>> res = {};
-    std::string newBuffer;
-
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        line_tokens.clear();
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 10 && line_tokens[0] == "bct") {
-            std::vector<std::size_t> tmp = {};
-            for (int i = 3; i < 10; i++)
-                tmp.push_back(std::stoi(line_tokens[i]));
-            res.push_back(tmp);
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return res;
-}
-
-std::vector<std::string> ClientGUI::tna() {
-    std::cout << "Sending command : tna" << std::endl;
     sending("tna\n");
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::vector<std::string> res = {};
-    std::string newBuffer;
+    sending("sgt\n");
 
     receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 2 && line_tokens[0] == "tna") {
-            res.push_back(line_tokens[1]);
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return res;
+    if (data.empty())
+        return;
+    dispatchData(data);
 }
 
-std::pair<std::size_t, std::size_t> ClientGUI::ppo() {
-    std::cout << "Sending command : ppo" << std::endl;
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::string newBuffer;
-
-    sending("ppo\n");
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 5 && line_tokens[0] == "ppo") {
-            return std::make_pair(std::stoi(line_tokens[2]), std::stoi(line_tokens[3]));
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return std::make_pair(0, 0);
+void ClientGUI::createHandleDic() {
+    _handlers[std::string("msz")] = &ClientGUI::handleMsz;
+    _handlers[std::string("bct")] = &ClientGUI::handleBct;
+    _handlers[std::string("tna")] = &ClientGUI::handleTna;
+    _handlers[std::string("pnw")] = &ClientGUI::handlePnw;
+    _handlers[std::string("ppo")] = &ClientGUI::handlePpo;
+    _handlers[std::string("plv")] = &ClientGUI::handlePlv;
+    _handlers[std::string("pin")] = &ClientGUI::handlePin;
+    _handlers[std::string("pex")] = &ClientGUI::handlePex;
+    _handlers[std::string("pbc")] = &ClientGUI::handlePbc;
+    _handlers[std::string("pic")] = &ClientGUI::handlePic;
+    _handlers[std::string("pie")] = &ClientGUI::handlePie;
+    _handlers[std::string("pfk")] = &ClientGUI::handlePfk;
+    _handlers[std::string("pdr")] = &ClientGUI::handlePdr;
+    _handlers[std::string("pgt")] = &ClientGUI::handlePgt;
+    _handlers[std::string("pdi")] = &ClientGUI::handlePdi;
+    _handlers[std::string("enw")] = &ClientGUI::handleEnw;
+    _handlers[std::string("ebo")] = &ClientGUI::handleEbo;
+    _handlers[std::string("edi")] = &ClientGUI::handleEdi;
+    _handlers[std::string("sgt")] = &ClientGUI::handleSgt;
+    _handlers[std::string("seg")] = &ClientGUI::handleSeg;
+    _handlers[std::string("smg")] = &ClientGUI::handleSmg;
+    _handlers[std::string("suc")] = &ClientGUI::handleSuc;
+    _handlers[std::string("sbp")] = &ClientGUI::handleSbp;
 }
 
-size_t ClientGUI::plv(){
-    std::cout << "Sending command : plv" << std::endl;
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::string newBuffer;
+void ClientGUI::dispatchData(std::string data) {
+    std::vector<std::string> commands;
 
-    sending("plv\n");
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 4 && line_tokens[0] == "plv") {
-            return std::stoi(line_tokens[2]);
-        } else {
-            newBuffer += token;
+    tokenize(data, '\n', commands);
+    for (auto &command : commands) {
+        std::vector<std::string> tokens;
+
+        tokenize(command, ' ', tokens);
+        if (tokens.size() > 0) {
+            auto it = _handlers.find(tokens[0]);
+            if (it != _handlers.end()) {
+                (this->*(it->second))(tokens);
+            }
         }
     }
-    _buffer = newBuffer;
-    return 0;
 }
 
-std::vector<std::size_t> ClientGUI::pin() {
-    std::cout << "Sending command : pin" << std::endl;
-    sending("pin\n");
-    std::string data;
-    std::vector<std::string> tokens;
-    std::vector<std::string> line_tokens;
-    std::vector<std::size_t> res = {};
-    std::string newBuffer;
+void ClientGUI::handleMsz(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
+    _gameData->updateMapSize(std::stoi(data[1]), std::stoi(data[2]));
+}
 
-    receive(data);
-    tokenize(data, '\n', tokens);
-    for (auto &token : tokens) {
-        tokenize(token, ' ', line_tokens);
-        if (line_tokens.size() == 11 && line_tokens[0] == "pin") {
-            for (int i = 4; i < 10; i++)
-                res.push_back(std::stoi(line_tokens[i]));
-            return res;
-        } else {
-            newBuffer += token;
-        }
-    }
-    _buffer = newBuffer;
-    return res;
+void ClientGUI::handleBct(std::vector<std::string> &data) {
+    if (data.size() != 10)
+        return;
+    _gameData->updateRessources(data);
+}
+
+void ClientGUI::handleTna(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "tna" << std::endl;
+}
+
+void ClientGUI::handlePnw(std::vector<std::string> &data) {
+    if (data.size() != 7)
+        return;
+    std::cout << "pnw" << std::endl;
+}
+
+void ClientGUI::handlePpo(std::vector<std::string> &data) {
+    if (data.size() != 5)
+        return;
+    std::cout << "ppo" << std::endl;
+}
+
+void ClientGUI::handlePlv(std::vector<std::string> &data) {
+    if (data.size() != 5)
+        return;
+    std::cout << "plv" << std::endl;
+}
+
+void ClientGUI::handlePin(std::vector<std::string> &data) {
+    if (data.size() != 11)
+        return;
+    std::cout << "pin" << std::endl;
+}
+
+void ClientGUI::handlePex(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "pex" << std::endl;
+}
+
+void ClientGUI::handlePbc(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
+    std::cout << "pbc" << std::endl;
+}
+
+void ClientGUI::handlePic(std::vector<std::string> &data) {
+    if (data.size() != 4)
+        return;
+    std::cout << "pic" << std::endl;
+}
+
+void ClientGUI::handlePie(std::vector<std::string> &data) {
+    if (data.size() != 4)
+        return;
+    std::cout << "pie" << std::endl;
+}
+
+void ClientGUI::handlePfk(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "pfk" << std::endl;
+}
+
+void ClientGUI::handlePdr(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
+    std::cout << "pdr" << std::endl;
+}
+
+void ClientGUI::handlePgt(std::vector<std::string> &data) {
+    if (data.size() != 3)
+        return;
+    std::cout << "pgt" << std::endl;
+}
+
+void ClientGUI::handlePdi(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+     std::cout << "pdi" << std::endl;
+}
+
+void ClientGUI::handleEnw(std::vector<std::string> &data) {
+    if (data.size() != 7)
+        return;
+    std::cout << "enw" << std::endl;
+}
+
+void ClientGUI::handleEbo(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "ebo" << std::endl;
+}
+
+void ClientGUI::handleEdi(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "edi" << std::endl;
+}
+
+void ClientGUI::handleSgt(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "sgt" << std::endl;
+}
+
+void ClientGUI::handleSst(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "sst" << std::endl;
+}
+
+void ClientGUI::handleSeg(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "seg" << std::endl;
+}
+
+void ClientGUI::handleSmg(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "smg" << std::endl;
+}
+
+void ClientGUI::handleSuc(std::vector<std::string> &data){
+    if (data.size() != 2)
+        return;
+    std::cout << "suc" << std::endl;
+}
+
+void ClientGUI::handleSbp(std::vector<std::string> &data) {
+    if (data.size() != 2)
+        return;
+    std::cout << "sbp" << std::endl;
 }

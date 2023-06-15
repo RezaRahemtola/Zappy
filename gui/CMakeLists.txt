@@ -15,6 +15,8 @@ include_directories(src/ClientGUI)
 include_directories(src/GameData)
 include_directories(src/GameData/Tile)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+
 add_executable(zappy_gui
         src/Main.cpp
         ## GUI Parts
@@ -33,6 +35,7 @@ add_executable(zappy_gui
         ## GameData
         src/GameData/GameData.cpp
         src/GameData/Tile/Tile.cpp
+        src/GameData/Player/Player.cpp
         ## Utils
         src/Utils/ErrorHandling.cpp
         src/Utils/Help.cpp
