@@ -35,3 +35,4 @@ void set_obj(list_t *args, client_t *client, server_t *serv, char **result);
 void fork_player(list_t *args, client_t *client, server_t *serv, char **result);
 void look(list_t *args, client_t *client, server_t *serv, char **result);
 void eject(list_t *args, client_t *client, server_t *serv, char **result);
+void incant(list_t *args, client_t *client, server_t *serv, char **result);

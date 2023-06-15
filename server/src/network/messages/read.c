@@ -40,11 +40,12 @@ static void handle_team_message(client_t *client, char *msg, server_t *server)
     }
     size = list_size(team->eggs);
     client->team = team;
-    send_welcome(client, server, size - 1);
-    if (strcmp(team->name, GUI_TEAM_NAME) != 0)
+    if (strcmp(team->name, GUI_TEAM_NAME) != 0) {
+        send_welcome(client, server, size - 1);
         init_player(client, server);
-    else
+    } else {
         list_remove_index(&team->eggs, rand() % size, free);
+    }
 }
 
 static void handle_message(client_t *client, char *msg)

@@ -33,6 +33,7 @@ BASE_SRC	=	server.c \
 				commands/gui/events/egg.c \
 				commands/gui/events/pdi.c \
 				commands/gui/events/pex.c \
+				commands/gui/events/incantation.c \
 				commands/ai/connect_nbr.c \
 				commands/ai/inventory.c \
 				commands/ai/direction.c \
@@ -41,14 +42,20 @@ BASE_SRC	=	server.c \
 				commands/ai/fork.c \
 				commands/ai/look.c \
 				commands/ai/eject.c \
+				commands/ai/incantation.c \
 				utils/teams.c \
 				utils/player.c \
 				utils/tile.c \
 				utils/strings.c \
+				utils/random.c \
 				utils/direction.c \
+				utils/incantation.c \
 				utils/time.c \
 				game/player/player.c \
 				game/map/map.c \
+				game/map/refill_map.c \
+				game/map/refill_tile.c \
+				game/map/future_resource.c \
 				game/game.c
 
 TESTS_DIR	=	tests
