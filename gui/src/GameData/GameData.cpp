@@ -23,6 +23,19 @@ void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientati
     _players.back().setOrientation(orientation);
 }
 
+std::size_t GameData::getPlayerId(std::size_t id) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            return player.getId();
+    return -1;
+}
+
+void GameData::addMessageToPlayer(std::size_t id, std::string message) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.addMessage(message);
+}
+
 void GameData::deletePlayer(std::size_t id) {
     for (std::size_t i = 0; i < _players.size(); i++)
         if (_players[i].getId() == id)

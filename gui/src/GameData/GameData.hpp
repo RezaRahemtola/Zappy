@@ -22,6 +22,8 @@ class GameData{
         void display(sf::RenderWindow &window);
 
         void createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName);
+        std::size_t getPlayerId(std::size_t id);
+        void addMessageToPlayer(std::size_t id, std::string message);
         void deletePlayer(std::size_t id);
 
         void createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId);

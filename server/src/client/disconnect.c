@@ -33,7 +33,7 @@ static void disconnect_client(server_t *server, client_t *client)
             break;
         }
     }
-    if (strcmp(client->team->name, GUI_TEAM_NAME) != 0)
+    if (client->player != NULL)
         emit_dead_player_event(client, server);
 }
 

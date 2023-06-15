@@ -21,3 +21,4 @@ void emit_resource_event(enum RESOURCE_EVENT evt, const char *resource,
 void emit_egg_laying_event(size_t player_id, server_t *server);
 void emit_dead_player_event(client_t *client, server_t *server);
 void emit_eject_player_event(client_t *client, server_t *server);
+void emit_incant_end_event(size_t x, size_t y, bool success, list_t *clients);

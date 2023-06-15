@@ -162,9 +162,17 @@ void ClientGUI::handlePex(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePbc(std::vector<std::string> &data) {
-    if (data.size() != 3)
+    std::size_t id;
+    std::string message;
+
+    if (data.size() < 3)
         return;
-    std::cout << "pbc" << std::endl;
+    id = _gameData->getPlayerId(std::stoi(data[1]));
+    if (id == -1)
+        return;
+    for (int i = 2; i < data.size(); i++)
+        message += data[i] + " ";
+    _gameData->addMessageToPlayer(id, message);
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
