@@ -200,7 +200,7 @@ void ClientGUI::handlePgt(std::vector<std::string> &data) {
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-     std::cout << "pdi" << std::endl;
+    _gameData->deletePlayer(std::stoi(data[1]));
 }
 
 void ClientGUI::handleEnw(std::vector<std::string> &data) {

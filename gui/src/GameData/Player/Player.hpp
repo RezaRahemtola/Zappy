@@ -16,6 +16,8 @@ class Player {
 
         void display(sf::RenderWindow &window);
 
+        std::size_t getId() const { return _id; }
+
         sf::Vector2f getPosition() const { return _position; }
         void setPosition(sf::Vector2f position) { _position = position; }
 
