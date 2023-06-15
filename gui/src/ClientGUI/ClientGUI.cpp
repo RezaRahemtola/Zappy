@@ -144,9 +144,9 @@ void ClientGUI::handlePpo(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
-    if (data.size() != 5)
+    if (data.size() != 3)
         return;
-    std::cout << "plv" << std::endl;
+    _gameData->updatePlayerLevel(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePin(std::vector<std::string> &data) {

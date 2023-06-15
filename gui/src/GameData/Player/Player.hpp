@@ -32,6 +32,7 @@ class Player {
 
         void updateInventory(std::vector<std::string> &inventory);
         void updatePosition(std::vector<std::string> &position);
+        void updateLevel(size_t level) { _level = level; }
 
 	private:
         // Information

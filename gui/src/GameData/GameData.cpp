@@ -81,3 +81,9 @@ void GameData::updatePlayerPosition(std::size_t id, std::vector<std::string> &po
         if (player.getId() == id)
             player.updatePosition(position);
 }
+
+void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.setLevel(level);
+}

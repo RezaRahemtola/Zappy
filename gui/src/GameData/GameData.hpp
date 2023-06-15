@@ -25,7 +25,7 @@ class GameData{
         void deletePlayer(std::size_t id);
         void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
         void updatePlayerPosition(std::size_t id, std::vector<std::string> &position);
-
+        void updatePlayerLevel(std::size_t id, std::size_t level);
 
         void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);
