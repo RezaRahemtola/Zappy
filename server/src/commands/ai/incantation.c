@@ -46,17 +46,12 @@ void incant_end_func(list_t *args, client_t *client, server_t *serv,
                     char **result)
 {
     (void)args;
-    tile_t *tile = serv->game->map[client->player->y][client->player->x];
     player_t *player = client->player;
     tile_t *tile = serv->game->map[player->y][player->x];
 
     if (strcmp(*result, FAILED_COMMAND_AI) == 0
         || !verify_incant(client, serv)) {
         list_add(&client->output_messages, strdup(FAILED_COMMAND_AI));
-    } else {
-        remove_incant_resources(&INCANT_DATA[client->player->level - 1], tile);
-        dispatch_incant_success(client, serv->clients);
-        emit_incant_end_event(player->x, player->y, false, serv->clients);
     } else {
         remove_incant_resources(&INCANT_DATA[player->level - 1], tile);
         dispatch_incant_success(client, serv->clients);
