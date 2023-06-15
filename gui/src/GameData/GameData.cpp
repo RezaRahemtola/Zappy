@@ -46,6 +46,8 @@ void GameData::updateMapSize(std::size_t width, std::size_t height) {
     }
 }
 
+
+
 void GameData::updateRessources(std::vector <std::string> &tileData) {
     std::size_t x = std::stoi(tileData[1]);
     std::size_t y = std::stoi(tileData[2]);
@@ -66,4 +68,10 @@ void GameData::updateRessource(std::size_t x, std::size_t y, Ressource ressource
         _tiles[y][x].updateRessource(ressource, Operation::INC, value - currentRessource);
     else
         _tiles[y][x].updateRessource(ressource, Operation::DEC, currentRessource - value);
+}
+
+void GameData::updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.updateInventory(inventory);
 }

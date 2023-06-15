@@ -23,6 +23,7 @@ class GameData{
 
         void createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName);
         void deletePlayer(std::size_t id);
+        void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
 
         void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);

@@ -152,7 +152,7 @@ void ClientGUI::handlePlv(std::vector<std::string> &data) {
 void ClientGUI::handlePin(std::vector<std::string> &data) {
     if (data.size() != 11)
         return;
-    std::cout << "pin" << std::endl;
+    _gameData->updatePlayerInventory(std::stoi(data[1]), data);
 }
 
 void ClientGUI::handlePex(std::vector<std::string> &data) {
