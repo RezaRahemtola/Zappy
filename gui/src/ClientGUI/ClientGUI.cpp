@@ -60,7 +60,6 @@ bool ClientGUI::receive(std::string& receivedData) {
 void ClientGUI::handleDataServer() {
     std::string data;
 
-    sending("msz\n");
     sending("mct\n");
     sending("tna\n");
     sending("sgt\n");

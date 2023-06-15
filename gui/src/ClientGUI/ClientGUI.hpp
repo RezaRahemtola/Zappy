@@ -59,7 +59,7 @@ class ClientGUI {
             sending("GRAPHIC\n");
             receive(data);
             std::cout << "Server said: " << data << std::endl;
-
+            sending("msz\n");
         }
 		~ClientGUI() {
             if (_sockfd != -1) {
