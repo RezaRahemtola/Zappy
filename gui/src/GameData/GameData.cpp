@@ -18,7 +18,7 @@ void GameData::display(sf::RenderWindow &window) {
 
 void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName) {
     std::cout << "Creating player " << id << " at " << x << ", " << y << " with orientation " << orientation << " teamName " << teamName << "and level " << level << std::endl;
-    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x, y * _tileSize + _margin.y)));
+    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x + 30, y * _tileSize + _margin.y + 30)));
     _players.back().setLevel(level);
     _players.back().setTeamName(teamName);
     _players.back().setOrientation(orientation);

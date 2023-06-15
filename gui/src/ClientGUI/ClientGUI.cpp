@@ -133,6 +133,7 @@ void ClientGUI::handlePnw(std::vector<std::string> &data) {
     if (data.size() != 7)
         return;
     std::cout << "pnw" << std::endl;
+    data[1].erase(0, 1);
     _gameData->createPlayer(std::stoi(data[1]), std::stoi(data[2]), std::stoi(data[3]), std::stoi(data[4]), std::stoi(data[5]), data[6]);
 }
 
