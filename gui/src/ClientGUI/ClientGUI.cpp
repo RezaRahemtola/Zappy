@@ -185,6 +185,7 @@ void ClientGUI::handlePic(std::vector<std::string> &data) {
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
+    _gameData->endIncantation(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {
