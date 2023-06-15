@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "commands/incantation.h"
 #include "parameters.h"
 
 // Teams
@@ -28,3 +29,11 @@ char *new_strcat(char *str1, char *str2, bool free1, bool free2);
 
 // Time
 bool check_time(timeval_t start, size_t time, size_t freq);
+
+// Random function
+size_t rand_between_range(size_t lowest, size_t higher);
+
+// Incantation
+void remove_incant_resources(const incant_t *incant, tile_t *tile);
+void dispatch_incant_success(client_t *client, list_t *clients);
+command_t *create_slave_incant_cmd(void);

@@ -84,6 +84,7 @@ typedef struct egg_s {
 typedef inventory_t tile_t;
 typedef struct game_s {
     tile_t ***map;
+    timeval_t last_gen;
 } game_t;
 
 
@@ -112,6 +113,7 @@ typedef void (*command_fct)(list_t *args, client_t *client,
 typedef struct command_s {
     const char *name;
     command_fct function;
+    command_fct end_func;
     list_t *args;
     char *result;
     size_t time;
