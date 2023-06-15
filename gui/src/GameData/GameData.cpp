@@ -29,6 +29,16 @@ void GameData::deletePlayer(std::size_t id) {
             _players.erase(_players.begin() + i);
 }
 
+void GameData::createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId) {
+    _eggs.push_back(Egg(pos, id, teamId));
+}
+
+void GameData::deleteEgg(std::size_t id) {
+    for (std::size_t i = 0; i < _eggs.size(); i++)
+        if (_eggs[i].getId() == id)
+            _eggs.erase(_eggs.begin() + i);
+}
+
 void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
