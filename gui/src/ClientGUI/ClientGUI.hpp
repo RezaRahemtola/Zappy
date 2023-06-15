@@ -71,6 +71,8 @@ class ClientGUI {
     bool sending(const std::string& message);
     bool receive(std::string& receivedData);
 
+    void handleDataServer();
+
 	private:
         int _sockfd;
         std::shared_ptr<GameData> _gameData;
@@ -80,32 +82,32 @@ class ClientGUI {
         // handle data from server
         void createHandleDic();
         void dispatchData(std::string data);
-        std::unordered_map<std::string, std::function<void(std::vector<std::string> &)>> _handlers;
+        std::unordered_map<std::string, void(ClientGUI::*)(std::vector<std::string>&)> _handlers;
 
-        static void handleMsz(std::vector<std::string> &data);
-        static void handleBct(std::vector<std::string> &data);
-        static void handleTna(std::vector<std::string> &data);
-        static void handlePnw(std::vector<std::string> &data);
-        static void handlePpo(std::vector<std::string> &data);
-        static void handlePlv(std::vector<std::string> &data);
-        static void handlePin(std::vector<std::string> &data);
-        static void handlePex(std::vector<std::string> &data);
-        static void handlePbc(std::vector<std::string> &data);
-        static void handlePic(std::vector<std::string> &data);
-        static void handlePie(std::vector<std::string> &data);
-        static void handlePfk(std::vector<std::string> &data);
-        static void handlePdr(std::vector<std::string> &data);
-        static void handlePgt(std::vector<std::string> &data);
-        static void handlePdi(std::vector<std::string> &data);
-        static void handleEnw(std::vector<std::string> &data);
-        static void handleEbo(std::vector<std::string> &data);
-        static void handleEdi(std::vector<std::string> &data);
-        static void handleSgt(std::vector<std::string> &data);
-        static void handleSst(std::vector<std::string> &data);
-        static void handleSeg(std::vector<std::string> &data);
-        static void handleSmg(std::vector<std::string> &data);
-        static void handleSuc(std::vector<std::string> &data);
-        static void handleSbp(std::vector<std::string> &data);
+        void handleMsz(std::vector<std::string> &data);
+        void handleBct(std::vector<std::string> &data);
+        void handleTna(std::vector<std::string> &data);
+        void handlePnw(std::vector<std::string> &data);
+        void handlePpo(std::vector<std::string> &data);
+        void handlePlv(std::vector<std::string> &data);
+        void handlePin(std::vector<std::string> &data);
+        void handlePex(std::vector<std::string> &data);
+        void handlePbc(std::vector<std::string> &data);
+        void handlePic(std::vector<std::string> &data);
+        void handlePie(std::vector<std::string> &data);
+        void handlePfk(std::vector<std::string> &data);
+        void handlePdr(std::vector<std::string> &data);
+        void handlePgt(std::vector<std::string> &data);
+        void handlePdi(std::vector<std::string> &data);
+        void handleEnw(std::vector<std::string> &data);
+        void handleEbo(std::vector<std::string> &data);
+        void handleEdi(std::vector<std::string> &data);
+        void handleSgt(std::vector<std::string> &data);
+        void handleSst(std::vector<std::string> &data);
+        void handleSeg(std::vector<std::string> &data);
+        void handleSmg(std::vector<std::string> &data);
+        void handleSuc(std::vector<std::string> &data);
+        void handleSbp(std::vector<std::string> &data);
 };
 
 #endif /*CLIENTGUI_HPP_*/

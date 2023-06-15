@@ -29,6 +29,7 @@ std::string Playground::run(sf::RenderWindow &window) {
         // mettre a jour les choses hors pause
     }
     display(window);
+    _client.handleDataServer();
     if (_quitButton.isClicked())
         return "Menu";
     return "Playground";

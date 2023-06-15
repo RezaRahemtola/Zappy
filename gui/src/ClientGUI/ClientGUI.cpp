@@ -52,36 +52,49 @@ bool ClientGUI::receive(std::string& receivedData) {
     }
 
     receivedData = std::string(buffer, bytesRead);
-
     return true;
 }
 
 // Handle the reception of the server's message
 
+void ClientGUI::handleDataServer() {
+    std::string data;
+
+    sending("msz\n");
+    sending("mct\n");
+    sending("tna\n");
+    sending("sgt\n");
+
+    receive(data);
+    if (data.empty())
+        return;
+    dispatchData(data);
+}
+
 void ClientGUI::createHandleDic() {
-    _handlers[std::string("msz")] = handleMsz;
-    _handlers[std::string("bct")] = handleBct;
-    _handlers[std::string("tna")] = handleTna;
-    _handlers[std::string("pnw")] = handlePnw;
-    _handlers[std::string("ppo")] = handlePpo;
-    _handlers[std::string("plv")] = handlePlv;
-    _handlers[std::string("pin")] = handlePin;
-    _handlers[std::string("pex")] = handlePex;
-    _handlers[std::string("pbc")] = handlePbc;
-    _handlers[std::string("pic")] = handlePic;
-    _handlers[std::string("pie")] = handlePie;
-    _handlers[std::string("pfk")] = handlePfk;
-    _handlers[std::string("pdr")] = handlePdr;
-    _handlers[std::string("pgt")] = handlePgt;
-    _handlers[std::string("pdi")] = handlePdi;
-    _handlers[std::string("enw")] = handleEnw;
-    _handlers[std::string("ebo")] = handleEbo;
-    _handlers[std::string("edi")] = handleEdi;
-    _handlers[std::string("sgt")] = handleSgt;
-    _handlers[std::string("seg")] = handleSeg;
-    _handlers[std::string("smg")] = handleSmg;
-    _handlers[std::string("suc")] = handleSuc;
-    _handlers[std::string("sbp")] = handleSbp;
+    _handlers[std::string("msz")] = &ClientGUI::handleMsz;
+    _handlers[std::string("bct")] = &ClientGUI::handleBct;
+    _handlers[std::string("tna")] = &ClientGUI::handleTna;
+    _handlers[std::string("pnw")] = &ClientGUI::handlePnw;
+    _handlers[std::string("ppo")] = &ClientGUI::handlePpo;
+    _handlers[std::string("plv")] = &ClientGUI::handlePlv;
+    _handlers[std::string("pin")] = &ClientGUI::handlePin;
+    _handlers[std::string("pex")] = &ClientGUI::handlePex;
+    _handlers[std::string("pbc")] = &ClientGUI::handlePbc;
+    _handlers[std::string("pic")] = &ClientGUI::handlePic;
+    _handlers[std::string("pie")] = &ClientGUI::handlePie;
+    _handlers[std::string("pfk")] = &ClientGUI::handlePfk;
+    _handlers[std::string("pdr")] = &ClientGUI::handlePdr;
+    _handlers[std::string("pgt")] = &ClientGUI::handlePgt;
+    _handlers[std::string("pdi")] = &ClientGUI::handlePdi;
+    _handlers[std::string("enw")] = &ClientGUI::handleEnw;
+    _handlers[std::string("ebo")] = &ClientGUI::handleEbo;
+    _handlers[std::string("edi")] = &ClientGUI::handleEdi;
+    _handlers[std::string("sgt")] = &ClientGUI::handleSgt;
+    _handlers[std::string("seg")] = &ClientGUI::handleSeg;
+    _handlers[std::string("smg")] = &ClientGUI::handleSmg;
+    _handlers[std::string("suc")] = &ClientGUI::handleSuc;
+    _handlers[std::string("sbp")] = &ClientGUI::handleSbp;
 }
 
 void ClientGUI::dispatchData(std::string data) {
@@ -92,8 +105,11 @@ void ClientGUI::dispatchData(std::string data) {
         std::vector<std::string> tokens;
 
         tokenize(command, ' ', tokens);
-        if (_handlers.find(tokens[0]) != _handlers.end()) {
-            _handlers[tokens[0]](tokens);
+        if (tokens.size() > 0) {
+            auto it = _handlers.find(tokens[0]);
+            if (it != _handlers.end()) {
+                (this->*(it->second))(tokens);
+            }
         }
     }
 }
@@ -102,6 +118,8 @@ void ClientGUI::handleMsz(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
     std::cout << "msz" << std::endl;
+    std::cout << "map size: " << data[1] << "x" << data[2] << std::endl;
+    _gameData->updateMapSize(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handleBct(std::vector<std::string> &data) {

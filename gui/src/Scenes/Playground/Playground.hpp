@@ -61,8 +61,7 @@ class Playground : public IDisplay {
         // Utils
         bool _pause;
         void handlePause();
-
-
+        
 };
 
 #endif /*PLAYGROUND_HPP_*/
