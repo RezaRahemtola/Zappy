@@ -116,15 +116,13 @@ void ClientGUI::dispatchData(std::string data) {
 void ClientGUI::handleMsz(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    std::cout << "msz" << std::endl;
-    std::cout << "map size: " << data[1] << "x" << data[2] << std::endl;
     _gameData->updateMapSize(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handleBct(std::vector<std::string> &data) {
     if (data.size() != 10)
         return;
-    std::cout << "bct" << std::endl;
+    _gameData->updateRessources(data);
 }
 
 void ClientGUI::handleTna(std::vector<std::string> &data) {

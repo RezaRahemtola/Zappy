@@ -33,21 +33,17 @@ void GameData::updateMapSize(std::size_t width, std::size_t height) {
     }
 }
 
-void GameData::updateRessources(std::vector <std::string> &data) {
-    for (auto &line : data) {
-        std::vector<std::string> tileData;
-        tokenize(line, ' ', tileData);
-        std::size_t x = std::stoi(tileData[0]);
-        std::size_t y = std::stoi(tileData[1]);
+void GameData::updateRessources(std::vector <std::string> &tileData) {
+    std::size_t x = std::stoi(tileData[1]);
+    std::size_t y = std::stoi(tileData[2]);
 
-        updateRessource(x, y, Ressource::FOOD, std::stoi(tileData[2]));
-        updateRessource(x, y, Ressource::LINEMATE, std::stoi(tileData[3]));
-        updateRessource(x, y, Ressource::DERAUMERE, std::stoi(tileData[4]));
-        updateRessource(x, y, Ressource::SIBUR, std::stoi(tileData[5]));
-        updateRessource(x, y, Ressource::MENDIANE, std::stoi(tileData[6]));
-        updateRessource(x, y, Ressource::PHIRAS, std::stoi(tileData[7]));
-        updateRessource(x, y, Ressource::THYSTAME, std::stoi(tileData[8]));
-    }
+    updateRessource(x, y, Ressource::FOOD, std::stoi(tileData[3]));
+    updateRessource(x, y, Ressource::LINEMATE, std::stoi(tileData[4]));
+    updateRessource(x, y, Ressource::DERAUMERE, std::stoi(tileData[5]));
+    updateRessource(x, y, Ressource::SIBUR, std::stoi(tileData[6]));
+    updateRessource(x, y, Ressource::MENDIANE, std::stoi(tileData[7]));
+    updateRessource(x, y, Ressource::PHIRAS, std::stoi(tileData[8]));
+    updateRessource(x, y, Ressource::THYSTAME, std::stoi(tileData[9]));
 }
 
 void GameData::updateRessource(std::size_t x, std::size_t y, Ressource ressource, std::size_t value) {

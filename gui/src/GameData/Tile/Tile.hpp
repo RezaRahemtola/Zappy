@@ -34,9 +34,9 @@ class Tile {
             _position.x = _position.x * _size + _margin.x;
             _position.y = _position.y * _size + _margin.y;
             _font.loadFromFile("assets/fonts/arial.ttf");
-            _ressources[Ressource::FOOD] = 0;
-            _ressources[Ressource::LINEMATE] = 0;
-            _ressources[Ressource::DERAUMERE] = 0;
+            _ressources[Ressource::FOOD] = 5;
+            _ressources[Ressource::LINEMATE] = 5;
+            _ressources[Ressource::DERAUMERE] = 5;
             _ressources[Ressource::SIBUR] = 0;
             _ressources[Ressource::MENDIANE] = 0;
             _ressources[Ressource::PHIRAS] = 0;
