@@ -33,6 +33,7 @@ BASE_SRC	=	server.c \
 				commands/gui/events/egg.c \
 				commands/gui/events/pdi.c \
 				commands/gui/events/pex.c \
+				commands/gui/events/incantation.c \
 				commands/ai/connect_nbr.c \
 				commands/ai/inventory.c \
 				commands/ai/direction.c \

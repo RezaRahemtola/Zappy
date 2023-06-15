@@ -11,6 +11,10 @@
 #include "commands/incantation.h"
 #include "commands/commands.h"
 #include "utils.h"
+<<<<<<< HEAD
+=======
+#include "commands/events.h"
+>>>>>>> 8b0ef1c2d79793158a8a5aeccfeae9c212d144cf
 
 static size_t count_incant_players(player_t *player, list_t *clients)
 {
@@ -45,14 +49,27 @@ void incant_end_func(list_t *args, client_t *client, server_t *serv,
                     char **result)
 {
     (void)args;
+<<<<<<< HEAD
     tile_t *tile = serv->game->map[client->player->y][client->player->x];
+=======
+    player_t *player = client->player;
+    tile_t *tile = serv->game->map[player->y][player->x];
+>>>>>>> 8b0ef1c2d79793158a8a5aeccfeae9c212d144cf
 
     if (strcmp(*result, FAILED_COMMAND_AI) == 0
         || !verify_incant(client, serv)) {
         list_add(&client->output_messages, strdup(FAILED_COMMAND_AI));
+<<<<<<< HEAD
     } else {
         remove_incant_resources(&INCANT_DATA[client->player->level - 1], tile);
         dispatch_incant_success(client, serv->clients);
+=======
+        emit_incant_end_event(player->x, player->y, false, serv->clients);
+    } else {
+        remove_incant_resources(&INCANT_DATA[player->level - 1], tile);
+        dispatch_incant_success(client, serv->clients);
+        emit_incant_end_event(player->x, player->y, true, serv->clients);
+>>>>>>> 8b0ef1c2d79793158a8a5aeccfeae9c212d144cf
     }
     list_remove_head(&client->commands, (free_func)destroy_command);
 }

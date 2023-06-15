@@ -42,6 +42,7 @@ class Player {
         std::size_t _orientation;
         std::size_t _inventory[7];
         std::size_t _children;
+        bool _elevation = false;
 
         // Graphical information
         sf::Vector2f _position;
