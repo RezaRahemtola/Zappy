@@ -23,7 +23,7 @@ class ClientGUI {
 	public:
         ClientGUI() = default;
         ClientGUI(std::string &machine, int port, std::shared_ptr<GameData> gameData) : _sockfd(-1),
-            _buffer(""), _gameData(gameData) {
+            _gameData(gameData), _buffer("") {
 
             createHandleDic();
             std::string data;

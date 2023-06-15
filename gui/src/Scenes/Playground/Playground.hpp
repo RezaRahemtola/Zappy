@@ -17,8 +17,8 @@
 
 class Playground : public IDisplay {
     public:
-        Playground(std::string machine, std::size_t port) : _pause(false), _machine(machine), _port(port),
-        _gameData(std::make_shared<GameData>()), _client(ClientGUI(machine, port, _gameData)) {
+        Playground(std::string machine, std::size_t port) : _gameData(std::make_shared<GameData>()), _port(port), _machine(machine),
+            _client(ClientGUI(machine, port, _gameData)), _pause(false) {
 
             // Color setup
             sf::Color color = sf::Color(253, 217, 163);
@@ -41,13 +41,13 @@ class Playground : public IDisplay {
         void display(sf::RenderWindow &window) override;
 
     private:
+        // Content
+        std::shared_ptr<GameData> _gameData;
+
         // Network
         int _port;
         std::string _machine;
         ClientGUI _client;
-
-        // Content
-        std::shared_ptr<GameData> _gameData;
 
         // UI Components
         sf::RectangleShape _background;
