@@ -19,6 +19,7 @@ void emit_broadcast_event(const char *message, server_t *server, size_t id);
 void emit_resource_event(enum RESOURCE_EVENT evt, const char *resource,
     server_t *server, size_t id);
 void emit_egg_laying_event(size_t player_id, server_t *server);
+void emit_egg_layed_event(player_t *player, server_t *serv, team_t *team);
 void emit_dead_player_event(client_t *client, server_t *server);
 void emit_eject_player_event(client_t *client, server_t *server);
 void emit_incant_start_event(player_t *pl, list_t *clients);
