@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include <string.h>
 #include "commands/events.h"
+#include "utils.h"
 
 void emit_egg_laying_event(size_t player_id, server_t *server)
 {
@@ -19,4 +20,32 @@ void emit_egg_laying_event(size_t player_id, server_t *server)
         return;
     sprintf(content, "pfk %ld\n", player_id);
     send_event(server->clients, content, true);
+}
+
+static size_t get_laid_egg_nb(team_t *team, size_t x, size_t y)
+{
+    egg_t *egg = NULL;
+    list_t *eggs = team->eggs;
+
+    for (; eggs != NULL; eggs = eggs->next) {
+        egg = eggs->data;
+        if (egg->x == x && egg->y == y)
+            return egg->id;
+    }
+    return 0;
+}
+
+void emit_egg_layed_event(player_t *player, server_t *serv, team_t *team)
+{
+    size_t x = player->x;
+    size_t y = player->y;
+    size_t egg = get_laid_egg_nb(team, x, y);
+    size_t len = snprintf(NULL, 0, "enw %ld %ld %ld %ld\n", egg,
+                        player->id, x, y) + 1;
+    char *content = malloc(sizeof(char) * len);
+
+    if (content == NULL)
+        return;
+    sprintf(content, "enw %ld %ld %ld %ld\n", egg, player->id, x, y);
+    send_event(serv->clients, content, true);
 }
