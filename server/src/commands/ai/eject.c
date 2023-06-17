@@ -21,7 +21,7 @@ static void remove_egg(list_t **eggs, size_t index, team_t *team, bool remove)
     *eggs = (*eggs)->next;
 }
 
-static void remove_eggs(list_t *teams, size_t x, size_t y)
+static void remove_eggs(list_t *teams, size_t x, size_t y, list_t *clients)
 {
     team_t *team = NULL;
     egg_t *egg = NULL;
@@ -32,6 +32,7 @@ static void remove_eggs(list_t *teams, size_t x, size_t y)
         eggs = team->eggs;
         for (size_t i = 0; eggs != NULL; i++) {
             egg = eggs->data;
+            emit_dead_egg_event(egg->id, clients);
             remove_egg(&eggs, i, team, (egg->x == x && egg->y == y));
         }
     }
@@ -83,7 +84,8 @@ void eject(list_t *args, client_t *client, server_t *serv, char **result)
             eject_player(curr, client->player->orientation, serv);
         }
     }
-    remove_eggs(serv->params->teams, client->player->x, client->player->y);
+    remove_eggs(serv->params->teams, client->player->x, client->player->y,
+                serv->clients);
     *result = ejected ? strdup(SUCCESS_COMMAND_AI) : strdup(FAILED_COMMAND_AI);
     if (ejected)
         emit_eject_player_event(client, serv);
