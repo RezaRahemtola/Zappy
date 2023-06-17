@@ -32,5 +32,5 @@ void fork_player(list_t *args, client_t *client, server_t *serv, char **result)
     }
     list_add(&client->team->eggs, egg);
     *result = message;
-    emit_egg_laying_event(client->player->id, serv);
+    emit_egg_laying_event(client->player->id, serv->clients);
 }
