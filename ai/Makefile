@@ -7,3 +7,4 @@
 
 all:
 	chmod +x ./zappy_ai
+	cd .. && ln -s ai/zappy_ai zappy_ai
