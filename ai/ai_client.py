@@ -37,7 +37,7 @@ COMMANDS = {
     'left': AICommand('Left', [r'ok']),
 
     'look': AICommand('Look', [r'\[ .+(, .+)* \]']),
-    'inventory': AICommand('Inventory', [r'\[ \w+ [1-9]\d*(, \w+ [1-9]\d*)* \]']),
+    'inventory': AICommand('Inventory', [r'\[ \w+ \d+(, \w+ \d+)* \]']),
     'broadcast': AICommand('Broadcast', [r'ok']),
 
     'connect_nbr': AICommand('Connect_nbr', [r'[1-9]\d*']),
@@ -101,3 +101,12 @@ class AIClient(Client):
             else:
                 filtered_response.append(line)
         return filtered_response
+
+    def refresh_inventory(self):
+        raw_inventory = self.execute_command(COMMANDS['inventory'])[0]
+
+        items = re.findall(r'\w+ \d+', raw_inventory)
+
+        for item in items:
+            item_name, item_quantity = item.split()
+            self.inventory[item_name] = int(item_quantity)
