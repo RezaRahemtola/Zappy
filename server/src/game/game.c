@@ -25,7 +25,7 @@ game_t *create_game(params_t *params)
     if (game == NULL)
         return NULL;
     game->map = create_map(params->width, params->height);
-    game->map = fill_map(game->map, params->width, params->height);
+    game->map = refill_map(game->map, params->width, params->height);
     gettimeofday(&game->last_gen, NULL);
     return game;
 }
@@ -47,7 +47,7 @@ static void check_resources_generation(server_t *server)
     if (!check_time(game->last_gen, RESOURCE_GENERATION_DURATION,
                     server->params->freq))
         return;
-    fill_map(game->map, server->params->width, server->params->height);
+    game->map = refill_map(game->map, server->params->width, server->params->height);
     gettimeofday(&game->last_gen, NULL);
 }
 
