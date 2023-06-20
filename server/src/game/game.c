@@ -51,7 +51,7 @@ static void check_resources_generation(server_t *server)
     gettimeofday(&game->last_gen, NULL);
 }
 
-void game_logic(server_t *server)
+void game_logic(server_t *server, bool (*running)(bool val))
 {
     list_t *clients = server->clients;
     client_t *client = NULL;
@@ -67,4 +67,6 @@ void game_logic(server_t *server)
         }
     }
     check_resources_generation(server);
+    if (check_endgame(server))
+        running(false);
 }

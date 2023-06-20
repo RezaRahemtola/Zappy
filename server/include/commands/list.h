@@ -8,12 +8,9 @@
 #pragma once
 
 #include <stddef.h>
-#include "../types.h"
+#include "types.h"
 #include "functions.h"
 #include "incantation.h"
-
-void base_end_func(list_t *args, client_t *client, server_t *server,
-                    char **result);
 
 static command_t GUI_COMMANDS[] = {
     {"msz", msz, base_end_func, NULL, NULL, 0, {0}},
