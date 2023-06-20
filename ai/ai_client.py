@@ -6,7 +6,7 @@ from client import Client
 
 SERVER_BANNER = 'WELCOME'
 DEFAULT_INVENTORY = {
-    'food': 7,
+    'food': 10,
     'linemate': 0,
     'deraumere': 0,
     'sibur': 0,
