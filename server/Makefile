@@ -58,7 +58,8 @@ BASE_SRC	=	server.c \
 				game/map/refill_map.c \
 				game/map/refill_tile.c \
 				game/map/future_resource.c \
-				game/game.c
+				game/game.c \
+				game/end.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=

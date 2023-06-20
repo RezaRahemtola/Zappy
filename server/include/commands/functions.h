@@ -40,4 +40,5 @@ void eject(list_t *args, client_t *client, server_t *serv, char **result);
 void incant(list_t *args, client_t *client, server_t *serv, char **result);
 
 // End functions
+void base_end_func(list_t *args, client_t *client, server_t *, char **result);
 void fork_end_func(list_t *args, client_t *client, server_t *, char **result);
