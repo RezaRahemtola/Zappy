@@ -97,3 +97,25 @@ void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
         if (player.getId() == id)
             player.setLevel(level);
 }
+
+void GameData::collectResource(std::size_t id, int resource)
+{
+    for (auto &player : _players)
+        if (player.getId() == id) {
+            int x = player.getPosition().x;
+            int y = player.getPosition().y;
+            _tiles[y][x].updateRessource(static_cast<Ressource>(resource), Operation::DEC, 1);
+            player.updateResource(resource, 1);
+        }
+}
+
+void GameData::dropResource(std::size_t id, int ressource)
+{
+    for (auto &player : _players)
+        if (player.getId() == id) {
+            int x = player.getPosition().x;
+            int y = player.getPosition().y;
+            _tiles[y][x].updateRessource(static_cast<Ressource>(ressource), Operation::INC, 1);
+            player.updateResource(ressource, -1);
+        }
+}

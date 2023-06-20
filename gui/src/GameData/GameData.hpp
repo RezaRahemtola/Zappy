@@ -32,6 +32,8 @@ class GameData{
 
         void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);
+        void collectResource(std::size_t id, int ressource);
+        void dropResource(std::size_t id, int ressource);
 
     private:
         // Information

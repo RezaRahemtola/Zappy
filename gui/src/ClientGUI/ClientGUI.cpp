@@ -188,13 +188,13 @@ void ClientGUI::handlePfk(std::vector<std::string> &data) {
 void ClientGUI::handlePdr(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    std::cout << "pdr" << std::endl;
+    _gameData->dropResource(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePgt(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    std::cout << "pgt" << std::endl;
+    _gameData->collectResource(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
