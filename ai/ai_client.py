@@ -1,6 +1,6 @@
 import re
 from queue import Queue
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
 from client import Client
 
@@ -110,3 +110,25 @@ class AIClient(Client):
         for item in items:
             item_name, item_quantity = item.split()
             self.inventory[item_name] = int(item_quantity)
+
+    def drop_item(self, item: str):
+        if self.inventory.get(item, 0) < 0:
+            raise ValueError('Cannot drop an item that is not in the inventory.')
+        if 'ko' in self.execute_command(COMMANDS['set'], [item]):
+            raise RuntimeError('Could not drop item.')
+        self.inventory[item] -= 1
+
+    def take_item(self, item: str):
+        if 'ko' in self.execute_command(COMMANDS['take'], [item]):
+            raise RuntimeError('Could not take item.')
+        self.inventory[item] += 1
+
+    def look(self) -> List[Dict[str, int]]:
+        surrounding_cells: List[Dict[str, int]] = []
+        raw_look = self.execute_command(COMMANDS['look'])[0]
+
+        for i, cell in enumerate(raw_look.split(',')):
+            surrounding_cells.append({})
+            for item in re.findall(r'\w+', cell):
+                surrounding_cells[i][item] = surrounding_cells[i].get(item, 0) + 1
+        return surrounding_cells
