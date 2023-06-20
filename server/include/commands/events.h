@@ -25,6 +25,7 @@ void emit_dead_player_event(client_t *client, server_t *server);
 void emit_eject_player_event(client_t *client, server_t *server);
 void emit_incant_start_event(player_t *pl, list_t *clients);
 void emit_incant_end_event(size_t x, size_t y, bool success, list_t *clients);
+void emit_endgame_event(const char *team, list_t *clients);
 
 // Utils
 void send_event(list_t *clients, char *message, bool free_msg);

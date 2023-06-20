@@ -35,6 +35,7 @@ BASE_SRC	=	server.c \
 				commands/gui/events/pex.c \
 				commands/gui/events/incantation.c \
 				commands/gui/events/events.c \
+				commands/gui/events/end_game.c \
 				commands/ai/connect_nbr.c \
 				commands/ai/inventory.c \
 				commands/ai/direction.c \
