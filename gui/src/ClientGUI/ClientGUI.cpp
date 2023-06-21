@@ -246,13 +246,13 @@ void ClientGUI::handleSgt(std::vector<std::string> &data) {
 void ClientGUI::handleSst(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-    std::cout << "sst" << std::endl;
+    _gameData->updateTimeUnit(std::stoi(data[1]));
 }
 
 void ClientGUI::handleSeg(std::vector<std::string> &data) {
     if (data.size() != 2)
         return;
-    std::cout << "seg" << std::endl;
+    _gameData->endGame();
 }
 
 void ClientGUI::handleSmg(std::vector<std::string> &data) {

@@ -45,11 +45,17 @@ class GameData{
 
         std::unordered_map<Ressource, int> getRessourcesFromSelectedTile(Ray);
 
+        void updateTimeUnit(std::size_t timeUnit) {_timeUnit = timeUnit;};
+        void endGame() {endOfGame = true;};
+
     private:
         // Information
         std::size_t _width;
         std::size_t _height;
         std::size_t _tileSize;
+        sf::Vector2f _margin;
+        std::size_t  _timeUnit = 100;
+        bool endOfGame = false;
 
         // Content
         std::vector<std::vector<Tile>> _tiles;
