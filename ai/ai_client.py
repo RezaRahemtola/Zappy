@@ -144,3 +144,21 @@ class AIClient(Client):
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
         self.elevation += 1
+
+    def go_to(self, x: int, y: int) -> None:
+        while x != 0 and y != 0:
+            if y > 0:
+                self.execute_command(COMMANDS['forward'])
+                y -= 1
+            if y < 0:
+                self.execute_command(COMMANDS['right'])
+                x, y = y, -x
+                self.execute_command(COMMANDS['right'])
+                x, y = y, -x
+            if y == 0:
+                if x < 0:
+                    self.execute_command(COMMANDS['right'])
+                    x, y = -y, x
+                if x > 0:
+                    self.execute_command(COMMANDS['left'])
+                    x, y = -y, x
