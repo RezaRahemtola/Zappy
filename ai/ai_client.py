@@ -15,6 +15,33 @@ DEFAULT_INVENTORY = {
     'thystame': 0
 }
 
+ROCKS_PRIORITY = [
+    'phiras',
+    'mendiane',
+    'sibur',
+    'deraumere',
+    'linemate',
+]
+
+RELATIVE_POSITIONS_LOOK_MAPPINGS = [
+    (0, 0),
+    (-1, 1),
+    (0, 1),
+    (1, 1),
+    (-2, 2),
+    (-1, 2),
+    (0, 2),
+    (1, 2),
+    (2, 2),
+    (-3, 3),
+    (-2, 3),
+    (-1, 3),
+    (0, 3),
+    (1, 3),
+    (2, 3),
+    (3, 3),
+]
+
 INCANTATION_REQUIREMENTS = [
     {'player': 1, 'linemate': 1, 'deraumere': 0, 'sibur': 0, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
     {'player': 2, 'linemate': 1, 'deraumere': 1, 'sibur': 1, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
@@ -141,6 +168,13 @@ class AIClient(Client):
                 return False
         return True
 
+    def drop_incatation_needs(self) -> None:
+        for need, amount in INCANTATION_REQUIREMENTS[self.elevation - 1].items():
+            if need == 'player':
+                continue
+            for _ in range(amount):
+                self.drop_item(need)
+
     def incantate(self) -> None:
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
@@ -158,6 +192,16 @@ class AIClient(Client):
             )
         ))
 
+    def get_target_cell_for_item(self, item: str) -> Tuple[int, int] or None:
+        surroundings = list(
+            map(lambda cell: (RELATIVE_POSITIONS_LOOK_MAPPINGS[cell[0]], cell[1]), enumerate(self.look()))
+        )
+        surroundings.sort(key=lambda cell: abs(cell[0][0]) + (1 if cell[0][0] != 0 else 0) + abs(cell[0][1]))
+        for relative_position, cell_content in surroundings:
+            if item in cell_content:
+                return relative_position
+        return None
+
     def go_to(self, x: int, y: int) -> None:
         while x != 0 or y != 0:
             if y > 0:
@@ -174,3 +218,19 @@ class AIClient(Client):
                 else:
                     self.execute_command(COMMANDS['left'])
                     x, y = y, -x
+
+    def live_until_dead(self) -> None:
+        while True:
+            item_to_take = self.get_priority_ordered_incantation_needs()[0][0]
+            target = self.get_target_cell_for_item(item_to_take)
+            if target is None:
+                item_to_take = 'food'
+                target = self.get_target_cell_for_item(item_to_take)
+            if target is None:
+                self.execute_command(COMMANDS['forward'])
+                continue
+            self.go_to(*target)
+            self.take_item(item_to_take)
+            if len(self.get_priority_ordered_incantation_needs()) == 0:
+                self.drop_incatation_needs()
+                self.incantate()
