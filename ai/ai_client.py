@@ -15,14 +15,6 @@ DEFAULT_INVENTORY = {
     'thystame': 0
 }
 
-ROCKS_PRIORITY = [
-    'phiras',
-    'mendiane',
-    'sibur',
-    'deraumere',
-    'linemate',
-]
-
 INCANTATION_REQUIREMENTS = [
     {'player': 1, 'linemate': 1, 'deraumere': 0, 'sibur': 0, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
     {'player': 2, 'linemate': 1, 'deraumere': 1, 'sibur': 1, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
@@ -71,7 +63,7 @@ class AIClient(Client):
         self.inventory = DEFAULT_INVENTORY
         self.elevation = 1
 
-    def start_handshake(self):
+    def start_handshake(self) -> None:
         if SERVER_BANNER not in self.receive_lines():
             raise RuntimeError('Can\'t find server banner.')
 
@@ -111,7 +103,7 @@ class AIClient(Client):
                 filtered_response.append(line)
         return filtered_response
 
-    def refresh_inventory(self):
+    def refresh_inventory(self) -> None:
         raw_inventory = self.execute_command(COMMANDS['inventory'])[0]
 
         items = re.findall(r'\w+ \d+', raw_inventory)
@@ -120,14 +112,14 @@ class AIClient(Client):
             item_name, item_quantity = item.split()
             self.inventory[item_name] = int(item_quantity)
 
-    def drop_item(self, item: str):
+    def drop_item(self, item: str) -> None:
         if self.inventory.get(item, 0) < 0:
             raise ValueError('Cannot drop an item that is not in the inventory.')
         if 'ko' in self.execute_command(COMMANDS['set'], [item]):
             raise RuntimeError('Could not drop item.')
         self.inventory[item] -= 1
 
-    def take_item(self, item: str):
+    def take_item(self, item: str) -> None:
         if 'ko' in self.execute_command(COMMANDS['take'], [item]):
             raise RuntimeError('Could not take item.')
         self.inventory[item] += 1
@@ -149,7 +141,7 @@ class AIClient(Client):
                 return False
         return True
 
-    def incantate(self):
+    def incantate(self) -> None:
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
         self.elevation += 1
