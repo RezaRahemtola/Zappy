@@ -110,3 +110,40 @@ void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
         if (player.getId() == id)
             player.setLevel(level);
 }
+
+void GameData::startIncantation(std::vector<std::string> &ids) {
+    for (auto &player : _players)
+        for (auto &id : ids)
+            if (player.getId() == std::stoi(id))
+                player.startIncantation();
+}
+
+void GameData::endIncantation(int x, int y)
+{
+    for (auto &player : _players)
+        if (player.getPosition().x == x && player.getPosition().y == y)
+            player.endIncantation();
+}
+
+void GameData::collectResource(std::size_t id, int resource)
+{
+    for (auto &player : _players)
+        if (player.getId() == id) {
+            int x = player.getPosition().x;
+            int y = player.getPosition().y;
+            _tiles[y][x].updateRessource(static_cast<Ressource>(resource), Operation::DEC, 1);
+            player.updateResource(resource, 1);
+        }
+}
+
+void GameData::dropResource(std::size_t id, int ressource)
+{
+    for (auto &player : _players)
+        if (player.getId() == id) {
+            int x = player.getPosition().x;
+            int y = player.getPosition().y;
+            _tiles[y][x].updateRessource(static_cast<Ressource>(ressource), Operation::INC, 1);
+            player.updateResource(ressource, -1);
+        }
+}
+

@@ -31,6 +31,11 @@ void Player::updateInventory(std::vector<std::string> &inventory)
     _inventory[6] = std::stoi(inventory[10]);
 }
 
+void Player::updateResource(std::size_t resource, int value)
+{
+    _inventory[resource] += value;
+}
+
 void Player::updatePosition(std::vector<std::string> &position)
 {
     _position.x = std::stoi(position[2]);

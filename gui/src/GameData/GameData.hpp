@@ -28,12 +28,16 @@ class GameData{
         void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
         void updatePlayerPosition(std::size_t id, std::vector<std::string> &position);
         void updatePlayerLevel(std::size_t id, std::size_t level);
+        void startIncantation(std::vector<std::string> &ids);
+        void endIncantation(int x, int y);
 
         void createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId);
         void deleteEgg(std::size_t id);
 
         void updateMapSize(size_t width, size_t height);
         void updateRessources(std::vector<std::string> &data);
+        void collectResource(std::size_t id, int ressource);
+        void dropResource(std::size_t id, int ressource);
 
     private:
         // Information

@@ -176,15 +176,16 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-    if (data.size() != 4)
+    if (data.size() < 5)
         return;
-    std::cout << "pic" << std::endl;
+    data.erase(data.begin(), data.begin() + 4);
+    _gameData->startIncantation(data);
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
-    std::cout << "pie" << std::endl;
+    _gameData->endIncantation(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {
@@ -196,13 +197,13 @@ void ClientGUI::handlePfk(std::vector<std::string> &data) {
 void ClientGUI::handlePdr(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    std::cout << "pdr" << std::endl;
+    _gameData->dropResource(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePgt(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    std::cout << "pgt" << std::endl;
+    _gameData->collectResource(std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handlePdi(std::vector<std::string> &data) {

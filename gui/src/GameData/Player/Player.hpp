@@ -34,8 +34,11 @@ class Player {
         void setMessage(std::string message) { _message = message; }
 
         void updateInventory(std::vector<std::string> &inventory);
+        void updateResource(std::size_t resource, int value);
         void updatePosition(std::vector<std::string> &position);
         void updateLevel(size_t level) { _level = level; }
+        void startIncantation() { _elevation = true; }
+        void endIncantation() { _elevation = false; }
 
 	private:
         // Information
