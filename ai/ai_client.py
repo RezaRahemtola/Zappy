@@ -146,7 +146,7 @@ class AIClient(Client):
         self.elevation += 1
 
     def go_to(self, x: int, y: int) -> None:
-        while x != 0 and y != 0:
+        while x != 0 or y != 0:
             if y > 0:
                 self.execute_command(COMMANDS['forward'])
                 y -= 1
