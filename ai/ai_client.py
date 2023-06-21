@@ -169,9 +169,9 @@ class AIClient(Client):
                 self.execute_command(COMMANDS['right'])
                 x, y = y, -x
             if y == 0:
-                if x < 0:
+                if x > 0:
                     self.execute_command(COMMANDS['right'])
                     x, y = y, -x
-                if x > 0:
+                if x < 0:
                     self.execute_command(COMMANDS['left'])
                     x, y = -y, x
