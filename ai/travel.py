@@ -1,5 +1,4 @@
 from ai_client import AIClient, COMMANDS
-from typing import List, Tuple
 
 
 def travel(client: AIClient, posx: int, posy: int) -> None:
