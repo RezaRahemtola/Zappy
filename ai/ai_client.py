@@ -14,6 +14,15 @@ DEFAULT_INVENTORY = {
     'phiras': 0,
     'thystame': 0
 }
+
+ROCKS_PRIORITY = [
+    'phiras',
+    'mendiane',
+    'sibur',
+    'deraumere',
+    'linemate',
+]
+
 INCANTATION_REQUIREMENTS = [
     {'player': 1, 'linemate': 1, 'deraumere': 0, 'sibur': 0, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
     {'player': 2, 'linemate': 1, 'deraumere': 1, 'sibur': 1, 'mendiane': 0, 'phiras': 0, 'thystame': 0},
@@ -144,6 +153,18 @@ class AIClient(Client):
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
         self.elevation += 1
+
+    def get_priority_ordered_incantation_needs(self) -> List[Tuple[str, int]]:
+        return list(filter(
+            lambda need: need[1] < 0,
+            map(
+                lambda rock_name: (
+                    rock_name,
+                    self.inventory.get(rock_name, 0) - INCANTATION_REQUIREMENTS[self.elevation - 1][rock_name]
+                ),
+                ROCKS_PRIORITY.copy()
+            )
+        ))
 
     def go_to(self, x: int, y: int) -> None:
         while x != 0 or y != 0:
