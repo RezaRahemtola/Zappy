@@ -16,5 +16,6 @@ if __name__ == '__main__':
     if not client.connect():
         raise RuntimeError('Could not connect to server.')
     client.start_handshake()
+    client.live_until_dead()  # Fume la vie avant qu'elle ne te fume
     if not client.disconnect():
         raise RuntimeError('Couldn\'t disconnect from server.')
