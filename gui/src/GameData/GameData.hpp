@@ -32,7 +32,7 @@ class GameData{
         void createEgg(Vector2 position, std::size_t id, std::size_t teamId);
         void deleteEgg(std::size_t id);
 
-        void updateMapSize(size_t width, size_t height);
+        void updateMapSize(int width, int height);
         void updateRessources(std::vector<std::string> &data);
 
     private:

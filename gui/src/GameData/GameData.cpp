@@ -52,18 +52,17 @@ void GameData::deleteEgg(std::size_t id) {
             _eggs.erase(_eggs.begin() + i);
 }
 
-void GameData::updateMapSize(std::size_t width, std::size_t height) {
+void GameData::updateMapSize(int width, int height) {
     _width = width;
     _height = height;
-    _tileSize = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
 
     if (_tiles.size() != 0)
         return;
-    for (std::size_t y = 0; y < _height; y++) {
+    for (int y = 0; y < _height; y++) {
         std::vector<Tile> line;
 
-        for (std::size_t x = 0; x < _width; x++)
-            line.emplace_back(Tile(Vector2(x, y), _tileSize));
+        for (int x = 0; x < _width; x++)
+            line.emplace_back(Tile(Vector2(x - width / 2, y - height / 2), 4));
         _tiles.push_back(line);
     }
 }
