@@ -8,7 +8,7 @@
 #ifndef TILE_HPP_
 #define TILE_HPP_
 
-#include <SFML/Graphics.hpp>
+#include <raylib.h>
 #include <unordered_map>
 
 enum class Operation {
@@ -28,12 +28,10 @@ enum class Ressource {
 
 class Tile {
     public:
-        Tile(std::size_t x, std::size_t y, std::size_t size, sf::Vector2f margin) :
-            _position(sf::Vector2f(x, y)), _size(size), _margin(margin) {
+        Tile(Vector2 position, std::size_t size) :
+            _position(Vector3 {position.x * 5 , 0, position.y * 5}), _size(size / 25) {
 
-            _position.x = _position.x * _size + _margin.x;
-            _position.y = _position.y * _size + _margin.y + 20;
-            _font.loadFromFile("assets/fonts/arial.ttf");
+            _mesh = GenMeshCube(size, size/2, size);
 
             _fontSize = size / 5;
 
@@ -47,25 +45,24 @@ class Tile {
         }
         ~Tile() = default;
 
-        void display(sf::RenderWindow &window);
+        void display();
 
         std::size_t getRessource(Ressource ressource);
         void updateRessource(Ressource ressource, Operation operation, std::size_t value);
 
     private:
         // Information
-        sf::Vector2f _position;
         std::size_t _size;
-        sf::Vector2f _margin;
-        sf::Color _color;
-        sf::Color _borderColor;
 
         // Content
         std::unordered_map<Ressource, int> _ressources;
-        sf::Font _font;
         std::size_t _fontSize;
 
-        void dislpayRessources(sf::RenderWindow &window);
+        // Graphical information
+        Vector3 _position;
+        Mesh _mesh;
+
+        void dislpayRessources();
 };
 
 #endif /*TILE_HPP_*/

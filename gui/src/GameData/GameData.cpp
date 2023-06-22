@@ -8,16 +8,16 @@
 #include <iostream>
 #include "GameData.hpp"
 
-void GameData::display(sf::RenderWindow &window) {
+void GameData::display() {
     for (auto &line : _tiles)
         for (auto &tile : line)
-            tile.display(window);
+            tile.display();
     for (auto &player : _players)
-        player.display(window);
+        player.display();
 }
 
-void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName) {
-    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x + 30, y * _tileSize + _margin.y + 30)));
+void GameData::createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName) {
+    _players.push_back(Player(id, position));
     _players.back().setLevel(level);
     _players.back().setTeamName(teamName);
     _players.back().setOrientation(orientation);
@@ -42,7 +42,7 @@ void GameData::deletePlayer(std::size_t id) {
             _players.erase(_players.begin() + i);
 }
 
-void GameData::createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId) {
+void GameData::createEgg(Vector2 pos, std::size_t id, std::size_t teamId) {
     _eggs.push_back(Egg(pos, id, teamId));
 }
 
@@ -56,7 +56,6 @@ void GameData::updateMapSize(std::size_t width, std::size_t height) {
     _width = width;
     _height = height;
     _tileSize = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
-    _margin = sf::Vector2f((1900 - _width * _tileSize) / 2, (900 - _height * _tileSize) / 2);
 
     if (_tiles.size() != 0)
         return;
@@ -64,7 +63,7 @@ void GameData::updateMapSize(std::size_t width, std::size_t height) {
         std::vector<Tile> line;
 
         for (std::size_t x = 0; x < _width; x++)
-            line.emplace_back(Tile(x, y, _tileSize, _margin));
+            line.emplace_back(Tile(Vector2(x, y), _tileSize));
         _tiles.push_back(line);
     }
 }

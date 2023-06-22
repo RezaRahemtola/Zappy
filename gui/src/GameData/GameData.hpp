@@ -16,12 +16,12 @@
 
 class GameData{
     public:
-        GameData() : _width(0), _height(0), _tileSize(0), _margin(sf::Vector2f(0, 0)) {};
+        GameData() : _width(0), _height(0), _tileSize(0) {};
         ~GameData() = default;
 
-        void display(sf::RenderWindow &window);
+        void display();
 
-        void createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName);
+        void createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName);
         std::size_t getPlayerId(std::size_t id);
         void addMessageToPlayer(std::size_t id, std::string message);
         void deletePlayer(std::size_t id);
@@ -29,7 +29,7 @@ class GameData{
         void updatePlayerPosition(std::size_t id, std::vector<std::string> &position);
         void updatePlayerLevel(std::size_t id, std::size_t level);
 
-        void createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId);
+        void createEgg(Vector2 position, std::size_t id, std::size_t teamId);
         void deleteEgg(std::size_t id);
 
         void updateMapSize(size_t width, size_t height);
@@ -40,7 +40,6 @@ class GameData{
         std::size_t _width;
         std::size_t _height;
         std::size_t _tileSize;
-        sf::Vector2f _margin;
 
         // Content
         std::vector<std::vector<Tile>> _tiles;

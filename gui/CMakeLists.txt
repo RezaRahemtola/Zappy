@@ -49,23 +49,13 @@ add_executable(zappy_gui
         src/Tokenize.cpp
         )
 
-if (WIN32)
-    set(SFML_DIR "C:/SFML-2.5.1/lib/cmake/SFML")
-    find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
-    target_link_libraries(zappy_gui
-            sfml-graphics
-            sfml-window
-            sfml-system
-            sfml-network
-            sfml-system
-            )
-elseif (UNIX AND NOT APPLE)
-    find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
-    target_link_libraries(zappy_gui
-            sfml-graphics
-            sfml-window
-            sfml-system
-            sfml-network
-            sfml-system
-            )
-endif()
+
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+target_link_libraries(zappy_gui
+        sfml-graphics
+        sfml-window
+        sfml-system
+        sfml-network
+        sfml-system
+        raylib
+        )

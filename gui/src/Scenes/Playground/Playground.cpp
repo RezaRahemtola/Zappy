@@ -8,30 +8,21 @@
 #include "Playground.hpp"
 
 void Playground::handlePause() {
-    if (_playButton.isClicked())
-        _pause = false;
-    if (_pauseButton.isClicked())
-        _pause = true;
+
 }
 
-std::string Playground::run(sf::RenderWindow &window) {
-    // run simulation
+std::string Playground::run() {
     handlePause();
     if (!_pause) {
         _client.handleDataServer();
         // mettre a jour les choses hors pause
     }
-    display(window);
-    if (_quitButton.isClicked())
+    display();
+    if (IsKeyPressed(KEY_ESCAPE))
         return "Menu";
     return "Playground";
 }
 
-void Playground::display(sf::RenderWindow &window) {
-    window.draw(_background);
-    window.draw(_ButtonContainer);
-    _gameData->display(window);
-    _playButton.display(window);
-    _quitButton.display(window);
-    _pauseButton.display(window);
+void Playground::display() {
+    _gameData->display();
 }
