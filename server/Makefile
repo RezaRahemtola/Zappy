@@ -101,6 +101,7 @@ all:	$(BINARY)
 $(BINARY):	$(OBJ)
 			$(MAKE) $(LIBS)
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+			cd .. && ln -s server/$(BINARY) $(BINARY)
 
 $(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
 $(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs
