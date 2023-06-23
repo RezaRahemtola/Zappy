@@ -1,8 +1,10 @@
-import logging
 import os
+import logging
 import re
+import sys
 from queue import Queue
 from typing import List, Tuple, Dict
+from multiprocessing import Process
 
 from client import Client
 
@@ -91,6 +93,21 @@ class AIClient(Client):
         self.received_ejects = Queue()
         self.inventory = DEFAULT_INVENTORY
         self.elevation = 1
+        self.direct_child = 0
+
+
+    def run(self) -> None:
+        if not self.connect():
+            raise RuntimeError('Could not connect to server.')
+        logging.info('Connected to server, starting handshake...')
+        self.start_handshake()
+        logging.info(
+            f'Handshake done, client is part of the team {self.team_name} with {self.team_available_slots} '
+            f'available slots.'
+        )
+        self.live_until_dead()  # Fume la vie avant qu'elle ne te fume
+        if not self.disconnect():
+            raise RuntimeError('Couldn\'t disconnect from server.')
 
     def start_handshake(self) -> None:
         if SERVER_BANNER not in self.receive_lines():
@@ -203,6 +220,20 @@ class AIClient(Client):
             )
         ))
 
+    def reproduce(self) -> None:
+        if 'ko' in self.execute_command(COMMANDS['fork']):
+            raise RuntimeError('Could not reproduce.')
+        self.direct_child += 1
+        try:
+            pid = os.fork()
+            if pid == 0:
+                os.execv(os.getcwd() + '/zappy_ai', sys.argv)
+            else:
+                logging.info(f'Child {pid} created.')
+        except OSError:
+            raise RuntimeError('Could not fork.')
+
+
     def get_target_cell_for_item(self, item: str) -> Tuple[int, int] or None:
         surroundings = list(
             map(lambda cell: (RELATIVE_POSITIONS_LOOK_MAPPINGS[cell[0]], cell[1]), enumerate(self.look()))
@@ -212,13 +243,6 @@ class AIClient(Client):
             if item in cell_content:
                 return relative_position
         return None
-
-    def reproduce(self) -> None:
-        if 'ko' in self.execute_command(COMMANDS['fork']):
-            raise RuntimeError('Could not reproduce.')
-        pid = os.fork()
-        if pid == 0:
-            self.start_handshake()
 
     def go_to(self, x: int, y: int) -> None:
         logging.info(f'Going to {x}, {y}')
@@ -256,6 +280,9 @@ class AIClient(Client):
                 self.execute_command(COMMANDS['forward'])
                 continue
             logging.info(f'Targeting {item_to_take} at {target}.')
+            if self.direct_child != 3:
+                self.reproduce()
+            logging.info(f'number of bitches: {self.execute_command(COMMANDS["connect_nbr"])}')
             self.go_to(*target)
             try:
                 self.take_item(item_to_take)

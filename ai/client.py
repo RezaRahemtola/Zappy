@@ -15,6 +15,7 @@ class Client:
         self.last_send_time = 0
         self.socket.settimeout(MAX_TIMEOUT)
 
+
     def connect(self) -> bool:
         if self.connected:
             raise RuntimeError('Can\'t connect an already connected client.')

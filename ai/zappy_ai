@@ -18,14 +18,4 @@ logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%H:
 if __name__ == '__main__':
     args = ARGPARSER.parse_args()
     client = AIClient((args.machine, args.port), args.team_name)
-    if not client.connect():
-        raise RuntimeError('Could not connect to server.')
-    logging.info('Connected to server, starting handshake...')
-    client.start_handshake()
-    logging.info(
-        f'Handshake done, client is part of the team {client.team_name} with {client.team_available_slots} '
-        f'available slots.'
-    )
-    client.live_until_dead()  # Fume la vie avant qu'elle ne te fume
-    if not client.disconnect():
-        raise RuntimeError('Couldn\'t disconnect from server.')
+    client.run()
