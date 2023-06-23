@@ -184,9 +184,11 @@ class AIClient(Client):
                 self.drop_item(need)
 
     def incantate(self) -> None:
+        logging.warning(f'Starting incantation for elevation {self.elevation}')
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
         self.elevation += 1
+        logging.warning(f'End of incantation, now at elevation {self.elevation}')
 
     def get_priority_ordered_incantation_needs(self) -> List[Tuple[str, int]]:
         return list(filter(
