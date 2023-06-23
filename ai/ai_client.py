@@ -95,20 +95,6 @@ class AIClient(Client):
         self.elevation = 1
         self.direct_child = 0
 
-
-    def run(self) -> None:
-        if not self.connect():
-            raise RuntimeError('Could not connect to server.')
-        logging.info('Connected to server, starting handshake...')
-        self.start_handshake()
-        logging.info(
-            f'Handshake done, client is part of the team {self.team_name} with {self.team_available_slots} '
-            f'available slots.'
-        )
-        self.live_until_dead()  # Fume la vie avant qu'elle ne te fume
-        if not self.disconnect():
-            raise RuntimeError('Couldn\'t disconnect from server.')
-
     def start_handshake(self) -> None:
         if SERVER_BANNER not in self.receive_lines():
             raise RuntimeError('Can\'t find server banner.')
