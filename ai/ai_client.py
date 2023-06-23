@@ -248,7 +248,21 @@ class AIClient(Client):
                 continue
             logging.info(f'Targeting {item_to_take} at {target}.')
             self.go_to(*target)
-            self.take_item(item_to_take)
+            try:
+                self.take_item(item_to_take)
+            except RuntimeError:
+                logging.error(
+                    f'Something happened, taking {item_to_take} failed, maybe stolen or Reza\'s fault idk. '
+                    f'Moving forward !'
+                )
+                continue
             if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
-                self.incantate()
+                try:
+                    self.incantate()
+                except RuntimeError:
+                    logging.error(
+                        'Something happened, incantation failed, maybe ejected or Reza\'s fault idk. '
+                        'Let\'s pretend nothing happened...'
+                    )
+                    continue
