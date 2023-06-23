@@ -113,7 +113,7 @@ class AIClient(Client):
             raise RuntimeError('Invalid server response: non decimal numbers.')
 
     def execute_command(self, command: AICommand, arguments: List[str] = ()) -> List[str]:
-        logging.info(f'Executing command {command.call_id} with arguments {arguments if len(arguments) else "none"}')
+        logging.debug(f'Executing command {command.call_id} with arguments {arguments if len(arguments) else "none"}')
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
         response = self.receive_lines_until_matches_regex(
@@ -121,6 +121,7 @@ class AIClient(Client):
         )
 
         if "dead" in response:
+            logging.fatal('deadge')
             exit(0)
         filtered_response = []
         for line in response:
@@ -130,6 +131,7 @@ class AIClient(Client):
                 self.broadcast_messages.put(line)
             else:
                 filtered_response.append(line)
+        logging.debug(f'Last command response: {filtered_response}')
         return filtered_response
 
     def refresh_inventory(self) -> None:
@@ -209,6 +211,7 @@ class AIClient(Client):
         return None
 
     def go_to(self, x: int, y: int) -> None:
+        logging.info(f'Going to {x}, {y}')
         while x != 0 or y != 0:
             if y > 0:
                 self.execute_command(COMMANDS['forward'])
@@ -224,6 +227,7 @@ class AIClient(Client):
                 else:
                     self.execute_command(COMMANDS['left'])
                     x, y = y, -x
+        logging.info('Arrived at destination.')
 
     def live_until_dead(self) -> None:
         while True:
