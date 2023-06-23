@@ -216,17 +216,21 @@ class AIClient(Client):
             if y > 0:
                 self.execute_command(COMMANDS['forward'])
                 y -= 1
+                continue
             if y < 0:
                 self.execute_command(COMMANDS['right'])
                 self.execute_command(COMMANDS['right'])
                 x, y = -x, -y
+                continue
             if y == 0:
                 if x > 0:
                     self.execute_command(COMMANDS['right'])
                     x, y = -y, x
+                    continue
                 else:
                     self.execute_command(COMMANDS['left'])
                     x, y = y, -x
+                    continue
         logging.info('Arrived at destination.')
 
     def live_until_dead(self) -> None:
