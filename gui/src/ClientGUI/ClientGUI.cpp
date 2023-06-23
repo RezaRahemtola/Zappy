@@ -51,9 +51,6 @@ bool ClientGUI::receive(std::string& receivedData) {
     }
 
     receivedData = std::string(buffer, bytesRead);
-    std::cout << "-------------- [RECEIVED] --------------" << std::endl;
-    std::cout << receivedData << std::endl;
-    std::cout << "----------------------------------------" << std::endl;
     return true;
 }
 
@@ -197,6 +194,7 @@ void ClientGUI::handlePic(std::vector<std::string> &data) {
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
+    std::cout << "pie" << std::endl;
     _gameData->endIncantation(Vector2(std::stoi(data[1]), std::stoi(data[2])));
 }
 

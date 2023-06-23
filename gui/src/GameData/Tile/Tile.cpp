@@ -33,7 +33,7 @@ void Tile::displayRessources() {
             if (ressource.first == Ressource::FOOD)
                 DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, RED);
             else if (ressource.first == Ressource::LINEMATE)
-                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, BLUE);
+                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, LIGHTGRAY);
             else if (ressource.first == Ressource::DERAUMERE)
                 DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, YELLOW);
             else if (ressource.first == Ressource::SIBUR)

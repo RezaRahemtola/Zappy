@@ -126,19 +126,18 @@ void GameData::startIncantation(std::vector<std::string> &ids) {
 }
 
 void GameData::endIncantation(Vector2 pos) {
-{
-    for (auto &player : _players)
-        if (player.getPosition().x == pos.x && player.getPosition().y == pos.y)
+    for (auto &player : _players) {
+        Vector3 playerPos = player.getPosition();
+
+        if (playerPos.x / _tileSize == pos.x && playerPos.y / _tileSize == pos.y)
             player.endIncantation();
+    }
 }
 
-void GameData::collectResource(std::size_t id, int resource)
-{
-
-}
-
-void GameData::dropResource(std::size_t id, int ressource)
-{
+void GameData::collectResource(std::size_t id, int resource) {
 
 }
 
+void GameData::dropResource(std::size_t id, int ressource) {
+
+}
