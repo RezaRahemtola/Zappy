@@ -237,6 +237,7 @@ class AIClient(Client):
 
     def live_until_dead(self) -> None:
         while True:
+            self.refresh_inventory()
             item_to_take = self.get_priority_ordered_incantation_needs()[0][0]
             target = self.get_target_cell_for_item(item_to_take)
             if target is None or self.inventory['food'] < 3:
