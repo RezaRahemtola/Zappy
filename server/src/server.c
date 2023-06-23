@@ -74,7 +74,7 @@ void launch_server(params_t *params)
             handle_messages(server, &readfds);
         }
         execute_commands(server);
-        game_logic(server);
+        game_logic(server, &running);
         write_to_clients(server->clients, &writefds);
         disconnect_clients(server);
     }

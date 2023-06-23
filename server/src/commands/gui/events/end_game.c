@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** Zappy Server
 ** File description:
-** pdi
+** end_game
 */
 
 #include <stdio.h>
@@ -10,13 +10,13 @@
 #include <string.h>
 #include "commands/events.h"
 
-void emit_dead_player_event(client_t *client, server_t *server)
+void emit_endgame_event(const char *team, list_t *clients)
 {
-    size_t len = snprintf(NULL, 0, "pdi %ld\n", client->player->id);
+    size_t len = snprintf(NULL, 0, "seg %s\n", team);
     char *content = malloc(sizeof(char) * (len + 1));
 
     if (content == NULL)
         return;
-    sprintf(content, "pdi %ld\n", client->player->id);
-    send_event(server->clients, content, true);
+    sprintf(content, "seg %s\n", team);
+    send_event(clients, content, true);
 }

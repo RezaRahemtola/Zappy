@@ -8,12 +8,9 @@
 #pragma once
 
 #include <stddef.h>
-#include "../types.h"
+#include "types.h"
 #include "functions.h"
 #include "incantation.h"
-
-void base_end_func(list_t *args, client_t *client, server_t *server,
-                    char **result);
 
 static command_t GUI_COMMANDS[] = {
     {"msz", msz, base_end_func, NULL, NULL, 0, {0}},
@@ -37,7 +34,7 @@ static command_t AI_COMMANDS[] = {
     {"Broadcast", broadcast, base_end_func, NULL, NULL, 7, {0}},
     {"Take", take_obj, base_end_func, NULL, NULL, 7, {0}},
     {"Set", set_obj, base_end_func, NULL, NULL, 7, {0}},
-    {"Fork", fork_player, base_end_func, NULL, NULL, 42, {0}},
+    {"Fork", fork_player, fork_end_func, NULL, NULL, 42, {0}},
     {"Look", look, base_end_func, NULL, NULL, 7, {0}},
     {"Eject", eject, base_end_func, NULL, NULL, 7, {0}},
     {"Incantation", incant, incant_end_func, NULL, NULL, INCANT_TIME, {0}},

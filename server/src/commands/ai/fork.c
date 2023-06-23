@@ -11,6 +11,12 @@
 #include "commands/functions.h"
 #include "commands/events.h"
 
+void fork_end_func(list_t *args, client_t *client, server_t *serv, char **res)
+{
+    emit_egg_layed_event(client->player, serv, client->team);
+    base_end_func(args, client, serv, res);
+}
+
 void fork_player(list_t *args, client_t *client, server_t *serv, char **result)
 {
     (void)args;
@@ -25,5 +31,5 @@ void fork_player(list_t *args, client_t *client, server_t *serv, char **result)
     }
     list_add(&client->team->eggs, egg);
     *result = message;
-    emit_egg_laying_event(client->player->id, serv);
+    emit_egg_laying_event(client->player->id, serv->clients);
 }

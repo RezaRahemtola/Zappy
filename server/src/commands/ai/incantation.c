@@ -60,9 +60,9 @@ void incant_end_func(list_t *args, client_t *client, server_t *serv,
     list_remove_head(&client->commands, (free_func)destroy_command);
 }
 
-void incant(list_t *args, client_t *client, server_t *serv, char **result)
+void incant(__attribute__((unused)) list_t *args, client_t *client,
+            server_t *serv, char **result)
 {
-    (void)args;
     list_t *clients = serv->clients;
     player_t *pl = client->player;
 
@@ -82,4 +82,5 @@ void incant(list_t *args, client_t *client, server_t *serv, char **result)
             list_add(&client->commands, create_slave_incant_cmd());
         }
     }
+    emit_incant_start_event(pl, serv->clients);
 }

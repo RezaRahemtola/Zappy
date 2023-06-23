@@ -8,24 +8,54 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include "parameters.h"
-#include "types.h"
+#include "commands/events.h"
 
-void emit_egg_laying_event(size_t player_id, server_t *server)
+void emit_egg_laying_event(size_t player_id, list_t *clients)
 {
     size_t len = snprintf(NULL, 0, "pfk %ld\n", player_id) + 1;
     char *content = malloc(sizeof(char) * len);
-    list_t *clients = server->clients;
-    client_t *client = NULL;
 
     if (content == NULL)
         return;
     sprintf(content, "pfk %ld\n", player_id);
-    for (; clients != NULL; clients = clients->next) {
-        client = clients->data;
-        if (client->team != NULL
-        && strcmp(client->team->name, GUI_TEAM_NAME) == 0)
-            list_add(&client->output_messages, strdup(content));
+    send_event(clients, content, true);
+}
+
+static size_t get_laid_egg_nb(team_t *team, size_t x, size_t y)
+{
+    egg_t *egg = NULL;
+    list_t *eggs = team->eggs;
+
+    for (; eggs != NULL; eggs = eggs->next) {
+        egg = eggs->data;
+        if (egg->x == x && egg->y == y)
+            return egg->id;
     }
-    free(content);
+    return 0;
+}
+
+void emit_egg_layed_event(player_t *player, server_t *serv, team_t *team)
+{
+    size_t x = player->x;
+    size_t y = player->y;
+    size_t egg = get_laid_egg_nb(team, x, y);
+    size_t len = snprintf(NULL, 0, "enw %ld %ld %ld %ld\n", egg,
+                        player->id, x, y) + 1;
+    char *content = malloc(sizeof(char) * len);
+
+    if (content == NULL)
+        return;
+    sprintf(content, "enw %ld %ld %ld %ld\n", egg, player->id, x, y);
+    send_event(serv->clients, content, true);
+}
+
+void emit_dead_egg_event(size_t id, list_t *clients)
+{
+    size_t len = snprintf(NULL, 0, "edi %ld\n", id) + 1;
+    char *content = malloc(sizeof(char) * len);
+
+    if (content == NULL)
+        return;
+    sprintf(content, "edi %ld\n", id);
+    send_event(clients, content, true);
 }
