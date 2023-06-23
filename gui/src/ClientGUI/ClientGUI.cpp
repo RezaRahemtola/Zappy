@@ -59,8 +59,15 @@ bool ClientGUI::receive(std::string& receivedData) {
 
 void ClientGUI::handleDataServer() {
     std::string data;
+    std::vector<Player> players = _gameData->getPlayers();
 
     sending("mct\n");
+
+    for (auto &player : players) {
+        sending("ppo #" + std::to_string(player.getId()) + "\n");
+        sending("pin #" + std::to_string(player.getId()) + "\n");
+        sending("plv #" + std::to_string(player.getId()) + "\n");
+    }
 
     receive(data);
     if (data.empty())
@@ -132,7 +139,7 @@ void ClientGUI::handleTna(std::vector<std::string> &data) {
 void ClientGUI::handlePnw(std::vector<std::string> &data) {
     if (data.size() != 7)
         return;
-    std::cout << "pnw" << std::endl;
+    std::cout << "pnw : " << data[1] << " pos : " << data[2] << " " << data[3] << " level : " << data[4] << " team : " << data[5] << std::endl;
     data[1].erase(0, 1);
     _gameData->createPlayer(std::stoi(data[1]), Vector2(std::stoi(data[2]), std::stoi(data[3])), std::stoi(data[4]), std::stoi(data[5]), data[6]);
 }
@@ -140,7 +147,7 @@ void ClientGUI::handlePnw(std::vector<std::string> &data) {
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
     if (data.size() != 5)
         return;
-    _gameData->updatePlayerPosition(std::stoi(data[1]), data);
+    _gameData->updatePlayerPosition(std::stoi(data[1]), Vector2(std::stoi(data[2]), std::stoi(data[3])), std::stoi(data[4]));
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
@@ -176,9 +183,10 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-    if (data.size() != 4)
+    std::vector <std::std::size_t> players;
+    if (data.size() < 4)
         return;
-    std::cout << "pic" << std::endl;
+    _gameData->updatePlayerIncantation(std::stoi(data[1]), std::stoi(data[2]), data);
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {

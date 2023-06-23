@@ -26,8 +26,10 @@ class GameData{
         void addMessageToPlayer(std::size_t id, std::string message);
         void deletePlayer(std::size_t id);
         void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
-        void updatePlayerPosition(std::size_t id, std::vector<std::string> &position);
+        void updatePlayerPosition(std::size_t id, Vector2 position, std::size_t orientation);
         void updatePlayerLevel(std::size_t id, std::size_t level);
+
+        std::vector<Player> &getPlayers() { return _players; };
 
         void createEgg(Vector2 position, std::size_t id, std::size_t teamId);
         void deleteEgg(std::size_t id);

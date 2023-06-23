@@ -13,7 +13,16 @@
 
 class Player {
 	public:
-		Player(std::size_t id, Vector2 position) : _id(id), _position(Vector3 {position.x, position.y, 0}) {};
+		Player(std::size_t id, Vector2 position) : _id(id), _position(Vector3 {position.x, 2, position.y}),
+            _level(1), _orientation(0), _message(""), _elevation(false) {
+            _inventory[0] = 0;
+            _inventory[1] = 0;
+            _inventory[2] = 0;
+            _inventory[3] = 0;
+            _inventory[4] = 0;
+            _inventory[5] = 0;
+            _inventory[6] = 0;
+        }
 		~Player() = default;
 
         void display();
@@ -36,7 +45,7 @@ class Player {
         void setMessage(std::string message) { _message = message; }
 
         void updateInventory(std::vector<std::string> &inventory);
-        void updatePosition(std::vector<std::string> &position);
+        void updatePosition(Vector2 position, std::size_t orientation);
         void updateLevel(size_t level) { _level = level; }
 
 	private:
@@ -47,7 +56,7 @@ class Player {
         std::size_t _orientation;
         std::size_t _inventory[7];
         std::size_t _children;
-        bool _elevation = false;
+        bool _elevation;
         std::string _message;
 
         // Graphical information

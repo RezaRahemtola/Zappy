@@ -17,7 +17,7 @@ void Tile::display() {
     _position.y += 0.1;
     DrawCube(_position, _size - 0.2, _size/2, _size - 0.2, GREEN);
     _position.y -= 0.1;
-    
+
 
     DrawCubeWires(_position, _size + 0.2, _size/2 + 0.1, _size + 0.2, RED);
 }

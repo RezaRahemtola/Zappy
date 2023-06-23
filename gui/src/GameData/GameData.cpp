@@ -17,6 +17,11 @@ void GameData::display() {
 }
 
 void GameData::createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName) {
+    std::cout << "Creating player " << id << " at position " << position.x << " " << position.y << std::endl;
+    position.x *= _tileSize;
+    position.y *= _tileSize;
+
+    std::cout << "Creating player " << id << " at position " << position.x << " " << position.y << std::endl;
     _players.push_back(Player(id, position));
     _players.back().setLevel(level);
     _players.back().setTeamName(teamName);
@@ -55,6 +60,7 @@ void GameData::deleteEgg(std::size_t id) {
 void GameData::updateMapSize(int width, int height) {
     _width = width;
     _height = height;
+    _tileSize = 4;
 
     if (_tiles.size() != 0)
         return;
@@ -62,7 +68,7 @@ void GameData::updateMapSize(int width, int height) {
         std::vector<Tile> line;
 
         for (int x = 0; x < _width; x++)
-            line.emplace_back(Tile(Vector2(x - width / 2, y - height / 2), 4));
+            line.emplace_back(Tile(Vector2(x, y), _tileSize));
         _tiles.push_back(line);
     }
 }
@@ -97,10 +103,13 @@ void GameData::updatePlayerInventory(std::size_t id, std::vector<std::string> &i
             player.updateInventory(inventory);
 }
 
-void GameData::updatePlayerPosition(std::size_t id, std::vector<std::string> &position) {
+void GameData::updatePlayerPosition(std::size_t id, Vector2 position, std::size_t orientation) {
     for (auto &player : _players)
-        if (player.getId() == id)
-            player.updatePosition(position);
+        if (player.getId() == id) {
+            position.x *= _tileSize;
+            position.y *= _tileSize;
+            player.updatePosition(position, orientation);
+        }
 }
 
 void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {

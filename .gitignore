@@ -7,3 +7,7 @@ zappy_ai
 /.idea/
 .vscode
 __pycache__
+/zappy_server
+/zappy_ai
+/zappy_gui
+/example_server

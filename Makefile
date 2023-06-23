@@ -5,13 +5,16 @@
 ## Makefile of the project
 ##
 
-all:
+all: zappy_server zappy_gui zappy_ai
+
+zappy_server:
 	$(MAKE) -C server
+
+zappy_gui:
 	$(MAKE) -C gui
+
+zappy_ai:
 	$(MAKE) -C ai
-	cp server/zappy_server .
-	cp gui/zappy_gui .
-	cp ai/zappy_ai .
 
 clean:
 	$(MAKE) -C server clean

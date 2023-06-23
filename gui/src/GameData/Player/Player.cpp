@@ -8,7 +8,10 @@
 #include "Player.hpp"
 
 void Player::display() {
-
+    if (_elevation)
+        DrawCube(_position, 1, 1, 1, BLUE);
+    else
+        DrawCube(_position, 1, 1, 1, RED);
 }
 
 void Player::updateInventory(std::vector<std::string> &inventory) {
@@ -21,8 +24,8 @@ void Player::updateInventory(std::vector<std::string> &inventory) {
     _inventory[6] = std::stoi(inventory[10]);
 }
 
-void Player::updatePosition(std::vector<std::string> &position) {
-    _position.x = std::stoi(position[2]);
-    _position.y = std::stoi(position[3]);
-    _orientation = std::stoi(position[4]);
+void Player::updatePosition(Vector2 position, std::size_t orientation) {
+    _position.x = position.x;
+    _position.z = position.y;
+    _orientation = orientation;
 }
