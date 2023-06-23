@@ -28,18 +28,21 @@ bool ClientGUI::receive(std::string& receivedData) {
     FD_SET(_sockfd, &readSet);
 
     struct timeval timeout;
-    timeout.tv_sec = 5;  // Temps d'attente en secondes
+    timeout.tv_sec = 0.01;  // Temps d'attente en secondes
     timeout.tv_usec = 0;
 
+    std::cout << "SELECT 1" << std::endl;
     int selectResult = select(_sockfd + 1, &readSet, NULL, NULL, &timeout);
+    std::cout << "SELECT 2" << std::endl;
     if (selectResult == -1) {
         perror("Erreur lors de l'appel à select");
         return false;
     } else if (selectResult == 0) {
-        std::cout << "Timeout atteint lors de la réception des données." << std::endl;
         return false;
     }
+    std::cout << "SELECT 3" << std::endl;
 
+    std::cout << "FD_ISSET 1" << std::endl;
     if (FD_ISSET(_sockfd, &readSet)) {
         bytesRead = recv(_sockfd, buffer, sizeof(buffer), 0);
         if (bytesRead == -1) {
@@ -50,6 +53,7 @@ bool ClientGUI::receive(std::string& receivedData) {
             return false;
         }
     }
+    std::cout << "FD_ISSET 2" << std::endl;
 
     receivedData = std::string(buffer, bytesRead);
     return true;
