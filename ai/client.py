@@ -1,3 +1,4 @@
+import logging
 import re
 import socket
 import time
@@ -17,24 +18,31 @@ class Client:
     def connect(self) -> bool:
         if self.connected:
             raise RuntimeError('Can\'t connect an already connected client.')
+        logging.debug('Connecting to server %s:%d', *self.server)
         self.connected = True
         try:
             self.socket.connect(self.server)
         except socket.error:
+            logging.exception('Couldn\'t connect to server %s:%d', *self.server)
             return False
+        logging.debug('Connected to server %s:%d', *self.server)
         return True
 
     def disconnect(self) -> bool:
         if not self.connected:
             raise RuntimeError('Can\'t disconnected a not already connected client.')
+        logging.debug('Disconnecting from server %s:%d', *self.server)
         self.connected = False
         try:
             self.socket.close()
         except socket.error:
+            logging.exception('Couldn\'t disconnect from server %s:%d', *self.server)
             return False
+        logging.debug('Disconnected from server %s:%d', *self.server)
         return True
 
     def send_line(self, line: str) -> None:
+        logging.debug('Sending line: %s', line)
         line += '\n'
         line_len = len(line)
         sent = 0
@@ -53,6 +61,7 @@ class Client:
         for response_format in response_formats:
             while True:
                 lines += self.receive_lines(read_size)
+                logging.debug('Received line: %s', lines[-1])
                 if response_format.match(lines[-1]):
                     break
         return lines
