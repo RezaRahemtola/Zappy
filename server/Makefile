@@ -34,6 +34,8 @@ BASE_SRC	=	server.c \
 				commands/gui/events/pdi.c \
 				commands/gui/events/pex.c \
 				commands/gui/events/incantation.c \
+				commands/gui/events/events.c \
+				commands/gui/events/end_game.c \
 				commands/ai/connect_nbr.c \
 				commands/ai/inventory.c \
 				commands/ai/direction.c \
@@ -56,7 +58,8 @@ BASE_SRC	=	server.c \
 				game/map/refill_map.c \
 				game/map/refill_tile.c \
 				game/map/future_resource.c \
-				game/game.c
+				game/game.c \
+				game/end.c
 
 TESTS_DIR	=	tests
 TESTS_SRC	=
@@ -98,6 +101,7 @@ all:	$(BINARY)
 $(BINARY):	$(OBJ)
 			$(MAKE) $(LIBS)
 			$(CC) -o $(BINARY) $(OBJ) $(LDFLAGS) $(LDLIBS)
+			cd .. && ln -s server/$(BINARY) $(BINARY)
 
 $(TEST_BINARY):	LDLIBS	+=	-lcriterion -lgcov
 $(TEST_BINARY):	CFLAGS	+=	-ftest-coverage -fprofile-arcs

@@ -1,9 +1,3 @@
-## Binary
-zappy_server
-zappy_gui
-zappy_ai
-
-## Bloat
 /.idea/
 .vscode
 __pycache__

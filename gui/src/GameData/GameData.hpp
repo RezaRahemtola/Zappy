@@ -29,6 +29,9 @@ class GameData{
         void updatePlayerPosition(std::size_t id, Vector2 position, std::size_t orientation);
         void updatePlayerLevel(std::size_t id, std::size_t level);
 
+        void startIncantation(std::vector<std::string> &ids);
+        void endIncantation(int x, int y);
+
         std::vector<Player> &getPlayers() { return _players; };
 
         void createEgg(Vector2 position, std::size_t id, std::size_t teamId);
@@ -36,6 +39,8 @@ class GameData{
 
         void updateMapSize(int width, int height);
         void updateRessources(std::vector<std::string> &data);
+        void collectResource(std::size_t id, int ressource);
+        void dropResource(std::size_t id, int ressource);
 
     private:
         // Information

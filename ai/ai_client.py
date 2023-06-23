@@ -1,3 +1,4 @@
+import logging
 import re
 from queue import Queue
 from typing import List, Tuple, Dict
@@ -112,6 +113,7 @@ class AIClient(Client):
             raise RuntimeError('Invalid server response: non decimal numbers.')
 
     def execute_command(self, command: AICommand, arguments: List[str] = ()) -> List[str]:
+        logging.debug(f'Executing command {command.call_id} with arguments {arguments if len(arguments) else "none"}')
         self.send_line(f'{command.call_id}{" " if len(arguments) else ""}{" ".join(arguments)}')
 
         response = self.receive_lines_until_matches_regex(
@@ -119,6 +121,7 @@ class AIClient(Client):
         )
 
         if "dead" in response:
+            logging.fatal('deadge')
             exit(0)
         filtered_response = []
         for line in response:
@@ -128,9 +131,11 @@ class AIClient(Client):
                 self.broadcast_messages.put(line)
             else:
                 filtered_response.append(line)
+        logging.debug(f'Last command response: {filtered_response}')
         return filtered_response
 
     def refresh_inventory(self) -> None:
+        logging.info("Refreshing inventory...")
         raw_inventory = self.execute_command(COMMANDS['inventory'])[0]
 
         items = re.findall(r'\w+ \d+', raw_inventory)
@@ -140,6 +145,7 @@ class AIClient(Client):
             self.inventory[item_name] = int(item_quantity)
 
     def drop_item(self, item: str) -> None:
+        logging.info(f"Dropping {item}")
         if self.inventory.get(item, 0) < 0:
             raise ValueError('Cannot drop an item that is not in the inventory.')
         if 'ko' in self.execute_command(COMMANDS['set'], [item]):
@@ -147,6 +153,7 @@ class AIClient(Client):
         self.inventory[item] -= 1
 
     def take_item(self, item: str) -> None:
+        logging.info(f"Taking {item}")
         if 'ko' in self.execute_command(COMMANDS['take'], [item]):
             raise RuntimeError('Could not take item.')
         self.inventory[item] += 1
@@ -169,6 +176,7 @@ class AIClient(Client):
         return True
 
     def drop_incatation_needs(self) -> None:
+        logging.info(f'Dropping incantation needs for elevation {self.elevation}')
         for need, amount in INCANTATION_REQUIREMENTS[self.elevation - 1].items():
             if need == 'player':
                 continue
@@ -176,9 +184,11 @@ class AIClient(Client):
                 self.drop_item(need)
 
     def incantate(self) -> None:
+        logging.warning(f'Starting incantation for elevation {self.elevation}')
         if not self.can_incantate() or 'ko' in self.execute_command(COMMANDS['incantation']):
             raise RuntimeError('Could not incantate.')
         self.elevation += 1
+        logging.warning(f'End of incantation, now at elevation {self.elevation}')
 
     def get_priority_ordered_incantation_needs(self) -> List[Tuple[str, int]]:
         return list(filter(
@@ -203,34 +213,57 @@ class AIClient(Client):
         return None
 
     def go_to(self, x: int, y: int) -> None:
+        logging.info(f'Going to {x}, {y}')
         while x != 0 or y != 0:
             if y > 0:
                 self.execute_command(COMMANDS['forward'])
                 y -= 1
+                continue
             if y < 0:
                 self.execute_command(COMMANDS['right'])
                 self.execute_command(COMMANDS['right'])
                 x, y = -x, -y
+                continue
             if y == 0:
                 if x > 0:
                     self.execute_command(COMMANDS['right'])
                     x, y = -y, x
+                    continue
                 else:
                     self.execute_command(COMMANDS['left'])
                     x, y = y, -x
+                    continue
+        logging.info('Arrived at destination.')
 
     def live_until_dead(self) -> None:
         while True:
+            self.refresh_inventory()
             item_to_take = self.get_priority_ordered_incantation_needs()[0][0]
             target = self.get_target_cell_for_item(item_to_take)
-            if target is None:
+            if target is None or self.inventory['food'] < 3:
                 item_to_take = 'food'
                 target = self.get_target_cell_for_item(item_to_take)
             if target is None:
+                logging.info('No food found, moving forward.')
                 self.execute_command(COMMANDS['forward'])
                 continue
+            logging.info(f'Targeting {item_to_take} at {target}.')
             self.go_to(*target)
-            self.take_item(item_to_take)
+            try:
+                self.take_item(item_to_take)
+            except RuntimeError:
+                logging.error(
+                    f'Something happened, taking {item_to_take} failed, maybe stolen or Reza\'s fault idk. '
+                    f'Moving forward !'
+                )
+                continue
             if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
-                self.incantate()
+                try:
+                    self.incantate()
+                except RuntimeError:
+                    logging.error(
+                        'Something happened, incantation failed, maybe ejected or Reza\'s fault idk. '
+                        'Let\'s pretend nothing happened...'
+                    )
+                    continue

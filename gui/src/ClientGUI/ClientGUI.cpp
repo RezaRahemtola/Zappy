@@ -187,10 +187,13 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-    std::vector <std::std::size_t> players;
+    std::vector <std::string> players;
+
     if (data.size() < 4)
         return;
-    _gameData->updatePlayerIncantation(std::stoi(data[1]), std::stoi(data[2]), data);
+    for (int i = 4; i < data.size(); i++)
+        players.push_back(data[i]);
+    _gameData->startIncantation(players);
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {

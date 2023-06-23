@@ -44,6 +44,9 @@ class Player {
         std::string getMessage() const { return _message; }
         void setMessage(std::string message) { _message = message; }
 
+        void startIncantation() { _elevation = true; }
+        void endIncantation() { _elevation = false; }
+
         void updateInventory(std::vector<std::string> &inventory);
         void updatePosition(Vector2 position, std::size_t orientation);
         void updateLevel(size_t level) { _level = level; }
