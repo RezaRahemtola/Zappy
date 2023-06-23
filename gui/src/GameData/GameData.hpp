@@ -30,7 +30,7 @@ class GameData{
         void updatePlayerLevel(std::size_t id, std::size_t level);
 
         void startIncantation(std::vector<std::string> &ids);
-        void endIncantation(int x, int y);
+        void endIncantation(Vector2 position);
 
         std::vector<Player> &getPlayers() { return _players; };
 

@@ -28,21 +28,17 @@ bool ClientGUI::receive(std::string& receivedData) {
     FD_SET(_sockfd, &readSet);
 
     struct timeval timeout;
-    timeout.tv_sec = 0.01;  // Temps d'attente en secondes
+    timeout.tv_sec = 5;  // Temps d'attente en secondes
     timeout.tv_usec = 0;
 
-    std::cout << "SELECT 1" << std::endl;
     int selectResult = select(_sockfd + 1, &readSet, NULL, NULL, &timeout);
-    std::cout << "SELECT 2" << std::endl;
     if (selectResult == -1) {
         perror("Erreur lors de l'appel à select");
         return false;
     } else if (selectResult == 0) {
         return false;
     }
-    std::cout << "SELECT 3" << std::endl;
 
-    std::cout << "FD_ISSET 1" << std::endl;
     if (FD_ISSET(_sockfd, &readSet)) {
         bytesRead = recv(_sockfd, buffer, sizeof(buffer), 0);
         if (bytesRead == -1) {
@@ -53,9 +49,11 @@ bool ClientGUI::receive(std::string& receivedData) {
             return false;
         }
     }
-    std::cout << "FD_ISSET 2" << std::endl;
 
     receivedData = std::string(buffer, bytesRead);
+    std::cout << "-------------- [RECEIVED] --------------" << std::endl;
+    std::cout << receivedData << std::endl;
+    std::cout << "----------------------------------------" << std::endl;
     return true;
 }
 
@@ -199,7 +197,7 @@ void ClientGUI::handlePic(std::vector<std::string> &data) {
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
-    std::cout << "pie" << std::endl;
+    _gameData->endIncantation(Vector2(std::stoi(data[1]), std::stoi(data[2])));
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {

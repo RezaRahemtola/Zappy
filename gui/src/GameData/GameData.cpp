@@ -125,10 +125,10 @@ void GameData::startIncantation(std::vector<std::string> &ids) {
                 player.startIncantation();
 }
 
-void GameData::endIncantation(int x, int y)
+void GameData::endIncantation(Vector2 pos) {
 {
     for (auto &player : _players)
-        if (player.getPosition().x == x && player.getPosition().y == y)
+        if (player.getPosition().x == pos.x && player.getPosition().y == pos.y)
             player.endIncantation();
 }
 

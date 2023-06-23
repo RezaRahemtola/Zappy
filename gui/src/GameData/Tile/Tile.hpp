@@ -42,10 +42,26 @@ class Tile {
             _ressources[Ressource::MENDIANE] = 0;
             _ressources[Ressource::PHIRAS] = 0;
             _ressources[Ressource::THYSTAME] = 0;
+
+            Vector2 ressourcePosition = Vector2 {(static_cast<float>(rand() % 100) / 100), static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::FOOD] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::LINEMATE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::DERAUMERE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::SIBUR] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::MENDIANE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::PHIRAS] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::THYSTAME] = ressourcePosition;
         }
         ~Tile() = default;
 
         void display();
+        void displayRessources();
 
         std::size_t getRessource(Ressource ressource);
         void updateRessource(Ressource ressource, Operation operation, std::size_t value);
@@ -56,6 +72,8 @@ class Tile {
 
         // Content
         std::unordered_map<Ressource, int> _ressources;
+        std::unordered_map<Ressource, Vector2> _ressourcesPosition;
+
         std::size_t _fontSize;
 
         // Graphical information
