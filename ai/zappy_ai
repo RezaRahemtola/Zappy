@@ -1,11 +1,31 @@
 #!/usr/bin/env python3
+import logging
+import os
+from argparse import ArgumentParser
 
 from ai_client import AIClient
 
+ARGPARSER = ArgumentParser(description='Zappy AI', add_help=False)
+ARGPARSER.add_argument('-n', type=str, required=True, help='Name of the team.', metavar='name', dest='team_name')
+ARGPARSER.add_argument('-h', type=str, required=True, help='Machine of the server.', metavar='machine', dest='machine')
+ARGPARSER.add_argument('-p', type=int, required=True, help='Port of the server.', metavar='port', dest='port')
+ARGPARSER.add_argument('-help', action='help', help='Show this help message and exit.')
+
+logging.getLogger().name = 'ai'
+logging.getLogger().setLevel(logging.DEBUG if os.getenv('DEBUG') else logging.INFO)
+logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%H:%M:%S')
+
 if __name__ == '__main__':
-    client = AIClient(('localhost', 4242), 'michel')
+    args = ARGPARSER.parse_args()
+    client = AIClient((args.machine, args.port), args.team_name)
     if not client.connect():
         raise RuntimeError('Could not connect to server.')
+    logging.info('Connected to server, starting handshake...')
     client.start_handshake()
+    logging.info(
+        f'Handshake done, client is part of the team {client.team_name} with {client.team_available_slots} '
+        f'available slots.'
+    )
+    client.live_until_dead()  # Fume la vie avant qu'elle ne te fume
     if not client.disconnect():
         raise RuntimeError('Couldn\'t disconnect from server.')

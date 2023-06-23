@@ -5,7 +5,7 @@
 ## Makefile of the project
 ##
 
-all: zappy_server zappy_gui
+all: zappy_server zappy_gui zappy_ai
 
 zappy_server:
 	$(MAKE) -C server
