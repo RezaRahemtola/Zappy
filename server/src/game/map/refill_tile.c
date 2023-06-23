@@ -79,9 +79,8 @@ tile_t *fill_tile(tile_t *map, tile_t *new_resources, bool only_empty)
     bool fill = false;
     size_t rand_res = 0;
 
-    if (only_empty && !is_tile_empty(map)) {
+    if (only_empty && !is_tile_empty(map))
         return map;
-    }
     while (!fill) {
         rand_res = rand_between_range(0, 7);
         fill = is_resource_still_avaible(new_resources, rand_res);

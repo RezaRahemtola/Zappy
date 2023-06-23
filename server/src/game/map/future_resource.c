@@ -33,13 +33,14 @@ tile_t *spawn_resource(tile_t ***map, size_t width, size_t height)
         return tile;
     for (size_t i = 0; i < height; i++) {
         for (size_t j = 0; j < width; j++) {
-            tile->food -= map[i][j]->food;
-            tile->linemate -= map[i][j]->linemate;
-            tile->deraumere -= map[i][j]->deraumere;
-            tile->sibur -= map[i][j]->sibur;
-            tile->mendiane -= map[i][j]->mendiane;
-            tile->phiras -= map[i][j]->phiras;
-            tile->thystame -= map[i][j]->thystame;
+            tile->food -= (tile->food == 0) ? 0 : map[i][j]->food;
+            tile->linemate -= (tile->linemate == 0) ? 0 : map[i][j]->linemate;
+            tile->deraumere -= (tile->deraumere == 0) ? 0
+                    : map[i][j]->deraumere;
+            tile->sibur -= (tile->sibur == 0) ? 0 : map[i][j]->sibur;
+            tile->mendiane -= (tile->mendiane == 0) ? 0 : map[i][j]->mendiane;
+            tile->phiras -= (tile->phiras == 0) ? 0 : map[i][j]->phiras;
+            tile->thystame -= (tile->thystame == 0) ? 0 : map[i][j]->thystame;
         }
     }
     return tile;
