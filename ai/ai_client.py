@@ -1,4 +1,5 @@
 import logging
+import os
 import re
 from queue import Queue
 from typing import List, Tuple, Dict
@@ -211,6 +212,13 @@ class AIClient(Client):
             if item in cell_content:
                 return relative_position
         return None
+
+    def reproduce(self) -> None:
+        if 'ko' in self.execute_command(COMMANDS['fork']):
+            raise RuntimeError('Could not reproduce.')
+        pid = os.fork()
+        if pid == 0:
+            self.start_handshake()
 
     def go_to(self, x: int, y: int) -> None:
         logging.info(f'Going to {x}, {y}')
