@@ -42,7 +42,6 @@ class Client:
         return True
 
     def send_line(self, line: str) -> None:
-        logging.debug('Sending line: %s', line)
         line += '\n'
         line_len = len(line)
         sent = 0
@@ -61,7 +60,6 @@ class Client:
         for response_format in response_formats:
             while True:
                 lines += self.receive_lines(read_size)
-                logging.debug('Received line: %s', lines[-1])
                 if response_format.match(lines[-1]):
                     break
         return lines
