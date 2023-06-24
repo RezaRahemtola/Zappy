@@ -54,6 +54,11 @@ INCANTATION_REQUIREMENTS = [
 ]
 
 
+class DieError(Exception):
+    def __init__(self, message: str) -> None:
+        super().__init__(message)
+
+
 class AICommand:
     def __init__(self, call_id: str, response_format: List[re.Pattern]) -> None:
         self.call_id = call_id
@@ -122,7 +127,7 @@ class AIClient(Client):
 
         if "dead" in response:
             logging.fatal('deadge')
-            exit(0)
+            raise DieError('The client died.')
         filtered_response = []
         for line in response:
             if line.startswith("eject"):
