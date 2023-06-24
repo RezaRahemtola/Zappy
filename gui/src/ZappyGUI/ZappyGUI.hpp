@@ -23,7 +23,7 @@ class ZappyGUI {
             _displays["Playground"] = std::make_unique<Playground>(machine, port);
             _currentDisplay = "Playground";
 
-            SetTargetFPS(165);
+            SetTargetFPS(120);
             _camera.position = { -10.0f, -10.0f, -10.0f };
             _camera.target = { 0.0f, 0.0f, 0.0f };
             _camera.up = { 0.0f, 3.0f, 0.0f };
