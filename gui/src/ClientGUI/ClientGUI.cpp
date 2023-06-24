@@ -27,8 +27,6 @@ bool ClientGUI::receive(std::string& receivedData) {
     FD_ZERO(&readSet);
     FD_SET(_sockfd, &readSet);
 
-    struct timeval timeout;
-
     int selectResult = select(_sockfd + 1, &readSet, NULL, NULL, NULL);
     if (selectResult == -1) {
         perror("Erreur lors de l'appel à select");
@@ -167,7 +165,7 @@ void ClientGUI::handlePex(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePbc(std::vector<std::string> &data) {
-    std::size_t id;
+    int id;
     std::string message;
 
     if (data.size() < 3)
@@ -175,7 +173,7 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
     id = _gameData->getPlayerId(std::stoi(data[1]));
     if (id == -1)
         return;
-    for (int i = 2; i < data.size(); i++)
+    for (std::size_t i = 2; i < data.size(); i++)
         message += data[i] + " ";
     _gameData->addMessageToPlayer(id, message);
 }
@@ -185,7 +183,7 @@ void ClientGUI::handlePic(std::vector<std::string> &data) {
 
     if (data.size() < 4)
         return;
-    for (int i = 4; i < data.size(); i++)
+    for (std::size_t i = 4; i < data.size(); i++)
         players.push_back(data[i]);
     _gameData->startIncantation(players);
 }

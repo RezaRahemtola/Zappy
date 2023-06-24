@@ -24,11 +24,10 @@ class ZappyGUI {
             _currentDisplay = "Playground";
 
             SetTargetFPS(165);
-            _camera = { 0 };
-            _camera.position = { 10.0f, 10.0f, 10.0f };
+            _camera.position = { -10.0f, -10.0f, -10.0f };
             _camera.target = { 0.0f, 0.0f, 0.0f };
-            _camera.up = { 0.0f, 1.0f, 0.0f };
-            _camera.fovy = 45.0f;
+            _camera.up = { 0.0f, 3.0f, 0.0f };
+            _camera.fovy = 60.0f;
             _camera.projection = CAMERA_PERSPECTIVE;
         }
         ~ZappyGUI() {

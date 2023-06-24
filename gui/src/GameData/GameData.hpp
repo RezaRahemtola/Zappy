@@ -22,7 +22,7 @@ class GameData{
         void display();
 
         void createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName);
-        std::size_t getPlayerId(std::size_t id);
+        int getPlayerId(std::size_t id);
         void addMessageToPlayer(std::size_t id, std::string message);
         void deletePlayer(std::size_t id);
         void updatePlayerInventory(std::size_t id, std::vector<std::string> &inventory);
@@ -39,8 +39,8 @@ class GameData{
 
         void updateMapSize(int width, int height);
         void updateRessources(std::vector<std::string> &data);
-        void collectResource(std::size_t id, int ressource);
-        void dropResource(std::size_t id, int ressource);
+        void collectResource(std::size_t id);
+        void dropResource(std::size_t id);
 
     private:
         // Information

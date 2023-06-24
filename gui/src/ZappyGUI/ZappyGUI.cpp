@@ -9,8 +9,6 @@
 #include "ZappyGUI.hpp"
 
 void ZappyGUI::run() {
-    int i = 0;
-
     while (!WindowShouldClose()) {
         _currentDisplay = _displays[_currentDisplay]->run();
         BeginDrawing();
@@ -36,7 +34,6 @@ void ZappyGUI::run() {
         if (IsCursorHidden()) {
             UpdateCamera(&_camera, CAMERA_FIRST_PERSON);
         }
-        Camera cam = _camera;
 
         // Camera movement controled by keyboard relative to camera facing
         UpdateCameraPro(&_camera,
