@@ -7,8 +7,10 @@ from ai_client import AIClient
 
 ARGPARSER = ArgumentParser(description='Zappy AI', add_help=False)
 ARGPARSER.add_argument('-n', type=str, required=True, help='Name of the team.', metavar='name', dest='team_name')
-ARGPARSER.add_argument('-h', type=str, required=True, help='Machine of the server.', metavar='machine', dest='machine')
-ARGPARSER.add_argument('-p', type=int, required=True, help='Port of the server.', metavar='port', dest='port')
+ARGPARSER.add_argument('-h', type=str, required=True, help='Machine of the server.', metavar='machine', dest='machine',
+                       default='localhost')
+ARGPARSER.add_argument('-p', type=int, required=True, help='Port of the server.', metavar='port', dest='port',
+                       default=4242)
 ARGPARSER.add_argument('-help', action='help', help='Show this help message and exit.')
 
 logging.getLogger().name = 'ai'
