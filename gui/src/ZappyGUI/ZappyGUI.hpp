@@ -53,6 +53,10 @@ class ZappyGUI {
         Views _view;
 
         void handleCamera();
+        void display3D();
+        void display2D();
+        
+        void displayFPS();
 };
 
 #endif /*SIMULATION_HPP_*/

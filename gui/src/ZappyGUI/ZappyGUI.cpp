@@ -14,27 +14,38 @@ void ZappyGUI::run() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        // 3D mode
-        BeginMode3D(_camera);
-        _displays[_currentDisplay]->display();
-        DrawGrid(200, 1.0f);
-        EndMode3D();
-
-        // Camera movement controled by keyboard relative to camera facing
+        display3D();
         handleCamera();
 
         // 2D mode
-        DrawRectangle(0, 0, 110, 40, Fade(SKYBLUE, 0.5f));
-        DrawRectangleLines(0, 0, 110, 40, Fade(DARKBLUE, 0.5f));
-        DrawText("Welcome to the Zappy Of All Time", _width / 2 - 270, 10, 30, GRAY);
-
-        DrawText("Press [ESC] to exit", _width - 200, _height - 80, 20, GRAY);
-
-        DrawFPS(10, 10);
+        display2D();
         EndDrawing();
     }
 }
 
+// 2D mode
+void ZappyGUI::display2D() {
+    DrawText("Welcome to the Zappy Of All Time", _width / 2 - 270, 10, 30, GRAY);
+    DrawText("Press [ESC] to exit", _width - 200, _height - 80, 20, GRAY);
+    displayFPS();
+}
+
+// Display FPS
+void ZappyGUI::displayFPS() {
+    DrawRectangle(0, 0, 110, 40, Fade(SKYBLUE, 0.5f));
+    DrawRectangleLines(0, 0, 110, 40, Fade(DARKBLUE, 0.5f));
+    DrawFPS(10, 10);
+}
+
+// 3D mode
+void ZappyGUI::display3D() {
+    BeginMode3D(_camera);
+    _displays[_currentDisplay]->display();
+    DrawGrid(200, 1.0f);
+    EndMode3D();
+}
+
+// Camera movement controled by keyboard relative to camera facing
 void ZappyGUI::handleCamera() {
     // Set view by command
     if (IsKeyDown(KEY_F)) {
