@@ -9,6 +9,7 @@ jobs:
   build:
     name: Check compilation
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     container: epitechcontent/epitest-docker
     steps:
       - name: Repository checkout
