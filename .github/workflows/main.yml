@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Raylib
         run: |
-            sudo apt-get update
-            sudo apt-get install -y libraylib-dev
+            sudo dnf update
+            sudo dnf install -y libraylib-dev
       - name: Build
         run: make
         timeout-minutes: 1
