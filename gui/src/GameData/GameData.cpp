@@ -8,16 +8,21 @@
 #include <iostream>
 #include "GameData.hpp"
 
-void GameData::display(sf::RenderWindow &window) {
+void GameData::display() {
     for (auto &line : _tiles)
         for (auto &tile : line)
-            tile.display(window);
+            tile.display();
     for (auto &player : _players)
-        player.display(window);
+        player.display();
 }
 
-void GameData::createPlayer(std::size_t id, size_t x, size_t y, size_t orientation, size_t level, std::string teamName) {
-    _players.push_back(Player(id, sf::Vector2f(x * _tileSize + _margin.x + 30, y * _tileSize + _margin.y + 30)));
+void GameData::createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName) {
+    std::cout << "Creating player " << id << " at position " << position.x << " " << position.y << std::endl;
+    position.x *= _tileSize;
+    position.y *= _tileSize;
+
+    std::cout << "Creating player " << id << " at position " << position.x << " " << position.y << std::endl;
+    _players.push_back(Player(id, position));
     _players.back().setLevel(level);
     _players.back().setTeamName(teamName);
     _players.back().setOrientation(orientation);
@@ -42,7 +47,7 @@ void GameData::deletePlayer(std::size_t id) {
             _players.erase(_players.begin() + i);
 }
 
-void GameData::createEgg(sf::Vector2f pos, std::size_t id, std::size_t teamId) {
+void GameData::createEgg(Vector2 pos, std::size_t id, std::size_t teamId) {
     _eggs.push_back(Egg(pos, id, teamId));
 }
 
@@ -52,19 +57,18 @@ void GameData::deleteEgg(std::size_t id) {
             _eggs.erase(_eggs.begin() + i);
 }
 
-void GameData::updateMapSize(std::size_t width, std::size_t height) {
+void GameData::updateMapSize(int width, int height) {
     _width = width;
     _height = height;
-    _tileSize = 1900 / _width > 900 / _height ? 900 / _height : 1900 / _width;
-    _margin = sf::Vector2f((1900 - _width * _tileSize) / 2, (900 - _height * _tileSize) / 2);
+    _tileSize = 4;
 
     if (_tiles.size() != 0)
         return;
-    for (std::size_t y = 0; y < _height; y++) {
+    for (int y = 0; y < _height; y++) {
         std::vector<Tile> line;
 
-        for (std::size_t x = 0; x < _width; x++)
-            line.emplace_back(Tile(x, y, _tileSize, _margin));
+        for (int x = 0; x < _width; x++)
+            line.emplace_back(Tile(Vector2(x, y), _tileSize));
         _tiles.push_back(line);
     }
 }
@@ -99,10 +103,13 @@ void GameData::updatePlayerInventory(std::size_t id, std::vector<std::string> &i
             player.updateInventory(inventory);
 }
 
-void GameData::updatePlayerPosition(std::size_t id, std::vector<std::string> &position) {
+void GameData::updatePlayerPosition(std::size_t id, Vector2 position, std::size_t orientation) {
     for (auto &player : _players)
-        if (player.getId() == id)
-            player.updatePosition(position);
+        if (player.getId() == id) {
+            position.x *= _tileSize;
+            position.y *= _tileSize;
+            player.updatePosition(position, orientation);
+        }
 }
 
 void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
@@ -118,32 +125,19 @@ void GameData::startIncantation(std::vector<std::string> &ids) {
                 player.startIncantation();
 }
 
-void GameData::endIncantation(int x, int y)
-{
-    for (auto &player : _players)
-        if (player.getPosition().x == x && player.getPosition().y == y)
+void GameData::endIncantation(Vector2 pos) {
+    for (auto &player : _players) {
+        Vector3 playerPos = player.getPosition();
+
+        if ((playerPos.x / _tileSize) == pos.x && (playerPos.z / _tileSize) == pos.y)
             player.endIncantation();
+    }
 }
 
-void GameData::collectResource(std::size_t id, int resource)
-{
-    for (auto &player : _players)
-        if (player.getId() == id) {
-            int x = player.getPosition().x;
-            int y = player.getPosition().y;
-            _tiles[y][x].updateRessource(static_cast<Ressource>(resource), Operation::DEC, 1);
-            player.updateResource(resource, 1);
-        }
+void GameData::collectResource(std::size_t id, int resource) {
+
 }
 
-void GameData::dropResource(std::size_t id, int ressource)
-{
-    for (auto &player : _players)
-        if (player.getId() == id) {
-            int x = player.getPosition().x;
-            int y = player.getPosition().y;
-            _tiles[y][x].updateRessource(static_cast<Ressource>(ressource), Operation::INC, 1);
-            player.updateResource(ressource, -1);
-        }
-}
+void GameData::dropResource(std::size_t id, int ressource) {
 
+}

@@ -8,15 +8,15 @@
 #ifndef EGG_HPP_
 	#define EGG_HPP_
 
-#include <SFML/Graphics.hpp>
+#include <raylib.h>
 
 class Egg {
 	public:
-		Egg(sf::Vector2f position, std::size_t id, std::size_t teamId) :
-            _id(id), _teamId(teamId), _position(position) {};
+		Egg(Vector2 position, std::size_t id, std::size_t teamId) :
+            _id(id), _teamId(teamId), _position(Vector3 {position.x, position.y, 0}) {};
 		~Egg() {};
 
-        void display(sf::RenderWindow &window);
+        void display();
 
         std::size_t getId() const { return _id; }
 
@@ -25,9 +25,7 @@ class Egg {
         std::size_t _teamId;
 
         // Graphical information
-        sf::Vector2f _position;
-        sf::Texture _texture;
-        sf::Sprite _sprite;
+        Vector3 _position;
 };
 
 #endif /*EGG_HPP_*/

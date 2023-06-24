@@ -8,7 +8,7 @@
 #ifndef SIMULATION_HPP_
 	#define SIMULATION_HPP_
 
-    #include <SFML/Graphics.hpp>
+    #include <raylib.h>
     #include <unordered_map>
     #include <memory>
     #include "IDisplay.hpp"
@@ -17,22 +17,34 @@
 
 class ZappyGUI {
     public:
-        ZappyGUI(std::string machine, std::size_t port) : _window(sf::VideoMode(1920, 1020), "Zappy") {
+        ZappyGUI(std::string machine, std::size_t port) : _width(1920), _height(1080) {
+            InitWindow(_width, _height, "The ZOATIEST Project");
             _displays["Menu"] = std::make_unique<Menu>();
             _displays["Playground"] = std::make_unique<Playground>(machine, port);
             _currentDisplay = "Playground";
+
+            SetTargetFPS(165);
+            _camera = { 0 };
+            _camera.position = { 10.0f, 10.0f, 10.0f };
+            _camera.target = { 0.0f, 0.0f, 0.0f };
+            _camera.up = { 0.0f, 1.0f, 0.0f };
+            _camera.fovy = 45.0f;
+            _camera.projection = CAMERA_PERSPECTIVE;
         }
-        ~ZappyGUI() { };
+        ~ZappyGUI() {
+            CloseWindow();
+        };
 
         void run();
 
     private:
-        sf::RenderWindow _window;
-        sf::Event _event;
+        std::size_t _width;
+        std::size_t _height;
+
         std::unordered_map<std::string, std::unique_ptr<IDisplay>> _displays;
         std::string _currentDisplay;
 
-        void pollEvents();
+        Camera3D _camera;
 };
 
 #endif /*SIMULATION_HPP_*/

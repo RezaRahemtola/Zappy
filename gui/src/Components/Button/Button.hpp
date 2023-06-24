@@ -8,7 +8,7 @@
 #ifndef BUTTON_HPP_
 	#define BUTTON_HPP_
 
-    #include <SFML/Graphics.hpp>
+    #include <raylib.h>
 
 enum class STATE {
     IDLE,
@@ -19,32 +19,21 @@ enum class STATE {
 class Button {
     public:
         Button() = default;
-        Button(std::string text, sf::Vector2f position, sf::Vector2f size, sf::Color color) :
-            _state(STATE::IDLE), _position(position), _size(size), _color(color), _text(text) {
-
-            // Setup Shape
-            _shape.setPosition(_position);
-            _shape.setSize(_size);
-            _shape.setFillColor(_color);
-
-            // Setup Font
-            _font.loadFromFile("assets/fonts/arial.ttf");
+        Button(std::string text, Vector2 position, Vector2 size) :
+            _state(STATE::IDLE), _position(position), _size(size), _text(text) {
         };
         ~Button() {};
 
         bool isClicked();
-        void display(sf::RenderWindow &window);
+        void display();
 
     private:
         STATE _state;
-        sf::Vector2f _position;
-        sf::Vector2f _size;
-        sf::RectangleShape _shape;
-        sf::Color _color;
-        sf::Font _font;
+        Vector2 _position;
+        Vector2 _size;
         std::string _text;
 
-        void handleState(sf::RenderWindow &window);
+        void handleState();
 };
 
 #endif /*BUTTON_HPP_*/

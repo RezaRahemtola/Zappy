@@ -9,6 +9,7 @@ NAME	=	zappy_gui
 
 all:
 	cmake -B build;make -C build;mv build/${NAME} .
+	cd .. && ln -s gui/${NAME} ${NAME}
 
 re: fclean all
 

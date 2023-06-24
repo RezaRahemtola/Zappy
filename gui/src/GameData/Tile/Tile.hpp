@@ -8,7 +8,7 @@
 #ifndef TILE_HPP_
 #define TILE_HPP_
 
-#include <SFML/Graphics.hpp>
+#include <raylib.h>
 #include <unordered_map>
 
 enum class Operation {
@@ -28,12 +28,10 @@ enum class Ressource {
 
 class Tile {
     public:
-        Tile(std::size_t x, std::size_t y, std::size_t size, sf::Vector2f margin) :
-            _position(sf::Vector2f(x, y)), _size(size), _margin(margin) {
+        Tile(Vector2 position, std::size_t size) :
+            _position(Vector3 {position.x * _size , 0, position.y * _size}), _size(size) {
 
-            _position.x = _position.x * _size + _margin.x;
-            _position.y = _position.y * _size + _margin.y + 20;
-            _font.loadFromFile("assets/fonts/arial.ttf");
+            _mesh = GenMeshCube(size, size/2, size);
 
             _fontSize = size / 5;
 
@@ -44,28 +42,45 @@ class Tile {
             _ressources[Ressource::MENDIANE] = 0;
             _ressources[Ressource::PHIRAS] = 0;
             _ressources[Ressource::THYSTAME] = 0;
+
+            Vector2 ressourcePosition = Vector2 {(static_cast<float>(rand() % 100) / 100), static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::FOOD] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::LINEMATE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::DERAUMERE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::SIBUR] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::MENDIANE] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::PHIRAS] = ressourcePosition;
+            ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
+            _ressourcesPosition[Ressource::THYSTAME] = ressourcePosition;
         }
         ~Tile() = default;
 
-        void display(sf::RenderWindow &window);
+        void display();
+        void displayRessources();
 
         std::size_t getRessource(Ressource ressource);
         void updateRessource(Ressource ressource, Operation operation, std::size_t value);
 
     private:
         // Information
-        sf::Vector2f _position;
         std::size_t _size;
-        sf::Vector2f _margin;
-        sf::Color _color;
-        sf::Color _borderColor;
 
         // Content
         std::unordered_map<Ressource, int> _ressources;
-        sf::Font _font;
+        std::unordered_map<Ressource, Vector2> _ressourcesPosition;
+
         std::size_t _fontSize;
 
-        void dislpayRessources(sf::RenderWindow &window);
+        // Graphical information
+        Vector3 _position;
+        Mesh _mesh;
+
+        void dislpayRessources();
 };
 
 #endif /*TILE_HPP_*/
