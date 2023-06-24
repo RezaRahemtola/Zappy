@@ -57,6 +57,8 @@ class Tile {
             _ressourcesPosition[Ressource::PHIRAS] = ressourcePosition;
             ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
             _ressourcesPosition[Ressource::THYSTAME] = ressourcePosition;
+
+            _boundingBox = BoundingBox {_position, Vector3 {_position.x + _size, _position.y + _size, _position.z + _size}};
         }
         ~Tile() = default;
 
@@ -65,6 +67,8 @@ class Tile {
 
         std::size_t getRessource(Ressource ressource);
         void updateRessource(Ressource ressource, Operation operation, std::size_t value);
+
+        BoundingBox getBoundingBox() { return _boundingBox; };
 
     private:
         // Information
@@ -79,6 +83,7 @@ class Tile {
         // Graphical information
         Vector3 _position;
         Mesh _mesh;
+        BoundingBox _boundingBox;
 
         void dislpayRessources();
 };
