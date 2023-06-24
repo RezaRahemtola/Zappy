@@ -13,7 +13,8 @@
 class Egg {
 	public:
 		Egg(Vector2 position, std::size_t id, std::size_t teamId) :
-            _id(id), _teamId(teamId), _position(Vector3 {position.x, position.y, 0}) {};
+            _id(id), _teamId(teamId), _position(Vector3 {position.x, position.y, 0}),
+            _size(1), _tendency(false) {};
 		~Egg() {};
 
         void display();
@@ -26,6 +27,8 @@ class Egg {
 
         // Graphical information
         Vector3 _position;
+        float _size;
+        bool _tendency;
 };
 
 #endif /*EGG_HPP_*/

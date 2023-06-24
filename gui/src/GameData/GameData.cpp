@@ -14,6 +14,8 @@ void GameData::display() {
             tile.display();
     for (auto &player : _players)
         player.display();
+    for (auto &egg : _eggs)
+        egg.display();
 }
 
 void GameData::createPlayer(std::size_t id, Vector2 position, std::size_t orientation, std::size_t level, std::string teamName) {
