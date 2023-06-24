@@ -8,6 +8,7 @@
 #ifndef EGG_HPP_
 	#define EGG_HPP_
 
+#include <iostream>
 #include <raylib.h>
 
 class Egg {

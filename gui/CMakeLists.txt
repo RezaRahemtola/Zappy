@@ -42,6 +42,7 @@ add_executable(zappy_gui
         src/GameData/GameData.cpp
         src/GameData/Tile/Tile.cpp
         src/GameData/Player/Player.cpp
+        src/GameData/Egg/Egg.cpp
         ## Utils
         src/Utils/ErrorHandling.cpp
         src/Utils/Help.cpp

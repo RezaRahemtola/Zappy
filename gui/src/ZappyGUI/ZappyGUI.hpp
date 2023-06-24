@@ -55,7 +55,7 @@ class ZappyGUI {
         void handleCamera();
         void display3D();
         void display2D();
-        
+
         void displayFPS();
 };
 
