@@ -156,6 +156,14 @@ class AIClient(Client):
             raise RuntimeError('Could not drop item.')
         self.inventory[item] -= 1
 
+    def encrypt_message(self, message: str) -> str:
+        return message
+
+    def broadcast(self, message: str) -> None:
+        logging.info(f"Broadcasting {message}")
+        if 'ko' in self.execute_command(COMMANDS['broadcast'], [self.encrypt_message(message)]):
+            raise RuntimeError('Could not broadcast message.')
+
     def take_item(self, item: str) -> None:
         logging.info(f"Taking {item}")
         if 'ko' in self.execute_command(COMMANDS['take'], [item]):
