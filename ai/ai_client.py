@@ -211,6 +211,7 @@ class AIClient(Client):
         surroundings = list(
             map(lambda cell: (RELATIVE_POSITIONS_LOOK_MAPPINGS[cell[0]], cell[1]), enumerate(self.look()))
         )
+        # Sorting surroundings by distance and time to get to the cell
         surroundings.sort(key=lambda cell: abs(cell[0][0]) + (1 if cell[0][0] != 0 else 0) + abs(cell[0][1]))
         for relative_position, cell_content in surroundings:
             if item in cell_content:
