@@ -55,6 +55,10 @@ class GameData{
 
         // Private methods
         void updateRessource(std::size_t x, std::size_t y, Ressource ressource, std::size_t value);
+
+        // Graphic methods
+        RayCollision _collision;
+        std::unordered_map<Ressource, int> getRessourceFromSelectedTile();
 };
 
 #endif /*GAMEDATA_HPP_*/
