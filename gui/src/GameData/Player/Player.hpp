@@ -7,19 +7,30 @@
 #ifndef PLAYER_HPP_
 	#define PLAYER_HPP_
 
-    #include <SFML/Graphics.hpp>
+    #include <iostream>
+    #include <raylib.h>
+    #include <vector>
 
 class Player {
 	public:
-		Player(std::size_t id, sf::Vector2f position) : _id(id), _position(position) {};
+		Player(std::size_t id, Vector2 position) : _id(id), _position(Vector3 {position.x, 2, position.y}),
+            _level(1), _orientation(0), _message(""), _elevation(false) {
+            _inventory[0] = 0;
+            _inventory[1] = 0;
+            _inventory[2] = 0;
+            _inventory[3] = 0;
+            _inventory[4] = 0;
+            _inventory[5] = 0;
+            _inventory[6] = 0;
+        }
 		~Player() = default;
 
-        void display(sf::RenderWindow &window);
+        void display();
 
         std::size_t getId() const { return _id; }
 
-        sf::Vector2f getPosition() const { return _position; }
-        void setPosition(sf::Vector2f position) { _position = position; }
+        Vector3 getPosition() const { return _position; }
+        void setPosition(Vector3 position) { _position = position; }
 
         std::size_t getLevel() const { return _level; }
         void setLevel(std::size_t level) { _level = level; }
@@ -33,12 +44,12 @@ class Player {
         std::string getMessage() const { return _message; }
         void setMessage(std::string message) { _message = message; }
 
-        void updateInventory(std::vector<std::string> &inventory);
-        void updateResource(std::size_t resource, int value);
-        void updatePosition(std::vector<std::string> &position);
-        void updateLevel(size_t level) { _level = level; }
         void startIncantation() { _elevation = true; }
         void endIncantation() { _elevation = false; }
+
+        void updateInventory(std::vector<std::string> &inventory);
+        void updatePosition(Vector2 position, std::size_t orientation);
+        void updateLevel(size_t level) { _level = level; }
 
 	private:
         // Information
@@ -48,13 +59,11 @@ class Player {
         std::size_t _orientation;
         std::size_t _inventory[7];
         std::size_t _children;
-        bool _elevation = false;
+        bool _elevation;
         std::string _message;
 
         // Graphical information
-        sf::Vector2f _position;
-        sf::Texture _texture;
-        sf::Sprite _sprite;
+        Vector3 _position;
 };
 
 #endif /*PLAYER_HPP_*/

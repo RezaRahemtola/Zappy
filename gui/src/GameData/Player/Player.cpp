@@ -7,21 +7,19 @@
 
 #include "Player.hpp"
 
-void Player::display(sf::RenderWindow &window)
-{
-    if (_elevation == true)
-        _texture.loadFromFile("assets/sprites/incantation.png");
-    else
-        _texture.loadFromFile("assets/sprites/player.png");
-    _sprite.setTexture(_texture);
-    _sprite.setScale(sf::Vector2f(0.1, 0.1));
-    _sprite.setPosition(_position);
-
-    window.draw(_sprite);
+void Player::display() {
+    if (_elevation) {
+        DrawCube(_position, 0.5, 2, 0.5, WHITE);
+        Vector3 head = Vector3 {_position.x, _position.y + 1, _position.z};
+        DrawCube(head, 1, 1, 1, WHITE);
+    } else {
+        DrawCube(_position, 0.5, 2, 0.5, RED);
+        Vector3 head = Vector3 {_position.x, _position.y + 1, _position.z};
+        DrawCube(head, 1, 1, 1, RED);
+    }
 }
 
-void Player::updateInventory(std::vector<std::string> &inventory)
-{
+void Player::updateInventory(std::vector<std::string> &inventory) {
     _inventory[0] = std::stoi(inventory[4]);
     _inventory[1] = std::stoi(inventory[5]);
     _inventory[2] = std::stoi(inventory[6]);
@@ -31,14 +29,8 @@ void Player::updateInventory(std::vector<std::string> &inventory)
     _inventory[6] = std::stoi(inventory[10]);
 }
 
-void Player::updateResource(std::size_t resource, int value)
-{
-    _inventory[resource] += value;
-}
-
-void Player::updatePosition(std::vector<std::string> &position)
-{
-    _position.x = std::stoi(position[2]);
-    _position.y = std::stoi(position[3]);
-    _orientation = std::stoi(position[4]);
+void Player::updatePosition(Vector2 position, std::size_t orientation) {
+    _position.x = position.x;
+    _position.z = position.y;
+    _orientation = orientation;
 }

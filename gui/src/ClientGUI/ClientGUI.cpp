@@ -28,7 +28,7 @@ bool ClientGUI::receive(std::string& receivedData) {
     FD_SET(_sockfd, &readSet);
 
     struct timeval timeout;
-    timeout.tv_sec = 5;  // Temps d'attente en secondes
+    timeout.tv_sec = 0.01;  // Temps d'attente en secondes
     timeout.tv_usec = 0;
 
     int selectResult = select(_sockfd + 1, &readSet, NULL, NULL, &timeout);
@@ -36,7 +36,6 @@ bool ClientGUI::receive(std::string& receivedData) {
         perror("Erreur lors de l'appel à select");
         return false;
     } else if (selectResult == 0) {
-        std::cout << "Timeout atteint lors de la réception des données." << std::endl;
         return false;
     }
 
@@ -59,8 +58,15 @@ bool ClientGUI::receive(std::string& receivedData) {
 
 void ClientGUI::handleDataServer() {
     std::string data;
+    std::vector<Player> players = _gameData->getPlayers();
 
     sending("mct\n");
+
+    for (auto &player : players) {
+        sending("ppo #" + std::to_string(player.getId()) + "\n");
+        sending("pin #" + std::to_string(player.getId()) + "\n");
+        sending("plv #" + std::to_string(player.getId()) + "\n");
+    }
 
     receive(data);
     if (data.empty())
@@ -132,15 +138,15 @@ void ClientGUI::handleTna(std::vector<std::string> &data) {
 void ClientGUI::handlePnw(std::vector<std::string> &data) {
     if (data.size() != 7)
         return;
-    std::cout << "pnw" << std::endl;
+    std::cout << "pnw : " << data[1] << " pos : " << data[2] << " " << data[3] << " level : " << data[4] << " team : " << data[5] << std::endl;
     data[1].erase(0, 1);
-    _gameData->createPlayer(std::stoi(data[1]), std::stoi(data[2]), std::stoi(data[3]), std::stoi(data[4]), std::stoi(data[5]), data[6]);
+    _gameData->createPlayer(std::stoi(data[1]), Vector2(std::stoi(data[2]), std::stoi(data[3])), std::stoi(data[4]), std::stoi(data[5]), data[6]);
 }
 
 void ClientGUI::handlePpo(std::vector<std::string> &data) {
     if (data.size() != 5)
         return;
-    _gameData->updatePlayerPosition(std::stoi(data[1]), data);
+    _gameData->updatePlayerPosition(std::stoi(data[1]), Vector2(std::stoi(data[2]), std::stoi(data[3])), std::stoi(data[4]));
 }
 
 void ClientGUI::handlePlv(std::vector<std::string> &data) {
@@ -176,16 +182,20 @@ void ClientGUI::handlePbc(std::vector<std::string> &data) {
 }
 
 void ClientGUI::handlePic(std::vector<std::string> &data) {
-    if (data.size() < 5)
+    std::vector <std::string> players;
+
+    if (data.size() < 4)
         return;
-    data.erase(data.begin(), data.begin() + 4);
-    _gameData->startIncantation(data);
+    for (int i = 4; i < data.size(); i++)
+        players.push_back(data[i]);
+    _gameData->startIncantation(players);
 }
 
 void ClientGUI::handlePie(std::vector<std::string> &data) {
     if (data.size() != 4)
         return;
-    _gameData->endIncantation(std::stoi(data[1]), std::stoi(data[2]));
+    std::cout << "pie" << std::endl;
+    _gameData->endIncantation(Vector2(std::stoi(data[1]), std::stoi(data[2])));
 }
 
 void ClientGUI::handlePfk(std::vector<std::string> &data) {
@@ -197,13 +207,13 @@ void ClientGUI::handlePfk(std::vector<std::string> &data) {
 void ClientGUI::handlePdr(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    _gameData->dropResource(std::stoi(data[1]), std::stoi(data[2]));
+    std::cout << "pdr" << std::endl;
 }
 
 void ClientGUI::handlePgt(std::vector<std::string> &data) {
     if (data.size() != 3)
         return;
-    _gameData->collectResource(std::stoi(data[1]), std::stoi(data[2]));
+    std::cout << "pgt" << std::endl;
 }
 
 void ClientGUI::handlePdi(std::vector<std::string> &data) {
@@ -215,7 +225,7 @@ void ClientGUI::handlePdi(std::vector<std::string> &data) {
 void ClientGUI::handleEnw(std::vector<std::string> &data) {
     if (data.size() != 5)
         return;
-    _gameData->createEgg(sf::Vector2f(std::stoi(data[3]), std::stoi(data[4])), std::stoi(data[1]), std::stoi(data[2]));
+    _gameData->createEgg(Vector2(std::stoi(data[3]), std::stoi(data[4])), std::stoi(data[1]), std::stoi(data[2]));
 }
 
 void ClientGUI::handleEbo(std::vector<std::string> &data) {
