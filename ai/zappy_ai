@@ -28,6 +28,6 @@ if __name__ == '__main__':
         f'Handshake done, client is part of the team {client.team_name} with {client.team_available_slots} '
         f'available slots.'
     )
-    client.live_until_dead()  # Fume la vie avant qu'elle ne te fume
+    client.live_until_dead()
     if not client.disconnect():
         raise RuntimeError('Couldn\'t disconnect from server.')
