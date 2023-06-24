@@ -9,15 +9,12 @@ jobs:
   build:
     name: Check compilation
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     container: epitechcontent/epitest-docker
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
       - name: Setup Raylib
-        run: |
-            sudo dnf update
-            sudo dnf install -y libraylib-dev
+        run: sudo dnf install -y libraylib-dev
       - name: Build
         run: make
         timeout-minutes: 1
