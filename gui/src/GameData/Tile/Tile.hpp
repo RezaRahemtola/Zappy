@@ -28,8 +28,8 @@ enum class Ressource {
 
 class Tile {
     public:
-        Tile(Vector2 position, std::size_t size) :
-            _position(Vector3 {position.x * _size , 0, position.y * _size}), _size(size) {
+        Tile(Vector2 position, std::size_t size) : _size(size),
+            _position(Vector3 {position.x * _size , 0, position.y * _size}) {
 
             _mesh = GenMeshCube(size, size/2, size);
 

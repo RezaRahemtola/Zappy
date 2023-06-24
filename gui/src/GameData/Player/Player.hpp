@@ -13,8 +13,8 @@
 
 class Player {
 	public:
-		Player(std::size_t id, Vector2 position) : _id(id), _position(Vector3 {position.x, 2, position.y}),
-            _level(1), _orientation(0), _message(""), _elevation(false) {
+		Player(std::size_t id, Vector2 position) : _id(id), _level(1), _orientation(0), _elevation(false),
+            _message(""), _position(Vector3 {position.x, 2, position.y}) {
             _inventory[0] = 0;
             _inventory[1] = 0;
             _inventory[2] = 0;
@@ -47,6 +47,12 @@ class Player {
         void startIncantation() { _elevation = true; }
         void endIncantation() { _elevation = false; }
 
+        void startCollecting() { collecting = true; }
+        void endCollecting() { collecting = false; }
+
+        void startDropping() { dropping = true; }
+        void endDropping() { dropping = false; }
+
         void updateInventory(std::vector<std::string> &inventory);
         void updatePosition(Vector2 position, std::size_t orientation);
         void updateLevel(size_t level) { _level = level; }
@@ -64,6 +70,10 @@ class Player {
 
         // Graphical information
         Vector3 _position;
+
+        // Animations states
+        bool collecting;
+        bool dropping;
 };
 
 #endif /*PLAYER_HPP_*/

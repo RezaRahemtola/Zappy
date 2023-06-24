@@ -28,7 +28,7 @@ void GameData::createPlayer(std::size_t id, Vector2 position, std::size_t orient
     _players.back().setOrientation(orientation);
 }
 
-std::size_t GameData::getPlayerId(std::size_t id) {
+int GameData::getPlayerId(std::size_t id) {
     for (auto &player : _players)
         if (player.getId() == id)
             return player.getId();
@@ -64,16 +64,14 @@ void GameData::updateMapSize(int width, int height) {
 
     if (_tiles.size() != 0)
         return;
-    for (int y = 0; y < _height; y++) {
+    for (std::size_t y = 0; y < _height; y++) {
         std::vector<Tile> line;
 
-        for (int x = 0; x < _width; x++)
+        for (std::size_t x = 0; x < _width; x++)
             line.emplace_back(Tile(Vector2(x, y), _tileSize));
         _tiles.push_back(line);
     }
 }
-
-
 
 void GameData::updateRessources(std::vector <std::string> &tileData) {
     std::size_t x = std::stoi(tileData[1]);
@@ -121,7 +119,7 @@ void GameData::updatePlayerLevel(std::size_t id, std::size_t level) {
 void GameData::startIncantation(std::vector<std::string> &ids) {
     for (auto &player : _players)
         for (auto &id : ids)
-            if (player.getId() == std::stoi(id))
+            if (player.getId() == static_cast<std::size_t>(std::stoi(id)))
                 player.startIncantation();
 }
 
@@ -134,10 +132,14 @@ void GameData::endIncantation(Vector2 pos) {
     }
 }
 
-void GameData::collectResource(std::size_t id, int resource) {
-
+void GameData::collectResource(std::size_t id) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.startCollecting();
 }
 
-void GameData::dropResource(std::size_t id, int ressource) {
-
+void GameData::dropResource(std::size_t id) {
+    for (auto &player : _players)
+        if (player.getId() == id)
+            player.startDropping();
 }
