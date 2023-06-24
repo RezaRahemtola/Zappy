@@ -129,7 +129,7 @@ void GameData::endIncantation(Vector2 pos) {
     for (auto &player : _players) {
         Vector3 playerPos = player.getPosition();
 
-        if (playerPos.x / _tileSize == pos.x && playerPos.y / _tileSize == pos.y)
+        if ((playerPos.x / _tileSize) == pos.x && (playerPos.z / _tileSize) == pos.y)
             player.endIncantation();
     }
 }

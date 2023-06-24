@@ -31,13 +31,13 @@ void Tile::displayRessources() {
             position.y = 1.1;
             position.z += _ressourcesPosition[ressource.first].y;
             if (ressource.first == Ressource::FOOD)
-                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, RED);
+                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, BEIGE);
             else if (ressource.first == Ressource::LINEMATE)
                 DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, LIGHTGRAY);
             else if (ressource.first == Ressource::DERAUMERE)
                 DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, YELLOW);
             else if (ressource.first == Ressource::SIBUR)
-                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, GREEN);
+                DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, SKYBLUE);
             else if (ressource.first == Ressource::MENDIANE)
                 DrawCube(position, ressourceSize * ressource.second, ressourceSize * ressource.second, ressourceSize * ressource.second, PURPLE);
             else if (ressource.first == Ressource::PHIRAS)

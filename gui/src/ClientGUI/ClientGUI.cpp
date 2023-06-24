@@ -28,7 +28,7 @@ bool ClientGUI::receive(std::string& receivedData) {
     FD_SET(_sockfd, &readSet);
 
     struct timeval timeout;
-    timeout.tv_sec = 5;  // Temps d'attente en secondes
+    timeout.tv_sec = 0.1;  // Temps d'attente en secondes
     timeout.tv_usec = 0;
 
     int selectResult = select(_sockfd + 1, &readSet, NULL, NULL, &timeout);

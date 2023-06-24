@@ -8,10 +8,15 @@
 #include "Player.hpp"
 
 void Player::display() {
-    if (_elevation)
-        DrawCube(_position, 1, 1, 1, BLUE);
-    else
-        DrawCube(_position, 1, 1, 1, RED);
+    if (_elevation) {
+        DrawCube(_position, 0.5, 2, 0.5, WHITE);
+        Vector3 head = Vector3 {_position.x, _position.y + 1, _position.z};
+        DrawCube(head, 1, 1, 1, WHITE);
+    } else {
+        DrawCube(_position, 0.5, 2, 0.5, RED);
+        Vector3 head = Vector3 {_position.x, _position.y + 1, _position.z};
+        DrawCube(head, 1, 1, 1, RED);
+    }
 }
 
 void Player::updateInventory(std::vector<std::string> &inventory) {
