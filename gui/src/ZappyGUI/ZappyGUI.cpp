@@ -41,7 +41,7 @@ void ZappyGUI::displayFPS() {
 void ZappyGUI::display3D() {
     BeginMode3D(_camera);
     _displays[_currentDisplay]->display();
-    DrawGrid(200, 1.0f);
+    DrawGrid(500, 1.0f);
     EndMode3D();
 }
 
