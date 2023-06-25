@@ -29,15 +29,15 @@ enum class Ressource {
 class Tile {
     public:
         Tile(Vector2 position, std::size_t size) : _size(size),
-            _position(Vector3 {position.x * _size , 0, position.y * _size}) {
+            _position(Vector3 {position.x * _size , 0, position.y * _size}), _selected(true) {
 
             _mesh = GenMeshCube(size, size/2, size);
 
             _fontSize = size / 5;
 
-            _ressources[Ressource::FOOD] = 5;
-            _ressources[Ressource::LINEMATE] = 5;
-            _ressources[Ressource::DERAUMERE] = 5;
+            _ressources[Ressource::FOOD] = 0;
+            _ressources[Ressource::LINEMATE] = 0;
+            _ressources[Ressource::DERAUMERE] = 0;
             _ressources[Ressource::SIBUR] = 0;
             _ressources[Ressource::MENDIANE] = 0;
             _ressources[Ressource::PHIRAS] = 0;
@@ -58,7 +58,7 @@ class Tile {
             ressourcePosition = Vector2 {static_cast<float>(rand() % 100) / 100, static_cast<float>(rand() % 100) / 100};
             _ressourcesPosition[Ressource::THYSTAME] = ressourcePosition;
 
-            _boundingBox = BoundingBox {_position, Vector3 {_position.x + _size, _position.y + _size, _position.z + _size}};
+            _boundingBox = BoundingBox {_position, Vector3 {_position.x + _size, _position.y + (_size / 2), _position.z + _size}};
         }
         ~Tile() = default;
 
@@ -84,6 +84,8 @@ class Tile {
         Vector3 _position;
         Mesh _mesh;
         BoundingBox _boundingBox;
+
+        bool _selected;
 
         void dislpayRessources();
 };
