@@ -33,7 +33,7 @@ void ZappyGUI::run() {
 void ZappyGUI::display2D() {
     if (_view == Views::TOP) {
         DrawText("Welcome to the Zappy Of All Time", _width / 2 - 500, 10, 30, GRAY);
-        DrawText("Press [ESC] to exit", _width / 2 - 200, _height - 80, 20, GRAY);
+        DrawText("Press [ESC] to exit", 3 * _width / 4 - 200, _height - 80, 20, GRAY);
         displayTopInfos();
     } else {
         DrawText("Welcome to the Zappy Of All Time", _width / 2 - 270, 10, 30, GRAY);
