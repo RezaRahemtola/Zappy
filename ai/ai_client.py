@@ -207,21 +207,21 @@ class AIClient(Client):
         return base64.b64encode(ciphertext).decode('utf-8')
 
     def decrypt_message(self, message: str) -> str:
-        private_key = serialization.load_pem_private_key(self.private_key, password=None)
-
-        plaintext = private_key.decrypt(
-            base64.b64decode(message),
-            padding.OAEP(
-                mgf=padding.MGF1(algorithm=hashes.SHA256()),
-                algorithm=hashes.SHA256(),
-                label=None
-            )
-        )
-        return plaintext.decode('utf-8')
+        # private_key = serialization.load_pem_private_key(self.private_key, password=None)
+        #
+        # plaintext = private_key.decrypt(
+        #     base64.b64decode(message),
+        #     padding.OAEP(
+        #         mgf=padding.MGF1(algorithm=hashes.SHA256()),
+        #         algorithm=hashes.SHA256(),
+        #         label=None
+        #     )
+        # )
+        return base64.b64decode(message).decode('utf-8')
 
     def broadcast(self, message: str) -> None:
         logging.info(f"Broadcasting {self.encrypt_message(message)}")
-        if 'ko' in self.execute_command(COMMANDS['broadcast'], [self.encrypt_message(message)]):
+        if 'ko' in self.execute_command(COMMANDS['broadcast'], [message.encode('utf-8').__str__()]):
             raise RuntimeError('Could not broadcast message.')
         logging.info(f"Broadcasting {'quoicoubeh ki a demandé?' + 'lol'.encode('utf-8').hex()}")
 
@@ -416,7 +416,8 @@ class AIClient(Client):
                 continue
             if random.randint(0, 100) < 10:
                 self.attack_call()
-            if len(self.get_priority_ordered_incantation_needs() and self.get_tratorian_needed_for_incatation()) == 0:
+            self.get_tratorian_needed_for_incatation()
+            if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
                 try:
                     self.incantate()
