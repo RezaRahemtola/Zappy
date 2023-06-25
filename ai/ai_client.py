@@ -2,6 +2,7 @@ import base64
 import os
 import logging
 import re
+import random
 import sys
 from queue import Queue
 from typing import List, Tuple, Dict
@@ -371,7 +372,8 @@ class AIClient(Client):
                     f'Moving forward !'
                 )
                 continue
-            self.attack_call()
+            if random.randint(0, 100) < 10:
+                self.attack_call()
             if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
                 try:
