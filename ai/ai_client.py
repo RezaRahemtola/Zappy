@@ -7,10 +7,8 @@ import sys
 from queue import Queue
 from typing import List, Tuple, Dict
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
-
 
 from client import Client
 
@@ -332,6 +330,7 @@ class AIClient(Client):
                 logging.info(f'Child {pid} created.')
         except OSError:
             raise RuntimeError('Could not fork.')
+
 
 
     def get_target_cell_for_item(self, item: str) -> Tuple[int, int] or None:
