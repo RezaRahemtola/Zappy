@@ -113,6 +113,7 @@ class AIClient(Client):
         self.private_key = None
         self.public_key = None
         self.direct_child = 0
+        self.asked_for_team = False
 
     def start_handshake(self) -> None:
         if SERVER_BANNER not in self.receive_lines():
@@ -366,6 +367,29 @@ class AIClient(Client):
                     continue
         logging.info('Arrived at destination.')
 
+    def wait_for_incanation(self) -> None:
+        logging.info('Waiting for incantation.')
+        while not self.can_incantate():
+            self.check_received_messages()
+            self.refresh()
+        self.drop_incatation_needs()
+        self.incantate()
+
+    def get_tratorian_needed_for_incatation(self) -> bool:
+        players_needed = INCANTATION_REQUIREMENTS[self.elevation - 1]['player']
+        if players_needed > 1 and not self.asked_for_team:
+            self.ask_for_incanation(players_needed - 1)
+            self.asked_for_team = True
+        elif players_needed > 1 and self.asked_for_team:
+            self.check_received_messages()
+            if self.broadcast_messages.qsize() >= players_needed - 1:
+                self.wait_for_incanation()
+                self.asked_for_team = False
+            else:
+                self.reproduce()
+                return False
+        else:
+            return True
     def live_until_dead(self) -> None:
         self.generate_keys()
         while True:
@@ -392,7 +416,7 @@ class AIClient(Client):
                 continue
             if random.randint(0, 100) < 10:
                 self.attack_call()
-            if len(self.get_priority_ordered_incantation_needs()) == 0:
+            if len(self.get_priority_ordered_incantation_needs() and self.get_tratorian_needed_for_incatation()) == 0:
                 self.drop_incatation_needs()
                 try:
                     self.incantate()
