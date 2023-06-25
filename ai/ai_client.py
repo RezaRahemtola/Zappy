@@ -1,7 +1,10 @@
+import os
 import logging
 import re
+import sys
 from queue import Queue
 from typing import List, Tuple, Dict
+from multiprocessing import Process
 
 from client import Client
 
@@ -90,6 +93,7 @@ class AIClient(Client):
         self.received_ejects = Queue()
         self.inventory = DEFAULT_INVENTORY
         self.elevation = 1
+        self.direct_child = 0
 
     def start_handshake(self) -> None:
         if SERVER_BANNER not in self.receive_lines():
@@ -201,6 +205,20 @@ class AIClient(Client):
                 ROCKS_PRIORITY.copy()
             )
         ))
+
+    def reproduce(self) -> None:
+        if 'ko' in self.execute_command(COMMANDS['fork']):
+            raise RuntimeError('Could not reproduce.')
+        self.direct_child += 1
+        try:
+            pid = os.fork()
+            if pid == 0:
+                os.execv(os.getcwd() + '/zappy_ai', sys.argv)
+            else:
+                logging.info(f'Child {pid} created.')
+        except OSError:
+            raise RuntimeError('Could not fork.')
+
 
     def get_target_cell_for_item(self, item: str) -> Tuple[int, int] or None:
         surroundings = list(
