@@ -200,13 +200,14 @@ class AIClient(Client):
         return plaintext.decode('utf-8')
 
     def broadcast(self, message: str) -> None:
-        logging.info(f"Broadcasting {message}")
+        logging.info(f"Broadcasting {self.encrypt_message(message)}")
         if 'ko' in self.execute_command(COMMANDS['broadcast'], [self.encrypt_message(message)]):
             raise RuntimeError('Could not broadcast message.')
+        logging.info(f"Broadcasting {'quoicoubeh ki a demandé?' + 'lol'.encode('utf-8').hex()}")
 
     def ask_for_incanation(self, nb_players: int) -> None:
         logging.info(f"Requesting incantation with {nb_players} players at level {self.elevation}")
-        self.broadcast(BROADCAST_MESSAGES['incantation'] + f' {nb_players} , {self.elevation}')
+        self.broadcast(BROADCAST_MESSAGES['incant'] + f' {nb_players} , {self.elevation}')
 
     def ask_for_team(self) -> None:
         logging.info(f"Requesting team")
@@ -231,6 +232,10 @@ class AIClient(Client):
     def cartman(self) -> None:
         logging.info(f"going home")
         self.broadcast(BROADCAST_MESSAGES['cartman'])
+
+    def attack_call(self) -> None:
+        logging.info("quoicoubeh ki a demandé?")
+        self.broadcast("quoicoubeh ki a demandé?".encode("utf-8").hex())
 
     def check_received_messages(self) -> None:
         check = False
@@ -343,7 +348,9 @@ class AIClient(Client):
         logging.info('Arrived at destination.')
 
     def live_until_dead(self) -> None:
+        self.generate_keys()
         while True:
+            self.check_received_messages()
             self.refresh_inventory()
             item_to_take = self.get_priority_ordered_incantation_needs()[0][0]
             target = self.get_target_cell_for_item(item_to_take)
@@ -364,6 +371,7 @@ class AIClient(Client):
                     f'Moving forward !'
                 )
                 continue
+            self.attack_call()
             if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
                 try:
