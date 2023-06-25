@@ -10,7 +10,6 @@ from typing import List, Tuple, Dict
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
-
 from client import Client
 
 SERVER_BANNER = 'WELCOME'
@@ -192,7 +191,6 @@ class AIClient(Client):
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         )
 
-
     def encrypt_message(self, message: str) -> str:
         public_key = serialization.load_pem_public_key(self.public_key)
 
@@ -269,7 +267,6 @@ class AIClient(Client):
         if not check:
             self.execute_command(COMMANDS['broadcast'], ["quoicoubeh ki a demandé?" + "lol".encode("utf-8").hex()])
 
-
     def take_item(self, item: str) -> None:
         logging.info(f"Taking {item}")
         if 'ko' in self.execute_command(COMMANDS['take'], [item]):
@@ -333,7 +330,6 @@ class AIClient(Client):
         except OSError:
             raise RuntimeError('Could not fork.')
 
-
     def get_target_cell_for_item(self, item: str) -> Tuple[int, int] or None:
         surroundings = list(
             map(lambda cell: (RELATIVE_POSITIONS_LOOK_MAPPINGS[cell[0]], cell[1]), enumerate(self.look()))
@@ -371,7 +367,6 @@ class AIClient(Client):
         logging.info('Waiting for incantation.')
         while not self.can_incantate():
             self.check_received_messages()
-            self.refresh()
         self.drop_incatation_needs()
         self.incantate()
 
@@ -390,6 +385,7 @@ class AIClient(Client):
                 return False
         else:
             return True
+
     def live_until_dead(self) -> None:
         self.generate_keys()
         while True:
