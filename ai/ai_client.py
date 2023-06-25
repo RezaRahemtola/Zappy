@@ -1,10 +1,14 @@
+import base64
 import os
 import logging
 import re
+import random
 import sys
 from queue import Queue
 from typing import List, Tuple, Dict
-from multiprocessing import Process
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
+
 
 from client import Client
 
@@ -26,6 +30,18 @@ ROCKS_PRIORITY = [
     'deraumere',
     'linemate',
 ]
+
+BROADCAST_MESSAGES = {
+    'incant': 'ready to incant, need players',
+    'resources': 'i need resources',
+    'enemy': 'enemy spotted',
+    'level': 'i\'m level',
+    'dead': 'i\'m dead :(',
+    'team': 'are you with me ?',
+    'position': 'i\'m here',
+    'affirmative': 'yes',
+    'cartman': 'fuck you i\'m going home'
+}
 
 RELATIVE_POSITIONS_LOOK_MAPPINGS = [
     (0, 0),
@@ -93,6 +109,8 @@ class AIClient(Client):
         self.received_ejects = Queue()
         self.inventory = DEFAULT_INVENTORY
         self.elevation = 1
+        self.private_key = None
+        self.public_key = None
         self.direct_child = 0
 
     def start_handshake(self) -> None:
@@ -155,6 +173,83 @@ class AIClient(Client):
         if 'ko' in self.execute_command(COMMANDS['set'], [item]):
             raise RuntimeError('Could not drop item.')
         self.inventory[item] -= 1
+
+    def encrypt_message(self, message: str) -> str:
+        public_key = serialization.load_pem_public_key(self.public_key)
+
+        ciphertext = public_key.encrypt(
+            message.encode('utf-8'),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return base64.b64encode(ciphertext).decode('utf-8')
+
+    def decrypt_message(self, message: str) -> str:
+        private_key = serialization.load_pem_private_key(self.private_key, password=None)
+
+        plaintext = private_key.decrypt(
+            base64.b64decode(message),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return plaintext.decode('utf-8')
+
+    def broadcast(self, message: str) -> None:
+        logging.info(f"Broadcasting {self.encrypt_message(message)}")
+        if 'ko' in self.execute_command(COMMANDS['broadcast'], [self.encrypt_message(message)]):
+            raise RuntimeError('Could not broadcast message.')
+        logging.info(f"Broadcasting {'quoicoubeh ki a demandé?' + 'lol'.encode('utf-8').hex()}")
+
+    def ask_for_incanation(self, nb_players: int) -> None:
+        logging.info(f"Requesting incantation with {nb_players} players at level {self.elevation}")
+        self.broadcast(BROADCAST_MESSAGES['incant'] + f' {nb_players} , {self.elevation}')
+
+    def ask_for_team(self) -> None:
+        logging.info(f"Requesting team")
+        self.broadcast(BROADCAST_MESSAGES['team'])
+
+    def ask_for_resources(self, resources: str) -> None:
+        logging.info(f"Requesting resources {resources}")
+        self.broadcast(BROADCAST_MESSAGES['resources'] + f' {resources}')
+
+    def affirmative(self) -> None:
+        logging.info(f"Requesting affirmative")
+        self.broadcast(BROADCAST_MESSAGES['affirmative'])
+
+    def death_call(self) -> None:
+        logging.info(f"tell i'm dead")
+        self.broadcast(BROADCAST_MESSAGES['dead'])
+
+    def found_enemy(self) -> None:
+        logging.info(f"found enemy")
+        self.broadcast(BROADCAST_MESSAGES['enemy'])
+
+    def cartman(self) -> None:
+        logging.info(f"going home")
+        self.broadcast(BROADCAST_MESSAGES['cartman'])
+
+    def attack_call(self) -> None:
+        logging.info("quoicoubeh ki a demandé?")
+        self.broadcast("quoicoubeh ki a demandé?".encode("utf-8").hex())
+
+    def check_received_messages(self) -> None:
+        check = False
+        while not self.broadcast_messages.empty():
+            message = self.broadcast_messages.get()
+            # check if message looks like message from BROADCAST_MESSAGES
+            for broadcast_message in BROADCAST_MESSAGES.values():
+                if message.startswith(broadcast_message):
+                    check = True
+                    break
+        if not check:
+            self.execute_command(COMMANDS['broadcast'], ["quoicoubeh ki a demandé?" + "lol".encode("utf-8").hex()])
+
 
     def take_item(self, item: str) -> None:
         logging.info(f"Taking {item}")
@@ -254,7 +349,9 @@ class AIClient(Client):
         logging.info('Arrived at destination.')
 
     def live_until_dead(self) -> None:
+        self.generate_keys()
         while True:
+            self.check_received_messages()
             self.refresh_inventory()
             item_to_take = self.get_priority_ordered_incantation_needs()[0][0]
             target = self.get_target_cell_for_item(item_to_take)
@@ -275,6 +372,8 @@ class AIClient(Client):
                     f'Moving forward !'
                 )
                 continue
+            if random.randint(0, 100) < 10:
+                self.attack_call()
             if len(self.get_priority_ordered_incantation_needs()) == 0:
                 self.drop_incatation_needs()
                 try:
