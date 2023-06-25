@@ -30,6 +30,18 @@ ROCKS_PRIORITY = [
     'linemate',
 ]
 
+BROADCAST_MESSAGES = {
+    'incant': 'ready to incant, need players',
+    'resources': 'i need resources',
+    'enemy': 'enemy spotted',
+    'level': 'i\'m level',
+    'dead': 'i\'m dead :(',
+    'team': 'are you with me ?',
+    'position': 'i\'m here',
+    'affirmative': 'yes',
+    'cartman': 'fuck you i\'m going home'
+}
+
 RELATIVE_POSITIONS_LOOK_MAPPINGS = [
     (0, 0),
     (-1, 1),
@@ -191,6 +203,19 @@ class AIClient(Client):
         logging.info(f"Broadcasting {message}")
         if 'ko' in self.execute_command(COMMANDS['broadcast'], [self.encrypt_message(message)]):
             raise RuntimeError('Could not broadcast message.')
+
+    def ask_for_incanation(self, nb_players: int) -> None:
+        logging.info(f"Requesting incantation with {nb_players} players at level {self.elevation}")
+        self.broadcast(BROADCAST_MESSAGES['incantation'] + f' {nb_players} , {self.elevation}')
+
+    def ask_for_team(self) -> None:
+        logging.info(f"Requesting team")
+        self.broadcast(BROADCAST_MESSAGES['team'])
+
+    def ask_for_resources(self, resources: str) -> None:
+        logging.info(f"Requesting resources {resources}")
+        self.broadcast(BROADCAST_MESSAGES['resources'] + f' {resources}')
+
 
     def take_item(self, item: str) -> None:
         logging.info(f"Taking {item}")
