@@ -39,8 +39,11 @@ class GameData{
 
         void updateMapSize(int width, int height);
         void updateRessources(std::vector<std::string> &data);
+
         void collectResource(std::size_t id);
         void dropResource(std::size_t id);
+
+        std::unordered_map<Ressource, int> getRessourcesFromSelectedTile(Ray);
 
     private:
         // Information
