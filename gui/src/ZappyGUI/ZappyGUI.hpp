@@ -22,12 +22,9 @@ enum class Views {
 
 class ZappyGUI {
     public:
-        ZappyGUI(std::string machine, std::size_t port) : _width(1920), _height(1080) {
+        ZappyGUI(std::string machine, std::size_t port) : _width(1920), _height(1080), _playground(Playground(machine, port)) {
             InitWindow(_width, _height, "The ZOATIEST Project");
             _view = Views::FREE;
-            _displays["Menu"] = std::make_unique<Menu>();
-            _displays["Playground"] = std::make_unique<Playground>(machine, port);
-            _currentDisplay = "Playground";
 
             SetTargetFPS(120);
             _camera.position = { 20.0f, 50.0f, 21.0f };
@@ -43,14 +40,19 @@ class ZappyGUI {
         void run();
 
     private:
+        // Window
         std::size_t _width;
         std::size_t _height;
 
-        std::unordered_map<std::string, std::unique_ptr<IDisplay>> _displays;
-        std::string _currentDisplay;
+        // Content
+        Playground _playground;
 
+        std::unordered_map<Ressource, int> _ressources;
+
+        // Graphical elements
         Camera3D _camera;
         Views _view;
+        Ray _ray;
 
         void handleCamera();
         void display3D();

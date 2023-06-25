@@ -29,7 +29,7 @@ enum class Ressource {
 class Tile {
     public:
         Tile(Vector2 position, std::size_t size) : _size(size),
-            _position(Vector3 {position.x * _size , 0, position.y * _size}), _selected(true) {
+            _position(Vector3 {position.x * _size , 0, position.y * _size}), _selected(false) {
 
             _mesh = GenMeshCube(size, size/2, size);
 
@@ -65,10 +65,13 @@ class Tile {
         void display();
         void displayRessources();
 
+        Vector3 getPosition() { return _position; }
+
         std::size_t getRessource(Ressource ressource);
+        std::unordered_map<Ressource, int> getRessources() { return _ressources; }
         void updateRessource(Ressource ressource, Operation operation, std::size_t value);
 
-        BoundingBox getBoundingBox() { return _boundingBox; };
+        bool isSelected(Ray ray);
 
     private:
         // Information

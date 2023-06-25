@@ -145,3 +145,15 @@ void GameData::dropResource(std::size_t id) {
         if (player.getId() == id)
             player.startDropping();
 }
+
+std::unordered_map<Ressource, int> GameData::getRessourcesFromSelectedTile(Ray ray) {
+    std::unordered_map<Ressource, int> ressources = std::unordered_map<Ressource, int>();
+
+    for (auto &tile : _tiles)
+        for (auto &ressource : tile) {
+            std::cout << "Checking tile " << ressource.getPosition().x << " " << ressource.getPosition().y << std::endl;
+            if (ressource.isSelected(ray))
+                ressources = ressource.getRessources();
+        }
+    return ressources;
+}

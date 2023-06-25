@@ -26,6 +26,8 @@ class Playground : public IDisplay {
         std::string run() override;
         void display() override;
 
+        std::unordered_map<Ressource, int> getRessources(Ray ray) { return _gameData->getRessourcesFromSelectedTile(ray); };
+
     private:
         // Content
         std::shared_ptr<GameData> _gameData;
@@ -38,6 +40,9 @@ class Playground : public IDisplay {
         // Utils
         bool _pause;
         void handlePause();
+
+        // Graphical elements
+        Ray _ray;
 
 };
 

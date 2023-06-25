@@ -18,8 +18,12 @@ void Tile::display() {
     DrawCube(_position, _size - 0.2, _size/2, _size - 0.2, GREEN);
     _position.y -= 0.1;
 
-    if (_selected)
-        DrawCubeWires(_position, _size, _size/2, _size, RED);
+    if (_selected) {
+        DrawCubeWires(_position, _size + 0.1, _size / 2, _size, RED);
+        DrawCubeWires(_position, _size + 0.1, _size / 2 + 0.1, _size, RED);
+        DrawCubeWires(_position, _size + 0.1, _size / 2, _size + 0.1, RED);
+        DrawCubeWires(_position, _size + 0.1, _size / 2 + 0.1, _size + 0.1, RED);
+    }
 
     displayRessources();
 }
@@ -60,4 +64,13 @@ void Tile::updateRessource(Ressource ressource, Operation operation, std::size_t
 
 size_t Tile::getRessource(Ressource ressource) {
     return _ressources[ressource];
+}
+
+bool Tile::isSelected(Ray ray) {
+    if (GetRayCollisionBox(ray, _boundingBox).hit) {
+        _selected = true;
+    } else {
+        _selected = false;
+    }
+    return _selected;
 }
