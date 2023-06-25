@@ -6,6 +6,8 @@ import random
 import sys
 from queue import Queue
 from typing import List, Tuple, Dict
+
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
@@ -173,6 +175,23 @@ class AIClient(Client):
         if 'ko' in self.execute_command(COMMANDS['set'], [item]):
             raise RuntimeError('Could not drop item.')
         self.inventory[item] -= 1
+
+    def generate_keys(self) -> None:
+        private_key = rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=2048,
+        )
+        public_key = private_key.public_key()
+        self.private_key = private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.PKCS8,
+            encryption_algorithm=serialization.NoEncryption()
+        )
+        self.public_key = public_key.public_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PublicFormat.SubjectPublicKeyInfo
+        )
+
 
     def encrypt_message(self, message: str) -> str:
         public_key = serialization.load_pem_public_key(self.public_key)
