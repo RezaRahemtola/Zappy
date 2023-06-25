@@ -216,6 +216,18 @@ class AIClient(Client):
         logging.info(f"Requesting resources {resources}")
         self.broadcast(BROADCAST_MESSAGES['resources'] + f' {resources}')
 
+    def check_received_messages(self) -> None:
+        check = False
+        while not self.broadcast_messages.empty():
+            message = self.broadcast_messages.get()
+            # check if message looks like message from BROADCAST_MESSAGES
+            for broadcast_message in BROADCAST_MESSAGES.values():
+                if message.startswith(broadcast_message):
+                    check = True
+                    break
+        if not check:
+            self.execute_command(COMMANDS['broadcast'], ["quoicoubeh ki a demandé?" + "lol".encode("utf-8").hex()])
+
 
     def take_item(self, item: str) -> None:
         logging.info(f"Taking {item}")
