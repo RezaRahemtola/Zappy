@@ -1,10 +1,13 @@
+import base64
 import os
 import logging
 import re
 import sys
 from queue import Queue
 from typing import List, Tuple, Dict
-from multiprocessing import Process
+from cryptography.hazmat.primitives import serialization, hashes
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
+
 
 from client import Client
 
@@ -93,6 +96,8 @@ class AIClient(Client):
         self.received_ejects = Queue()
         self.inventory = DEFAULT_INVENTORY
         self.elevation = 1
+        self.private_key = None
+        self.public_key = None
         self.direct_child = 0
 
     def start_handshake(self) -> None:
@@ -157,7 +162,30 @@ class AIClient(Client):
         self.inventory[item] -= 1
 
     def encrypt_message(self, message: str) -> str:
-        return message
+        public_key = serialization.load_pem_public_key(self.public_key)
+
+        ciphertext = public_key.encrypt(
+            message.encode('utf-8'),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return base64.b64encode(ciphertext).decode('utf-8')
+
+    def decrypt_message(self, message: str) -> str:
+        private_key = serialization.load_pem_private_key(self.private_key, password=None)
+
+        plaintext = private_key.decrypt(
+            base64.b64decode(message),
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None
+            )
+        )
+        return plaintext.decode('utf-8')
 
     def broadcast(self, message: str) -> None:
         logging.info(f"Broadcasting {message}")
