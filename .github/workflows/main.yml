@@ -13,6 +13,12 @@ jobs:
     steps:
       - name: Repository checkout
         uses: actions/checkout@v3
+      - name: Build Server
+        run: make -C server/
+        timeout-minutes: 1
+      - name: Build AI
+        run: make -C ai/
+        timeout-minutes: 1
 
   server_coding_style:
     name: Check server coding style
