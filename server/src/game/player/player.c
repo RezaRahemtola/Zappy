@@ -73,4 +73,5 @@ void init_player(client_t *client, server_t *server)
     list_remove_index(&client->team->eggs, index, free);
     client->player = player;
     emit_new_player_event(client, server);
+    emit_connect_egg(egg->id, player, server->clients);
 }

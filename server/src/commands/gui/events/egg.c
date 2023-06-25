@@ -59,3 +59,15 @@ void emit_dead_egg_event(size_t id, list_t *clients)
     sprintf(content, "edi %ld\n", id);
     send_event(clients, content, true);
 }
+
+void emit_connect_egg(size_t id, player_t *player, list_t *clients)
+{
+    size_t len = snprintf(NULL, 0, "ebo %ld %ld %ld %ld\n", id, player->id,
+                        player->x, player->y);
+    char *content = malloc(sizeof(char) * len);
+
+    if (content == NULL)
+        return;
+    sprintf(content, "ebo %ld %ld %ld %ld\n", id);
+    send_event(clients, content, true);
+}
