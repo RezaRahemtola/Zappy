@@ -25,9 +25,25 @@ void ZappyGUI::run() {
 
 // 2D mode
 void ZappyGUI::display2D() {
-    DrawText("Welcome to the Zappy Of All Time", _width / 2 - 270, 10, 30, GRAY);
-    DrawText("Press [ESC] to exit", _width - 200, _height - 80, 20, GRAY);
+    if (_view == Views::TOP) {
+        DrawText("Welcome to the Zappy Of All Time", _width / 2 - 750, 10, 30, GRAY);
+        DrawText("Press [ESC] to exit", _width / 2 - 200, _height - 80, 20, GRAY);
+        displayTopInfos();
+    } else {
+        DrawText("Welcome to the Zappy Of All Time", _width / 2 - 270, 10, 30, GRAY);
+        DrawText("Press [ESC] to exit", _width - 200, _height - 80, 20, GRAY);
+        displayFreeInfos();
+    }
+
     displayFPS();
+}
+
+void ZappyGUI::displayTopInfos() {
+    DrawRectangle(_width / 2, 0, _width / 2, _height, Fade(GRAY, 0.7f));
+}
+
+void ZappyGUI::displayFreeInfos() {
+
 }
 
 // Display FPS
@@ -85,8 +101,8 @@ void ZappyGUI::handleCamera() {
                         (Vector3) {0.0f, 0.0f, 0.0f},
                         GetMouseWheelMove() * 2.0f);
     } else {
-        _camera.position = { 45.0f, 50.0f, 21.0f };
-        _camera.target = { 45.0f, 0.0f, 20.0f };
+        _camera.position = { 40.0f, 45.0f, 21.0f };
+        _camera.target = { 40.0f, 0.0f, 20.0f };
         _camera.up = { 0.0f, 3.0f, 0.0f };
         _camera.fovy = 60.0f;
         _camera.projection = CAMERA_PERSPECTIVE;

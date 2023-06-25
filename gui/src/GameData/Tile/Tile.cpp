@@ -19,7 +19,7 @@ void Tile::display() {
     _position.y -= 0.1;
 
     if (_selected)
-        DrawCubeWires(_position, _size + 0.2, _size/2 + 0.2, _size + 0.2, RED);
+        DrawCubeWires(_position, _size, _size/2, _size, RED);
 
     displayRessources();
 }

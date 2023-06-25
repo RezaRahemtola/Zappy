@@ -30,8 +30,8 @@ class ZappyGUI {
             _currentDisplay = "Playground";
 
             SetTargetFPS(120);
-            _camera.position = { 45.0f, 50.0f, 21.0f };
-            _camera.target = { 45.0f, 0.0f, 20.0f };
+            _camera.position = { 20.0f, 50.0f, 21.0f };
+            _camera.target = { 20.0f, 0.0f, 20.0f };
             _camera.up = { 0.0f, 3.0f, 0.0f };
             _camera.fovy = 60.0f;
             _camera.projection = CAMERA_PERSPECTIVE;
@@ -57,6 +57,9 @@ class ZappyGUI {
         void display2D();
 
         void displayFPS();
+
+        void displayTopInfos();
+        void displayFreeInfos();
 };
 
 #endif /*SIMULATION_HPP_*/
