@@ -68,6 +68,7 @@ void emit_connect_egg(size_t id, player_t *player, list_t *clients)
 
     if (content == NULL)
         return;
-    sprintf(content, "ebo %ld %ld %ld %ld\n", id);
+    sprintf(content, "ebo %ld %ld %ld %ld\n", id, player->id,
+                        player->x, player->y);
     send_event(clients, content, true);
 }
