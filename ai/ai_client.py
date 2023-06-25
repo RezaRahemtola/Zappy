@@ -266,9 +266,6 @@ class AIClient(Client):
                 self.execute_command(COMMANDS['forward'])
                 continue
             logging.info(f'Targeting {item_to_take} at {target}.')
-            if self.direct_child != 3:
-                self.reproduce()
-            logging.info(f'number of bitches: {self.execute_command(COMMANDS["connect_nbr"])}')
             self.go_to(*target)
             try:
                 self.take_item(item_to_take)
