@@ -7,7 +7,6 @@ import sys
 from queue import Queue
 from typing import List, Tuple, Dict
 
-from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding, rsa
 
