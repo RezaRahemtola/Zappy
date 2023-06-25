@@ -216,6 +216,22 @@ class AIClient(Client):
         logging.info(f"Requesting resources {resources}")
         self.broadcast(BROADCAST_MESSAGES['resources'] + f' {resources}')
 
+    def affirmative(self) -> None:
+        logging.info(f"Requesting affirmative")
+        self.broadcast(BROADCAST_MESSAGES['affirmative'])
+
+    def death_call(self) -> None:
+        logging.info(f"tell i'm dead")
+        self.broadcast(BROADCAST_MESSAGES['dead'])
+
+    def found_enemy(self) -> None:
+        logging.info(f"found enemy")
+        self.broadcast(BROADCAST_MESSAGES['enemy'])
+
+    def cartman(self) -> None:
+        logging.info(f"going home")
+        self.broadcast(BROADCAST_MESSAGES['cartman'])
+
     def check_received_messages(self) -> None:
         check = False
         while not self.broadcast_messages.empty():
